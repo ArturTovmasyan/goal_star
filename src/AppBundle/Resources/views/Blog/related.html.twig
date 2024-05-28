@@ -1,0 +1,29 @@
+{% if related %}
+    {#<div class="row">#}
+    {#<div class="col-md-4">#}
+    {#<h2 class="text-left">{{ 'blog.related'|trans({}, 'messages') }}</h2>#}
+    {#<span class="line"></span>#}
+    {#</div>#}
+    {#<div class="col-md-8"></div>#}
+    {#</div>#}
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-left">{{ 'blog.related'|trans({}, 'messages') }}</h2>
+            <div class="border-bottom-grey"></div>
+            {% for relate in related %}
+                <h2 class="text-left">
+                    <a href="{{ path('page', {'slug' : relate.slug }) }}">{{ relate.title }}</a>
+                </h2>
+                <p class="text-left">{{ relate.created|date('M d, Y') }}</p>
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+    <hr />
+
+
+{% endif %}

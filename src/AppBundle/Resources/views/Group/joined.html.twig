@@ -1,0 +1,21 @@
+{% extends "AppBundle:Group:index.html.twig" %}
+
+{% block title %}{% if app.user is not null %}{{ 'meta.title.group_join'|trans({'%firstName%': app.user.firstname}, 'messages') }}{% endif %}{% endblock %}
+{% block metaDescription %}{{ 'meta.description.group_join'|trans({}, 'messages') }}{% endblock %}
+
+{% block AngularApp %}
+    <html data-ng-app="group" data-ng-controller="GroupListController" data-ng-init="routeNav='{{ pathName }}'">
+{% endblock %}
+
+{% set cuurentUser = app.user %}
+
+{% block group_content %}
+    {% include "@App/Group/group_nav.html.twig" with {'group': groups} %}
+
+    <div class="group-item">
+        <div class="row">
+            {{ include("@App/Group/group_item_list.html.twig") }}
+        </div>
+    </div>
+
+{% endblock %}

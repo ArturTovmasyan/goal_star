@@ -1,0 +1,81 @@
+{% extends base_template %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('app/bower_components/Chart.js/Chart.js') }}" type="text/javascript"></script>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="hidden-xs"><a href="{{ url('sonata_admin_dashboard') }}">{% trans %}Dashboard{% endtrans %}</a></li>
+    <li class="active hidden-xs">User Statistic</li>
+{% endblock %}
+
+
+{% block content %}
+    <h1>User Statistic</h1>
+
+    <div class="row">
+        <form action="#" method="post" class="form-inline">
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="from">From</label>
+                            <input type="date" class="form-control" id="from" name="from" value="{{ from }}">
+                        </div>
+
+                    </div>
+                    <div class="col-sm-4">
+
+                        <div class="form-group">
+                            <label for="to">To</label>
+                            <input type="date" id="to" class="form-control" name="to" value="{{ to }}">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <select name="groupBy" class="form-control">
+                            <option>Daily</option>
+                            {% for key,  select in selects %}
+                                <option value="{{ key }}" {% if key == groupBy %} selected {% endif %}>{{ select }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-sm-6">
+                <input type="submit" name="submit" class="btn btn-primary" value="Filter">
+                <input type="submit" name="cancel" class="btn btn-default" value="Clear">
+            </div>
+
+        </form>
+    </div>
+<hr /><br />
+    <canvas id="myChart" width="1000px" height="400"></canvas>
+
+    <script>
+        var ctx = $("#myChart").get(0).getContext("2d");
+
+        var data = {
+            labels: {{ labels|raw }},
+            datasets: [
+                {
+                    label: "My Second dataset",
+                    fillColor: "rgba(151,187,205,0.2)",
+                    strokeColor: "rgba(151,187,205,1)",
+                    pointColor: "rgba(151,187,205,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(151,187,205,1)",
+                    data: {{ data|raw }}
+                }
+            ]
+
+        };
+
+        var myNewChart = new Chart(ctx).Line(data);
+    </script>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{% block icon_type_widget %}
+    {% set route = app.request.get('_route') %}
+    {% set object = form.parent.vars.value %}
+
+    {% set filename = object.filename %}
+    {% if filename %}
+        <img  height="{% if route == "admin_app_event_create" or route == "admin_app_event_edit" %}200{% else %}50{% endif %}" src="{{ object.downloadLink }}">
+        <a href="{{ path('remove_image', {'filename' : filename, 'object' : object.className  }) }}"><span class="glyphicon glyphicon-remove"></span></a>
+    {% else %}
+        {{ form_widget(form) }}
+    {% endif %}
+
+{% endblock icon_type_widget %}

@@ -1,0 +1,22 @@
+{% extends 'SonataAdminBundle:CRUD:list.html.twig' %}
+
+{% block html_attributes %}data-ng-app='userAdmin' data-ng-controller='UserAdminController'{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&v=3&key={{ google_browser_api_key }}" type="text/javascript"></script>
+    <script src="{{ asset('app/bower_components/angular/angular.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('app/bower_components/angular-animate/angular-animate.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('app/bower_components/angular-strap/dist/angular-strap.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('app/bower_components/angular-strap/dist/angular-strap.tpl.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('app/scripts/PathPrefix/PathPrefix.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('app/scripts/Google/Google.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/lbuser/js/angular/userAdmin.js') }}" type="text/javascript"></script>
+{% endblock %}
+
+{% block batch %}
+    {{ parent() }}
+
+    <a class="btn btn-small btn-primary" type="submit" href="#" data-ng-click="sendMessage()"> Send Message </a>
+
+{% endblock %}

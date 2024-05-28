@@ -1,0 +1,23 @@
+lb_user:
+    resource: "@LBUserBundle/Controller/"
+    type:     annotation
+
+lb_user_rest:
+    resource: LB\UserBundle\Controller\Rest\UserController
+    type:     rest
+
+lb_user_file_rest:
+    resource: LB\UserBundle\Controller\Rest\FileController
+    type:     rest
+
+lb_profile_rest:
+    resource: LB\UserBundle\Controller\Rest\ProfileController
+    type:     rest
+
+lb_user_relation_rest:
+    resource: LB\UserBundle\Controller\Rest\UserRelationController
+    type:     rest
+
+lb_user_settings_rest:
+    resource: LB\UserBundle\Controller\Rest\SettingsController
+    type:     rest

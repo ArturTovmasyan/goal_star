@@ -1,0 +1,29 @@
+<ul>
+
+    {% if friendUsers is defined and friendUsers|length > 0 %}
+        {% for friendUser in friendUsers %}
+            <li>
+                {% include 'AppBundle:Blocks:actvity.html.twig' with {'user' : friendUser} %}
+                <ul>
+                    <li>
+                        <figure class="img-circle">
+                            <img src="{{ friendUser.getProfileImagePath()|lbImageFilter('friends') ~ friendUser.getProfileImageCacheVersion }}" alt="{{ friendUser|show_fullName }}" class="img-responsive" />
+                        </figure>
+                    </li>
+                    <li>
+                        <a href="{{ path('member', {'uid': friendUser.getUId() }) }}">
+                            {%  set name =  friendUser|show_fullName %}
+
+                            {{ name|length > 13 ? name|slice(0, 13) ~ '...' : name }}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        {% endfor %}
+    {% else %}
+        <li>
+            <p class="text-center">{{ 'friends.no_friends'|trans({}, 'messages') | capitalize }}</p>
+        </li>
+    {% endif %}
+
+</ul>

@@ -1,0 +1,62 @@
+{% for group in groups %}
+<div class="col-sm-6">
+
+    {% set slug = group.slug %}
+
+    <a href="{{ path('group_view', {'slug': group.slug})}}">
+
+        <figure>
+
+            {% if groupNotes is defined  and  groupNotes[slug] is defined %}
+                <sup class="note">{{ groupNotes[slug] }}</sup>
+            {% endif %}
+
+            {% if group.type == 1 %}<span></span>{% endif %}
+            <ul>
+                <li>{{ group.eventDate|date('M')}}</li>
+
+                <li>
+                    <strong>{{ group.eventDate|date('d')}}</strong>
+                </li>
+
+                <li>{{ group.eventDate|date('Y')}}</li>
+            </ul>
+
+            <img src="{{ group.getDownloadLink|lbImageFilter('group_single') }}" alt="Group Image" class="img-responsive"/>
+
+            <figcaption>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <h3>{{ group.name }}</h3>
+                        <p>
+                            <i class="fa fa-map-marker"></i>
+                            {{ group.address | slice(0, 20)}} {% if group.address|length>25 %}<span>...</span>{% endif %}
+                        </p>
+                    </div>
+                    <div class="col-xs-4">
+                        <p class="admin-img">
+                            <img src="{{ group.author.profileImagePath|lbImageFilter('groups_author') ~ group.author.getProfileImageCacheVersion }}" alt="Author Image" class="img-circle img-responsive"/>
+                            <span>{{ group.author|show_fullName }}</span>
+                        </p>
+                    </div>
+                </div>
+            </figcaption>
+        </figure>
+    </a>
+</div>
+{% endfor %}
+{% if groups|length == 0 %}
+<div >
+    {% set pathName = app.request.attributes.get('_route') %}
+
+    {% if pathName == 'group_list' %} {% set title =  'group.list'|trans({}, 'messages') %}
+    {% elseif pathName == 'group_invite_list' %} {% set title =  'group.invite_list'|trans({}, 'messages') %}
+    {% elseif pathName == 'group_joined_list' %} {% set title =  'group.joined_list'|trans({}, 'messages') %}
+    {% elseif pathName == 'group_hosting_list' %} {% set title =  'group.hosting_list'|trans({}, 'messages') %}
+    {% else %}{% set title = 'There is not any group'  %} {% endif %}
+
+    <h2 class="{% if title |length > 32 %} message-small {% else %} empty-message {% endif %}">
+        {{ title }}
+    </h2>
+</div>
+{% endif %}

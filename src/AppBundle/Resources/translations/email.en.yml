@@ -1,0 +1,11 @@
+subject: LUVBYRD
+message: Hello, %fromUser% has sent report for %toUser%
+default: You have a messages
+
+new_messages: You just received a <a href= "%link%" style="%href_style%">message</a> from %username% . <br /> <a style="%href_style%" href = "%url%login">Login</a> and continue the conversation.
+friend_rquest: %username% has <a href= "%link%" style="%href_style%">Liked</a> you on <a href = "%url%" style="%href_style%">LuvByrd</a>.<br /> Login now to begin chatting with them.
+connection: %username% has made a <a href= "%link%" style="%href_style%">connection</a><br/> with you on <a style="%href_style%" href = "%url%">LuvByrd</a>
+favorite: %username% has mad you one on their <a href= "%link%" style="%href_style%">favorites</a> . <br /> <a style="%href_style%" href = "%url%login">Login</a> in now to see their profile.
+invite_join_group: %username% invite you to join this <a href= "#">group</a> in <a href = "%url%">luvbyrd.com</a>
+join_private_group: %username% requests to join a private <a href= "#">group</a> in <a href = "%url%">luvbyrd.com</a>
+

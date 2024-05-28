@@ -1,0 +1,78 @@
+.skin-black .navbar-right .dropdown >a.dropdown-toggle{
+   float:right;
+}
+
+.skin-black .navbar-right .dropdown .multi-column{
+   clear:both;
+    height:300px;
+    overflow: auto;
+}
+
+.skin-black .navbar-right .multi-column{
+    background-color: #ffffff;
+    width:auto !important;
+    color:#000;
+}
+.btn-success,.btn-danger{
+    margin:5px 0;
+}
+iframe.cke_dialog_ui_input_file{
+    height:1000px !important;
+}
+@media all and (min-width: 768px){
+    .skin-black .navbar-right .multi-column{
+        width:600px !important;
+    }
+}
+
+#message-modal textarea{
+    resize: none;
+}
+
+#message-modal h4{
+    color: #7d7d7d;
+}
+
+#message-modal span.close-modal{
+    display: block;
+    width: 15px;
+    height: 15px;
+    right: 20px;
+    top: 20px;
+    outline: none;
+    position: absolute;
+    background:url('../images/delete.png') no-repeat center center;
+}
+
+.modal-backdrop{
+    opacity: 0.6;
+    filter: alpha(opacity=60);
+}
+
+div.sonata-actions{
+    margin: 15px 0 0 ;
+}
+
+#info-statistic {
+    padding: 20px 0 10px;
+}
+
+#info-statistic form input[type="submit"] {margin: 25px 5px 0 0;}
+
+
+#info-statistic .table-bordered{
+    border:1px solid #cccccc;
+}
+
+#info-statistic .table-bordered thead th{
+    background-color: #ffffff;
+    text-align: center;
+}
+
+#info-statistic .table-bordered>thead>tr>th,.table-bordered>tbody>tr>td{
+    border:1px solid #cccccc;
+}
+div[id^=sonata-ba-field-container][id$=_start]{
+    float: left;
+    margin-right: 50px;
+}

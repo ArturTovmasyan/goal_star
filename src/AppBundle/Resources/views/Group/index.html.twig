@@ -1,0 +1,33 @@
+{% extends "AppBundle:Group:base.html.twig" %}
+
+{% block AngularApp %}
+    <html data-ng-app="group" data-ng-controller="GroupListController" data-ng-init="routeNav='{{ pathName }}'">
+{% endblock %}
+
+{% block leftAd %}
+
+    <div class="addvertisment">
+        {{ render_esi(controller('LSoftAdBundle:Default:index', { 'domain': 'Groups', 'zone': 'lefttop' })) }}
+    </div>
+{% endblock %}
+
+{% block group_content %}
+    {% include "@App/Group/group_nav.html.twig" with {'group': groups} %}
+
+    <div class="group-item">
+        <div class="row" data-ng-cloak>
+            {{ include('AppBundle:Group:group_item.html.twig' ) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block rightAd %}
+
+<div class="addvertisment">
+    {{ render_esi(controller('LSoftAdBundle:Default:index', { 'domain': 'Groups', 'zone': 'righttop' })) }}
+</div>
+
+<div class="addvertisment">
+    {{ render_esi(controller('LSoftAdBundle:Default:index', { 'domain': 'Groups', 'zone': 'rightbottom' })) }}
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block header %}
+    {% include 'AppBundle:Blocks:header.html.twig' %}
+{% endblock %}
+
+{% block title %}{{ 'meta.title.events'|trans({}, 'messages') }}{% endblock %}
+{% block metaDescription %}{{ 'meta.description.events'|trans({}, 'messages') }}{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    {% javascripts output='js/events_layout.js'
+    'bundles/lbpayment/js/stripe.js'
+    'app/bower_components/jquery-slimscroll/jquery.slimscroll.min.js'
+    'app/bower_components/toastr/toastr.min.js'
+    'bundles/app/js/angular/event.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('app/bower_components/toastr/toastr.min.css') }}"/>
+    <link href="{{ asset("app/bower_components/angular-motion/dist/angular-motion.min.css") }}" rel="stylesheet">
+    {% stylesheets output='css/events.css'
+    'bundles/app/less/events.less'
+    'bundles/app/css/animation.css'
+    filter='less,cssrewrite' %}
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block AngularApp %}
+<html data-ng-app="event" data-ng-controller="EventsController">
+{% endblock %}
+
+{% block content %}
+    <div id="events-page">
+
+        <div class="row">
+
+            <div class="col-sm-12 col-md-8 col-md-offset-2 bg-white">
+                {% block innerContent %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

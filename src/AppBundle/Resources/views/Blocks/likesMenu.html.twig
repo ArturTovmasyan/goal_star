@@ -1,0 +1,28 @@
+{% set rt = app.request.get('_route') %}
+
+{% if rt == 'users_like' %}
+    <ul class="nav nav-pills">
+        <li>
+            <h1 class="like-active">{{ 'like.liked_you'|trans({}, 'messages') | capitalize }}</h1>
+        </li>
+
+        <li>
+            <a href="{{ path('like_by_me') }}">{{ 'like.liked_by_me'|trans({}, 'messages') | capitalize }}</a>
+        </li>
+    </ul>
+{% endif %}
+
+{% if rt == 'like_by_me' %}
+    <ul class="nav nav-pills">
+        <li>
+            <a href="{{ path('users_like') }}">{{ 'like.liked_you'|trans({}, 'messages') | capitalize }}</a>
+        </li>
+
+        <li>
+            <h1 class="like-active">{{ 'like.liked_by_me'|trans({}, 'messages') | capitalize }}</h1>
+        </li>
+    </ul>
+
+{% endif %}
+
+<hr />

@@ -1,0 +1,72 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+
+imports:
+    - { resource: role_hierarchy.yml }
+
+security:
+
+    encoders:
+        FOS\UserBundle\Model\UserInterface:
+                algorithm: sha512
+                id: my_password_encoder
+
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
+        hwi:
+            id: hwi_oauth.user.provider
+        lb_user_api_provider:
+             id: lb_user_api_provider
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            simple_preauth:
+                authenticator: lb_user_api_authenticator
+            provider: lb_user_api_provider
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                success_handler: authentication_handler
+                failure_handler: authentication_handler
+                require_previous_session: false
+#                csrf_provider: security.csrf.token_manager # Use form.csrf_provider instead for Symfony <2.4
+            logout:
+                path:   /logout
+                invalidate_session: true
+                delete_cookies:
+                    REMEMBERME: { path: null, domain: null}
+                target: /
+            anonymous:    true
+
+            oauth:
+                resource_owners:
+                    facebook:           /login/check-facebook
+                    twitter:            /login/check-twitter
+                    instagram:          /login/check-instagram
+                login_path:        /login
+                failure_handler: authentication_handler
+                success_handler: authentication_handler
+                use_forward:       false
+                failure_path:      /login
+                default_target_path: /members
+                oauth_user_provider:
+                    service: lp_hwi_oauth.user.provider
+            remember_me:
+                key:     '%secret%'
+                lifetime: 30000 #one month
+                path:     /
+                domain:   ~
+                always_remember_me: true
+
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/, role: ROLE_ADMIN }

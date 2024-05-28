@@ -1,0 +1,366 @@
+@import "../../../app/bower_components/bootstrap/less/variables.less";
+@import "function.less";
+
+#contact{
+
+  .contact-space{
+    padding: 0 10px;
+  }
+
+  h1{
+    font-size: 17px;
+    color:#6d6d6d;
+    padding: 15px 0 5px;
+    font-weight: normal;
+  }
+
+  p{
+    font-size:13px;
+    color:#9b9b9b;
+    margin: 5px 0 0;
+  }
+
+  form{
+    margin:10px auto 20px;
+    input,textarea,select{
+      color:#8d8d8d;
+      margin-bottom:5px;
+      width: 93%;
+    }
+    .checkbox-inline input,.radio-inline input, input.btn-blue{
+      width: auto;
+    }
+
+    input,select,textarea{
+      display: block;
+      height: 34px;
+      padding: 1px 12px;
+      font-size: 14px;
+      line-height: 1.42857143;
+      background-color: #fff;
+      border: 1px solid #bdbdbd;
+      border-radius: 4px;
+
+      &:hover,&:focus{
+        outline: 0;
+      }
+    }
+
+    label{
+      display: inline-block;
+      max-width: 100%;
+      margin-bottom: 5px;
+      font-weight: 700;
+      color: #9b9b9b;
+      font-size: 14px;
+      text-align: left;
+      width: 100%;
+    }
+
+    label.text-left{
+      text-align: left
+    }
+
+    textarea{
+      height:200px;
+      resize: none;
+    }
+    select{
+      margin-bottom:5px;
+      color:#8d8d8d;
+      width: 99%;
+    }
+    a{
+      color:#9b9b9b;
+      display: block;
+      padding: 7px 0;
+    }
+    .radio-inline{
+      padding-top:0;
+    }
+    .checkbox{
+      input{
+        width: auto;
+      }
+    }
+
+    .checkbox-inline{
+      a{
+        display: inline-block;
+        padding: 0;
+      }
+
+      bdi{
+        position: absolute;
+        top: 25px;
+        left: 164px;
+        font-size: 20px;
+      }
+    }
+  }
+
+  .relative{
+    span{
+      display: inline-block;
+      padding: 0 17px;
+      background-color: #fff;
+      position: relative;
+      font-size: 17px;
+      z-index: 10;
+    }
+
+    hr{
+      position: absolute;
+      width: 100%;
+      bottom: -9px;
+      z-index: 1;
+      border-color: #BFBFBF;
+    }
+  }
+  .contact-button{
+    margin: 10px 0 0;
+    .btn-blue{
+      margin:0;
+      color:#ffffff;
+      padding: 7px 21px;
+      line-height: 1.42857143;
+    }
+  }
+
+
+  span{
+    display: block;
+    padding: 7px 0;
+  }
+
+  .help-block{
+    color:rgba(255, 0, 0, 0.67);
+    span{
+      display: inline-block;
+    }
+  }
+
+  hr{
+    margin: 10px 0;
+    border: 0;
+    border-top: 1px solid #cccccc;
+  }
+
+  ul{
+    text-align: center;
+    padding:20px 20px 15px;
+    li{
+      display: inline-block;
+      vertical-align: middle;
+      margin-right:25px;
+      a{
+        display: block;
+        padding:4px 0 0 45px;
+        vertical-align: middle;
+        height: 35px;
+        color:#9b9b9b;
+      }
+    }
+  }
+
+  #office-information{
+    padding: 0 10px;
+    margin-bottom: 10px;
+
+    h2{
+      margin: 0 0 15px 0;
+      padding: 0;
+      font-size: 15px;
+      text-align: left;
+      color:#6d6d6d;
+      font-weight: normal;
+    }
+
+    p{
+      margin:0;
+      font-size: 12px;
+      padding-bottom:15px;
+      line-height: 18px;
+    }
+
+    strong{
+      color:#6d6d6d;
+    }
+  }
+
+}
+
+strong{
+  color:#4b4b4b;
+}
+
+@media (min-width: 600px){
+  #contact{
+
+    form{
+      input,textarea{
+        width: 95%;
+      }
+      select{
+        width: 100%;
+      }
+    }
+
+    .contact-button{
+      margin: 10px 15px 0;
+    }
+  }
+}
+
+@media (min-width: @screen-sm) {
+  #contact{
+
+    .contact-space{
+      padding: 0 50px;
+    }
+
+    h1{
+      font-size: 23px;
+      padding: 40px 0 5px;
+    }
+
+    p{
+      font-size: 16px;
+      margin: 15px 0 0;
+      line-height: 24px;
+    }
+
+    p.help-text{
+      font-size: 12px;
+      line-height: 18px;
+      margin: 0;
+    }
+
+    .contact-button{
+      margin: 0 10px 0 0;
+    }
+    
+    form{
+      margin:20px auto 10px;
+
+      div{
+        margin-bottom: 10px;
+      }
+
+      label{
+        width: 25%;
+        text-align: right;
+        margin-right: 5px;
+
+        &.message-label{
+          vertical-align: top;
+        }
+      }
+
+      input,textarea,select{
+        width: 66%;
+        display:inline-block;
+      }
+
+      select{
+        width: 70%;
+      }
+
+      .error{
+        padding-bottom:20px;
+        color:rgba(255, 0, 0, 0.67);
+        i.fa-exclamation-triangle{
+          margin-right:5px;
+        }
+      }
+
+      hr{
+        margin-bottom:0;
+      }
+
+    }
+    .form-message{
+      font-size: 15px;
+      padding:75px 0 85px;
+    }
+
+    ul{
+      padding:0;
+    }
+
+    hr{
+      margin: 20px 0;
+    }
+
+    #office-information{
+      padding: 0 20px;
+      margin-bottom: 20px;
+
+      h2{
+        font-size: 21px;
+      }
+
+      p{
+        margin:0;
+        font-size: 13px;
+        line-height: 19px;
+      }
+    }
+
+  }
+
+}
+
+@media (min-width: @screen-md) {
+  #contact{
+
+    .contact-space{
+      padding: 0 50px;
+      width: 70%;
+      margin: 0 auto;
+    }
+
+    h1{
+      font-size: 26px;
+      padding: 50px 0 5px;
+    }
+
+    p{
+      margin: 15px 0 0;
+    }
+
+    form{
+      margin:30px auto 70px;
+    }
+
+    #office-information{
+      padding:0 15px 50px;
+
+      h2{
+        font-size: 23px;
+        color:#6d6d6d;
+      }
+
+      p{
+        margin:0;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@media (min-width: @screen-lg) {
+  #contact{
+
+    .contact-space{
+      width: 50%;
+    }
+
+    .contact-button{
+      margin: 0 10px 0 0;
+      .btn-blue{
+        padding: 7px 34px;
+      }
+    }
+  }
+}

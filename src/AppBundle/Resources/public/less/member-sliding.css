@@ -1,0 +1,23 @@
+.member-sliding-images li.animated {
+    list-style: none;
+    display: inline-block;
+    width: 550px;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    opacity: 1;
+    -webkit-transition:all linear 0.4s;
+    -moz-transition:all linear 0.4s;
+    -o-transition:all linear 0.4s;
+    transition:all linear 0.4s;
+}
+
+.member-sliding-images .to-left.ng-hide {
+    left: -100%;
+    opacity: 0;
+}
+
+.member-sliding-images .to-right.ng-hide {
+    left: 100%;
+    opacity: 0;
+}

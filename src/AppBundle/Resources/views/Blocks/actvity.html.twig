@@ -1,0 +1,12 @@
+{% if user is defined %}
+   <i class="is-online {% if user.getActivity.minute <= 30 and user.getActivity.minute >= 0 %}fa fa-circle green{% endif %}"
+      title="{{ user.getActivity.title }}">
+   </i>
+{% elseif lastActivity is defined %}
+
+   {% set activity = getActivity(lastActivity) %}
+
+   <i data-ng-class="{'fa fa-circle green': user.lastActivity.minute < 30 && user.lastActivity.minute >= 0}" class="is-online {% if activity.minute <= 30 and activity.minute >= 0 %}{% endif %}"
+      title="{{ activity.title }}">
+   </i>
+{% endif %}

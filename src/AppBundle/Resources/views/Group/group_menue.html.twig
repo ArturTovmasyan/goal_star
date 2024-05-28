@@ -1,0 +1,25 @@
+<div class="col-sm-5 col-md-6">
+    <ul class="nav nav-pills ">
+        <li>
+            <a {% if routeName == 'group_list' %}class="group-active" {% endif %} href="{{ path('group_list') }}">{{ 'group.all'|trans({}, 'messages') }}</a>
+        </li>
+        <li>
+            {% set invite = data.invited %}
+            <a {% if routeName == 'group_invite_list' %}class="group-active" {% endif %} href="{{ path('group_invite_list') }}">{{ 'group.invited'|trans({}, 'messages') }}
+                {% if invite >0 %}<sup>{{ invite }}</sup>{% endif %}
+            </a>
+        </li>
+        <li>
+            {% set joined = data.confirm_from_admin %}
+            <a {% if routeName == 'group_joined_list' %}class="group-active" {% endif %} href="{{ path('group_joined_list') }}">{{ 'group.joined'|trans({}, 'messages') }}
+                {% if joined >0 %}<sup>{{ joined }}</sup>{% endif %}
+            </a>
+        </li>
+        <li>
+            {% set hosting = data.request_to_admin + data.confirm %}
+            <a {% if routeName == 'group_hosting_list' %}class="group-active" {% endif %} href="{{ path('group_hosting_list') }}">{{ 'group.hosting'|trans({}, 'messages') }}
+                {% if hosting>0 %}<sup>{{ hosting }}</sup>{% endif %}
+            </a>
+        </li>
+    </ul>
+</div>

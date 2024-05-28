@@ -1,0 +1,420 @@
+@import "function.less";
+
+body, html{
+  background: url('../bundles/app/images/bg-inner.jpg') #3f3e47;
+  min-width: 320px;
+}
+
+body{
+  padding-top: 85px;
+}
+
+#mainframe{
+  position: relative;
+  min-height:100%;
+  font-family: 'Lato', sans-serif;
+}
+
+a{
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#wrap{
+  position: relative;
+  padding-bottom: 270px;
+  min-height: 722px;
+}
+
+header{
+  background: #27262e;
+  border-color: #3f3e47;
+  height: 83px;
+  position: fixed;
+  right: 0;
+  left: 0;
+  z-index: 9998;
+  top: 0;
+  min-width: 320px;
+
+  nav.amp-header{
+
+    ul{
+      padding:0;
+      li{
+        list-style: none;
+        display: block;
+        a{
+          color:#ffffff;
+          display: block;
+          padding:5px 10px;
+
+          &:hover{
+            color:#ef4e67;
+          }
+        }
+      }
+      .current{
+        a{
+          color:#ef4e67;
+        }
+      }
+    }
+  }
+
+}
+
+#line{
+  height: 4px;
+  background: url('../bundles/app/images/top-line.jpg');
+}
+
+.content-container{
+  margin: 0 auto;
+  padding: 0;
+}
+
+.full-width{
+  width: 100%;
+}
+
+amp-sidebar {
+  width: 250px;
+  padding-right: 10px;
+  background: #27262e;
+}
+
+//.amp-sidebar-image {
+//  line-height: 100px;
+//  vertical-align:middle;
+//}
+.amp-close-image {
+  top: 15px;
+  left: 225px;
+  cursor: pointer;
+}
+
+.sidebar{
+  background-color: #27262e;
+  padding: 0;
+  z-index: 1000000;
+
+  li{
+    display: block;
+    border-left: 0;
+    text-align: left;
+    margin-bottom: 0;
+    padding: 0 10px;
+    a{
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      display: block;
+      color: #ffffff;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    &:hover{
+      a{
+        color: #ef4e67;
+      }
+    }
+  }
+}
+
+.sidebar-right{
+  float:right;
+  text-align: center;
+  margin: 0 10px 0 0;
+
+  button{
+    background: transparent;
+    border: 0;
+    outline: 0;
+    font-size: 16px;
+    padding: 28px 10px 15px;
+    cursor: pointer;
+  }
+
+  a{
+    display: block;
+    cursor:pointer;
+  }
+}
+
+.btn-blue{
+  background-color:#2ac4f4;
+  color:#ffffff;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border:0;
+  .rounded-corners(4px);
+
+  &:hover,&:focus{
+    color:#ffffff;
+    background-color:#4ad8f6;
+    outline:0;
+  }
+
+}
+
+footer.amp-footer{
+  width:100%;
+  position: absolute;
+  bottom: 0;
+  height:270px;
+  background-color: #27262e;
+  color:#ffffff;
+
+  .footer-bottom{
+    padding: 0 10px;
+  }
+
+  .content-container{
+
+    ul.app-icons{
+      padding:10px 10px 0 10px;
+      text-align: left;
+      list-style-type: none;
+      margin: 0 0 10px;
+
+      li{
+        display: block;
+        padding: 5px 15px 5px 0;
+        color:#ffffff;
+        font-size:12px;
+
+        a{
+          display: block;
+          padding: 0 0 0 55px;
+          color:#ffffff;
+          font-size:12px;
+          text-decoration: none;
+
+          &:hover{
+            text-decoration: underline;
+          }
+        }
+
+        &:nth-child(1){
+          padding-right:25px;
+        }
+
+        &:nth-child(2){
+          a{
+            font-size:14px;
+            padding: 9px 0 7px 55px;
+            background:url('../bundles/app/images/new-social-icons.png') no-repeat 1px -71px;
+          }
+        }
+
+        &:nth-child(3){
+          a{
+            font-size:14px;
+            padding: 9px 0 7px 55px;
+            background:url('../bundles/app/images/new-social-icons.png') no-repeat 1px -123px;
+          }
+        }
+      }
+    }
+
+
+
+    .line{
+      margin-bottom:10px;
+    }
+
+    small{
+      display: block;
+      padding: 3px 5px;
+      color:#ffffff;
+      font-size:68%;
+    }
+
+    a{
+      display: inline-block;
+      color:#ffffff;
+      text-decoration: none;
+
+      &:hover{
+        text-decoration: underline;
+        color:#ffffff;
+      }
+    }
+  }
+}
+
+.bg-white{
+  background-color: #ffffff;
+}
+
+.background-grey{
+  background-color: #d8d8d8;
+}
+
+.text-white{
+  color: #ffffff;
+}
+
+.text-blue{
+  color:#00c8f8;
+}
+
+.text-red{
+  color:rgba(255, 0, 0, 0.67);
+}
+
+.left{
+  float:left;
+}
+
+.right{
+  float: right;
+}
+
+.clear{
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.text-right{
+  text-align: right;
+}
+
+.text-left{
+  text-align: left;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.line{
+  background-color: #3d3d3d;
+  display: block;
+  height:1px;
+  margin-bottom: 20px;
+}
+
+.logo{
+  display: block;
+  margin: 3px 0 0 0;
+  float: left;
+  height: 80px;
+  padding: 0 0 0 2px;
+  width: 180px;
+}
+
+@media (min-width: 600px){
+  .content-container{
+    max-width: 550px;
+  }
+}
+@media (min-width: 768px) {
+  #wrap {
+    padding-bottom: 165px;
+  }
+
+  .logo{
+    margin: 3px 0 0 15px;
+    width: 263px;
+  }
+
+  .content-container{
+    max-width: 750px;
+  }
+
+  footer.amp-footer{
+    height:165px;
+
+    .footer-bottom{
+      padding: 0 20px;
+    }
+
+    .content-container{
+
+      ul.app-icons{
+        padding:30px 0 0 0;
+
+        li{
+          display: inline-block;
+          padding: 5px 15px 5px 0;
+          font-size:14px;
+
+          a{
+            padding: 7px 0 7px 55px;
+            font-size:14px;
+          }
+        }
+      }
+
+      small{
+        display: inline-block;
+        font-size:75%;
+        padding: 3px 0;
+      }
+
+      .line{
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+}
+
+@media (min-width: 992px) {
+  .content-container{
+    max-width: 960px;
+  }
+  footer.amp-footer{
+    height:165px;
+
+    .footer-bottom{
+      padding: 0 35px;
+    }
+
+    .content-container{
+
+      ul.app-icons{
+        padding:30px 0 0;
+
+        li{
+          display: inline-block;
+          padding: 5px 15px 5px 0;
+          font-size:14px;
+
+          a{
+            padding: 7px 0 7px 55px;
+            font-size:14px;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+@media (min-width: 1170px) {
+  .content-container{
+    max-width: 1170px;
+  }
+
+  footer.amp-footer{
+    .content-container{
+
+      ul.app-icons{
+        padding:40px 0 10px;
+      }
+
+      .line{
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+}

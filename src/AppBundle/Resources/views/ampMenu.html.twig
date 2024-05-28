@@ -1,0 +1,48 @@
+
+<amp-sidebar id='sidebar'
+             layout="nodisplay"
+             side="right">
+    <amp-img class='amp-close-image'
+             src="{{ asset('bundles/app/images/white-remove.svg') }}"
+             width="20"
+             height="20"
+             alt="close sidebar"
+             on="tap:sidebar.close"
+             role="button"
+             tabindex="0"></amp-img>
+
+    <ul class="sidebar">
+
+        <li>
+            <a href="{{ path('members') }}">Members</a>
+        </li>
+        <li>
+            <a href="{{ path('events') }}">Events</a>
+        </li>
+
+        <li>
+            <a href="{{ path('group_list') }}">Groups</a>
+        </li>
+
+        <li>
+            <a href="{{ path('page', {'slug' : 'why-join'} ) }}">Why join</a>
+        </li>
+
+        <li>
+            <a href="{{ path('how-match') }}">How Much?</a>
+        </li>
+
+        <li>
+            <a href="{{ path('blog_list') }}">Blog</a>
+        </li>
+
+        <li>
+            <a href="{{ path('contact') }}">Contact</a>
+        </li>
+
+        <li>
+            <a href="{{ path('fos_user_security_logout') }}">Logout</a>
+        </li>
+
+    </ul>
+</amp-sidebar>

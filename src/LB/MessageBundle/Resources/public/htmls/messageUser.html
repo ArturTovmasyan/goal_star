@@ -1,0 +1,40 @@
+<li data-user-id="__message_user_id__"
+    data-message-image="__profile_image__"
+    data-favorite="[[ conversationStatusByUser[__message_user_id__] == UserStatuses['FAVORITE'] ]]"
+    data-unread="[[ unreadMessagesCountByUser[__message_user_id__]?true:false ]]"
+    data-user-name="__name__">
+    <ul class="clearfix"
+    data-ng-click="getUserMessages(__message_user_id__, '__name__', '')"
+    data-ng-class="{'user-has-message': unreadMessagesCountByUser[__message_user_id__], 'active-message-user': userId == __message_user_id__}">
+        <li>
+            <figure class="img-circle">
+                <a href="javascript:void(0)">
+                    <img src="__profile_image__" alt="__name__" class="img-responsive"/>
+                </a>
+            </figure>
+        </li>
+
+        <li>
+            <a href="javascript:void(0)">
+                <i class="is-online"></i>
+                __name__
+            </a>
+        </li>
+
+        <li>
+            <a href="javascript:void(0)">
+                <i class="circle"></i>
+            </a>
+        </li>
+
+        <li data-ng-show="unreadMessagesCountByUser[__message_user_id__]">
+            [[ unreadMessagesCountByUser[__message_user_id__] | number ]]
+        </li>
+    </ul>
+    <span>
+        <i class="fa fa-star"
+           data-ng-click="favorite(__message_user_id__)"
+           data-ng-class="{'text-yellow': conversationStatusByUser[__message_user_id__] == UserStatuses['FAVORITE'], 'text-gray': conversationStatusByUser[__message_user_id__] != UserStatuses['FAVORITE']}">
+        </i>
+    </span>
+</li>

@@ -1,0 +1,132 @@
+# Group
+group:
+    edit:
+        submit: Update group
+    show:
+        name: Group name
+    new:
+        submit: Create group
+    flash:
+        updated: The group has been updated
+        created: The group has been created
+        deleted: The group has been deleted
+
+# Security
+"Bad credentials": Invalid username or password
+
+security:
+    login:
+        username: "Email / Username:"
+        password: "Password:"
+        remember_me: Remember me
+        submit: Sign in
+
+user_form_error: You have an error in your registration form
+# Profile
+profile:
+    show:
+        username: Username
+        email: Email
+        about_me: About Me
+        my_summary: My Summary
+        craziest_outdoor: My craziest outdoor adventure was...
+        favorite_outdoor: My favorite outdoor activity is ... and why?
+        like_try: What's the one thing on your bucket list you'd like to try tomorrow?
+        my_photos: My Photos
+        my_activities: My Activities
+    edit:
+        submit: Update
+    flash:
+        updated: The profile has been updated
+
+# Password change
+change_password:
+    general_settings: General Settings
+    current_Password: Current Password (required to update email or change current password)
+    change_password: Change Password (leave blank for no change)
+    new_password: New Password
+    save_changes: Save changes
+    text: Type your new password
+    submit: Change password
+    flash:
+        success: The password has been changed
+
+# Registration
+registration:
+    create_new_account: Create new account
+    image_size: Allow max size is 6M
+    password_theme: Password must be one uppercase and one number and at least 4 characters.
+    profile_image: Profile image
+    cropped_image: Cropped Image:
+    gallery: Gallery
+    craziest_outdoor: My craziest outdoor adventure was...
+    favorite_outdoor: My favorite outdoor activity is ... and why?
+    like_try: What's the one thing on your bucket list you'd like to try tomorrow?
+    check_email: An email has been sent to %email%. It contains an activation link you must click to activate your account.
+    confirmed: Congrats %username%, your account is now activated.
+    back: Back to the originating page.
+    submit: Register
+    facebook_gallery: Images from facebook
+    flash:
+        user_created: The user has been created successfully
+    email:
+        subject: Welcome %username%!
+        message: |
+            Hello %username%!
+
+            To finish activating your account - please visit %confirmationUrl%
+
+            Regards,
+            the Team.
+drag_drop: Drag & Drop a Photo
+
+# Password resetting
+resetting:
+    password_already_requested: The password for this user has already been requested within the last 24 hours.
+    check_email: An email has been sent to %email%. It contains a link you must click to reset your password.
+    request:
+        invalid_username: The username or email address "%username%" does not exist.
+        username: "Username or email address:"
+        submit: Reset password
+        send: Send My Details !
+        text: aah, wait, I remember now !
+    reset:
+        submit: Change password
+        new_password: New Password
+        repeat_new_password: Repeat New Password
+
+    flash:
+        success: The password has been reset successfully
+    email:
+        subject: Reset Password
+        message: |
+            Hello %username%!
+
+            To reset your password - please visit %confirmationUrl%
+
+            Regards,
+            the Team.
+
+# Global strings
+layout:
+    logout: Logout
+    login: Login
+    register: Register
+    logged_in_as: Logged in as %username%
+
+# Form field labels
+form:
+    group_name: "Group name:"
+    username: "Username:"
+    email: "Email:"
+    current_password: "Current password:"
+    password: "Password:"
+    password_confirmation: "Repeat password:"
+    new_password: "New password:"
+    new_password_confirmation: "Repeat new password:"
+
+forgot: Forgot your Details?
+
+admin:
+    logout: Logout
+

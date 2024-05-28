@@ -1,0 +1,106 @@
+{% set accessNotice =  app.session.flashbag.get('accessNotice') %}
+
+{% if accessNotice and accessNotice|length > 0 %}
+    <span data-ls-user-register-manage data-ls-type="{{ app.user.step }}" data-ls-initial-run="true"></span>
+{% endif %}
+
+
+<ul>
+    <li>
+        <ul>
+            <li>
+                <a {% if routeName == 'users_connections' %} class="active" {% endif %}
+                   {% if app.user.step == 1 or app.user.step == 2 %}
+                        data-ls-user-register-manage data-ls-type="{{ app.user.step }}"
+                   {% else %}
+                        href="{{ path("users_connections") }}"
+                   {% endif %}>
+                    <i class="fa fa-users"></i>
+                    {{ 'notification.connections'|trans({}, 'messages') | capitalize }}
+                </a>
+            </li>
+            <li data-ng-cloak data-ng-show="$root.connectionCount" data-ng-init="$root.connectionCount={{ userRelations.friendsCount }}" class="ng-hide">
+                <span data-ng-bind="$root.connectionCount | number" data-ng-class="{'count': $root.connectionCount > 0}"></span>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <ul>
+            <li>
+                <a {% if routeName == 'users_like' %} class="active" {% endif %}
+                        {% if app.user.step == 1 or app.user.step == 2 %}
+                            data-ls-user-register-manage data-ls-type="{{ app.user.step }}"
+                        {% else %}
+                            href="{{ path("users_like") }}"
+                        {% endif %}>
+                    <i class="fa fa-heart"></i>
+                    {{ 'notification.liked_you'|trans({}, 'messages') | capitalize }}
+                </a>
+            </li>
+            <li data-ng-cloak data-ng-show="$root.likesCount" data-ng-init="$root.likesCount={{ userRelations.likeCount }}" class="ng-hide">
+                <span data-ng-bind="$root.likesCount | number " data-ng-class="{'count': $root.likesCount > 0}"></span>
+            </li>
+        </ul>
+    </li>
+
+    <li>
+        <ul>
+            <li>
+                <a {% if routeName == 'favorite' %} class="active" {% endif %}
+                        {% if app.user.step == 1 or app.user.step == 2 %}
+                            data-ls-user-register-manage data-ls-type="{{ app.user.step }}"
+                        {% else %}
+                            href="{{ path("favorite") }}"
+                        {% endif %}>
+                    <i class="fa fa-star"></i>
+                    {{ 'notification.favorited_you'|trans({}, 'messages') | capitalize }}
+                </a>
+            </li>
+
+            <li data-ng-cloak data-ng-show="$root.favoriteCount" data-ng-init="$root.favoriteCount={{ userRelations.favoriteCount }}" class="ng-hide">
+                <span data-ng-bind="$root.favoriteCount | number" data-ng-class="{'count': $root.favoriteCount > 0}"></span>
+            </li>
+        </ul>
+    </li>
+
+    <li>
+        <ul>
+            <li>
+                <a {% if routeName == 'visitor' %} class="active" {% endif %}
+                        {% if app.user.step == 1 or app.user.step == 2 %}
+                            data-ls-user-register-manage data-ls-type="{{ app.user.step }}"
+                        {% else %}
+                            href="{{ path("visitor") }}"
+                        {% endif %}>
+                    <i class="fa fa-eye"></i>
+                    {{ 'notification.visitors'|trans({}, 'messages') | capitalize }}
+                </a>
+            </li>
+
+            <li data-ng-cloak data-ng-show="$root.visitorCount" data-ng-init="$root.visitorCount={{ userRelations.visitorCount }}" class="ng-hide">
+                <span data-ng-bind="$root.visitorCount | number" data-ng-class="{'count': $root.visitorCount > 0}"></span>
+            </li>
+        </ul>
+    </li>
+
+    <li>
+        <ul>
+            <li>
+                <a {% if routeName == 'message_users' %} class="active" {% endif %}
+                        {% if app.user.step == 1 or app.user.step == 2 %}
+                            data-ls-user-register-manage data-ls-type="{{ app.user.step }}"
+                        {% else %}
+                            href="{{ path('message_users') }}"
+                        {% endif %}>
+                    <i class="fa fa-commenting"></i>
+                    {{ 'notification.messages'|trans({}, 'messages') | capitalize }}
+                </a>
+            </li>
+
+            <li data-ng-cloak data-ng-show="$root.messagesCount" data-ng-init="$root.messagesCount={{ userRelations.messageCount }}" class="ng-hide">
+                <span data-ng-bind="$root.messagesCount | number" data-ng-class="{'count': $root.messagesCount > 0}"></span>
+            </li>
+        </ul>
+    </li>
+</ul>
+

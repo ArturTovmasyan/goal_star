@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="lb.payment.admin.subscription" class="LB\PaymentBundle\Admin\SubscriberAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Payment" label="Subscriber"/>
+            <argument/>
+            <argument>LB\PaymentBundle\Entity\Subscriber</argument>
+            <argument/>
+        </service>
+
+        <service id="lb.payment.admin.coupon" class="LB\PaymentBundle\Admin\CouponAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Payment" label="Coupon"/>
+            <argument/>
+            <argument>LB\PaymentBundle\Entity\Coupon</argument>
+            <argument/>
+        </service>
+
+        <service id="lb.payment.admin.ios_coupon" class="LB\PaymentBundle\Admin\IosCouponAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Payment" label="IosCoupon"/>
+            <argument/>
+            <argument>LB\PaymentBundle\Entity\IosCoupon</argument>
+            <argument/>
+        </service>
+
+        <service id="lb.payment.admin.custom.subscribe" class="LB\PaymentBundle\Admin\CustomSubscriberAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Payment" label="Custom Subscribe"/>
+            <argument/>
+            <argument/>
+            <argument>LBPaymentBundle:Admin/CustomSubscriber</argument>
+
+        </service>
+
+        <service id="lb.stripe" class="LB\PaymentBundle\Services\Stripe">
+            <argument type="service" id="service_container" > </argument>
+        </service>
+    </services>
+
+</container>

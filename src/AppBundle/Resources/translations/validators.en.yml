@@ -1,0 +1,70 @@
+ad:
+    name.not_blank: Please enter an ad name.
+    length: The ad name cannot be longer than {{ limit }} characters.
+    code.not_blank: Please enter an ad code.
+    url: The ad url is not a valid url.
+    url.not_blank: Please enter an ad url.
+
+interest:
+    name.not_blank: Please enter an interest name.
+    position.not_blank: Please enter an interest position.
+    length: The interest name cannot be longer than {{ limit }} characters.
+
+interestGroup:
+    name.not_blank: Please enter an interestGroup name.
+    position.not_blank: Please enter an interestGroup position.
+    length: The interestGroup cannot be longer than {{ limit }} characters.
+
+tag:
+    name.not_blank: Please enter a tag name.
+    length: The tag name cannot be longer than {{ limit }} characters.
+    slug.not_blank: Please enter a tag slug.
+    slug.length: The tag slug cannot be longer than {{ limit }} characters.
+
+blog:
+    slug.not_blank: Please enter a blog slug.
+    slug.length: The blog slug cannot be longer than {{ limit }} characters.
+
+file:
+    type.not_blank: Please enter a file type.
+
+state:
+    name.not_blank: Please enter a state name.
+    name.length: The state name cannot be longer than {{ limit }} characters.
+    abbr.not_blank: Please enter a state abbreviation.
+    abbr.length: The state abbreviation cannot be longer than {{ limit }} characters.
+
+
+user:
+    firstName.not_blank: Please enter your firstName.
+    firstName.minLength: The firstName must be at least {{ limit }} characters long.
+    firstName.maxLength: The firstName cannot be longer than {{ limit }} characters.
+    lastName.not_blank: Please enter your lastName.
+    lastName.minLength: The lastName must be at least {{ limit }} characters long.
+    lastName.maxLength: The lastNamee cannot be longer than {{ limit }} characters.
+    visibility: Choose a valid visibility.
+    birthday.not_blank: Please choose your birthday.
+    height.not_blank: Please choose your height.
+    height_unit.not_blank: Please choose your unit for height.
+    height_unit: Choose a valid unit for height.
+    city.not_blank: Please enter your city.
+    city.minLength: The city must be at least {{ limit }} characters long.
+    city.maxLength: The city cannot be longer than {{ limit }} characters.
+    state.not_blank: Please enter your state.
+    state.minLength: The state must be at least {{ limit }} characters long.
+    state.maxLength: The state cannot be longer than {{ limit }} characters.
+    zipCode.maxLength: The zipCode cannot be longer than {{ limit }} characters.
+    summary.not_blank: Please enter your summary.
+    summary.minLength: The summary must be at least {{ limit }} characters long.
+    summary.maxLength: The summary cannot be longer than {{ limit }} characters.
+    sky_ride.maxLength: The sky ride cannot be longer than {{ limit }} characters.
+    sky_ride.not_blank: Please enter Areas I ski/ride most
+    gender: Choose a valid gender.
+    country.maxLength: The country cannot be longer than {{ limit }} characters.
+    iAgree: You must select agrre
+
+message:
+    subject.not_blank: Please enter message subject.
+    subject.maxLength: The message subject cannot be longer than {{ limit }} characters.
+    message.content.not_blank: Please enter message content.
+    message.content.maxLength: The message content cannot be longer than {{ limit }} characters.

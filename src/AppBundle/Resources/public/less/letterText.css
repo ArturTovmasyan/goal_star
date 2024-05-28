@@ -1,0 +1,27 @@
+#mainText{
+    width:50%;
+    min-width:550px;
+    margin:50px auto;
+    display:none;
+}
+
+word{ display:inline-block; }
+
+a letter{ color:inherit; } /* for links */
+/* This is the NORMAL state of a character */
+letter{
+    display:inline-block;
+    white-space:pre;
+    background:none;
+    transition:.4s;
+}
+/* Below is the INITIAL state of a character */
+letter.initial{
+    opacity:0;
+    text-shadow:0 0 9px;
+    color:#FFF;
+    -webkit-transform:scale(8);
+    -webkit-transform-origin:150% 50%;
+    transform:scale(8);
+    transform-origin:150% 50%;
+}

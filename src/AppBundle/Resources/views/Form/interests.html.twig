@@ -1,0 +1,71 @@
+{% block interests_widget %}
+    {% for interestGroup in form.vars.interestGroups %}
+
+        <div class="row">
+            <div class="col-sm-12">
+                <strong class="interest-title">{{ interestGroup.name }}<bdi> *</bdi></strong>
+                <div class="row">
+                    {% if interestGroup.name != "Areas I ski/ride most" %}
+                        {% for interest in interestGroup.interest %}
+                            <div class="col-sm-4 col-lg-3 overflow">
+                                <label class="checkbox-inline">
+                                    <input name="{{ form.vars.full_name }}[{{ interestGroup.id }}][{{ interest.id }}]"
+                                           id="{{ form.vars.id }}[{{ interestGroup.id }}][{{ interest.id }}]"
+                                           type="checkbox"
+                                            {% if form.vars.value[interestGroup.id] is defined and form.vars.value[interestGroup.id][interest.id] is defined %}
+                                    checked
+                                            {% endif %}>{{ interest.name }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% set areaAndSki = generateAreAndSki(interestGroup) %}
+
+
+                        <div id="ski-riding">
+
+                        {% for group, interest in areaAndSki %}
+                            {% if group |first == '_' %}
+                                <div class="col-sm-12">
+                                    <h4>{{ group }}</h4>
+                                </div>
+                            {% else %}
+                                <div class="col-sm-4">
+                                    <div class="checkbox-dropdown">
+                                    {% if interest.image is defined %}<img src="{{ interest.image }}" height="20">{% endif %}
+                                        &nbsp&nbsp{{ group }}
+                                        <ul class="checkbox-dropdown-list">
+                                            {% if interest.interests is defined%}
+                                                {% for interestId, areaAndSky in interest.interests %}
+                                                    <li>
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input name="{{ form.vars.full_name }}[{{ interestGroup.id }}][{{ interestId }}]"
+                                                                       id="{{ form.vars.id }}[{{ interestGroup.id }}][{{ interestId }}]"
+                                                                       type="checkbox"
+                                                                        {% if form.vars.value[interestGroup.id] is defined and form.vars.value[interestGroup.id][interestId] is defined %}
+                                                                            checked
+                                                                        {% endif %}
+                                                                        >{{ areaAndSky }}
+                                                            </label>
+                                                        </div>
+
+                                                    </li>
+                                                {% endfor %}
+                                            {% endif %}
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            {% endif %}
+
+                        {% endfor %}
+                        </div>
+
+                    {% endif %}
+                </div> <br />
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

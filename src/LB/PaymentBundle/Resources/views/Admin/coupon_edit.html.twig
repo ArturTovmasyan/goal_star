@@ -1,0 +1,14 @@
+{% extends 'SonataAdminBundle:CRUD:edit.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="{{ asset('app/bower_components/angular/angular.min.js') }}"></script>
+{% endblock %}
+
+
+{%  block form %}
+
+    <div data-ng-app="">
+        {{ parent() }}
+    </div>
+{% endblock %}

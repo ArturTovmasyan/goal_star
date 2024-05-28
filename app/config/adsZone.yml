@@ -1,0 +1,2 @@
+parameters:
+    ads_zone: ['lefttop', 'leftbottom', 'righttop', 'rightbottom', 'bottomcenter']

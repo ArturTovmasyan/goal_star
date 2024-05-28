@@ -1,0 +1,462 @@
+{% extends 'AppBundle:Main:singleMember.html.twig' %}
+
+{% form_theme myInterestForm _self %}
+
+{#{% block stylesheets %}#}
+    {#{{ parent() }}#}
+    {#<link href="{{ asset('bundles/app/css/dropDown.css') }}" rel="stylesheet">#}
+
+{#{% endblock %}#}
+
+{% block title %}{% if user is not null %}{{ 'meta.title.me'|trans({'%firstName%': currentUser.firstName}, 'messages') }}{% endif %}{% endblock %}
+{% block metaDescription %}{{ 'meta.description.me'|trans({}, 'messages') }}{% endblock %}
+
+{% set currentUser = user %}
+
+{% block friends %}
+
+{% endblock %}
+{% block top_content %}
+    {% include 'LBUserBundle:Main:profileIcons.html.twig' with {'name': currentUser|show_fullName ~ ' ' ~ currentUser.getAge  } %}
+{% endblock %}
+
+{% block editProfile %}
+    {% if edit is not null %}
+        <div id="edit-profile">
+            <div class="panel-group" id="accordionEdit" role="tablist" aria-multiselectable="true">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="basicInfo">
+                        <h4 class="panel-title clearfix">
+                            <span class="collapsed text-dark-gray" role="button" data-toggle="collapse" data-parent="#accordionEdit" href="#collapsebasicInfo" aria-expanded="false" aria-controls="collapseTwo">
+                                {{ 'user.basic_info'|trans({}, 'messages') | capitalize }}
+                                <i class="fa fa-chevron-down pull-right text-gray"></i>
+                            </span>
+                        </h4>
+                    </div>
+
+                    <div id="collapsebasicInfo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="basicInfo">
+                        <div class="panel-body">
+
+                            <form class="form-horizontal" action="#" method="post">
+
+                                <div class="form-group">
+                                    {{ form_label(basicForm.birthday, null, {'label_attr': {'class': 'col-sm-3 control-label'}    }) }}
+
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-xs-3 col-sm-4">
+                                                {{ form_widget(basicForm.birthday.day) }}
+                                            </div>
+
+                                            <div class="col-xs-5 col-sm-4">
+                                                {{ form_widget(basicForm.birthday.month) }}
+                                            </div>
+
+                                            <div class="col-xs-4 col-sm-4">
+                                                {{ form_widget(basicForm.birthday.year) }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="text-danger">
+                                    {{ form_errors(basicForm.birthday) }}
+                                </div>
+
+                                <div class="form-group" data-ng-init="profile.gender={{ basicForm.I_am.vars.value }}">
+                                    <label class="col-sm-3 control-label">{{ 'user.gender'|trans({}, 'messages') | capitalize }}</label>
+
+                                    <div class="col-sm-9">
+                                        <div class="row no-gutter">
+
+                                            <div class="col-xs-6 col-sm-3 gender">
+                                                <div class="checkbox">
+                                                    <label class="fa fa-mars" data-ng-class="{'text-blue': profile.gender == 4}">
+                                                        <input type="radio"
+                                                               data-ng-model="profile.gender"
+                                                               id="{{ basicForm.I_am[0].vars.id }}"
+                                                               name="{{ basicForm.I_am[0].vars.full_name }}" value="4">
+                                                        <span>{{ 'user.man'|trans({}, 'messages') | capitalize }}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-6 col-sm-3 gender">
+                                                <div class="checkbox">
+                                                    <label class="fa fa-venus" data-ng-class="{'text-pink': profile.gender == 5}">
+                                                        <input type="radio"
+                                                               data-ng-model="profile.gender"
+                                                               id="{{ basicForm.I_am[1].vars.id }}"
+                                                               name="{{ basicForm.I_am[1].vars.full_name }}" value="5">
+                                                        <span>{{ 'user.woman'|trans({}, 'messages') | capitalize }}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="text-danger">
+                                    {{ form_errors(basicForm.looking_for) }}
+                                </div>
+
+                                <div class="form-group" data-ng-init="profile.lookingFor={{ basicForm.looking_for.vars.value }}">
+                                    <label class="col-sm-3 control-label">{{ 'Looking For'|trans({}, 'messages') | capitalize }}</label>
+
+                                    <div class="col-sm-9">
+                                        <div class="row no-gutter">
+                                            <div class="col-xs-3 col-sm-3 gender">
+                                                <div class="checkbox">
+                                                    <label class="fa fa-mars" data-ng-class="{'text-blue': profile.lookingFor == 4}">
+                                                        <input type="radio"
+                                                               data-ng-model="profile.lookingFor"
+                                                               id="{{ basicForm.looking_for[0].vars.id }}"
+                                                               name="{{ basicForm.looking_for[0].vars.full_name }}" value="4">
+                                                        <span>{{ 'user.man'|trans({}, 'messages') | capitalize }}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-4 col-sm-3 gender">
+                                                <div class="checkbox">
+                                                    <label class="fa fa-venus" data-ng-class="{'text-pink': profile.lookingFor == 5}">
+                                                        <input type="radio"
+                                                               data-ng-model="profile.lookingFor"
+                                                               id="{{ basicForm.looking_for[1].vars.id }}"
+                                                               name="{{ basicForm.looking_for[1].vars.full_name }}" value="5">
+                                                        <span>{{ 'user.woman'|trans({}, 'messages') | capitalize }}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-5 col-sm-3 gender">
+                                                <div class="checkbox">
+                                                    <label class="fa fa-venus-mars" data-ng-class="{'text-yellow': profile.lookingFor == 6}">
+                                                        <input type="radio"
+                                                               data-ng-model="profile.lookingFor"
+                                                               id="{{ basicForm.looking_for[2].vars.id }}"
+                                                               name="{{ basicForm.looking_for[2].vars.full_name }}" value="6">
+                                                        <span>{{ 'user.bisexual'|trans({}, 'messages') | capitalize }}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Height</label>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-xs-6 col-md-4">
+                                                {{ form_widget(basicForm.feet) }}
+                                                {{ form_errors(basicForm.feet) }}
+
+                                            </div>
+                                            <div class="col-xs-6 col-md-4">
+                                                {{ form_widget(basicForm.inches) }}
+                                                {{ form_errors(basicForm.inches) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-sm-12 text-right">
+                                        <button type="submit" class="btn btn-blue">{{ 'user.save'|trans({}, 'messages') | capitalize }}</button>
+                                        <button type="button" class="btn btn-default">{{ 'user.cancel'|trans({}, 'messages') | capitalize }}</button>
+                                    </div>
+                                </div>
+
+                                {{ form_widget(basicForm._token) }}
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="account">
+                        <h4 class="panel-title clearfix">
+                            <span class="collapsed text-dark-gray" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseaccount" aria-expanded="false" aria-controls="collapseThree">
+                                {{ 'user.your_account'|trans({}, 'messages') | capitalize }}
+                                <i class="fa fa-chevron-down pull-right text-gray"></i>
+                            </span>
+                        </h4>
+                    </div>
+                    <div id="collapseaccount" class="panel-collapse collapse" role="tabpanel" aria-labelledby="account">
+                        <div class="panel-body text-gray">
+                            <form class="form-horizontal" action="#" method="post">
+
+                                <div class="form-group">
+                                    {{ form_label(accountForm.username, null, {'label_attr': {'class': 'col-sm-3 control-label'}    }) }}
+
+                                    <div class="col-sm-9">
+                                        {{ form_widget(accountForm.username) }}
+                                    </div>
+
+                                    <div class="text-danger">
+                                        {{ form_errors(accountForm.username) }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form_label(accountForm.email, null, {'label_attr': {'class': 'col-sm-3 control-label'}    }) }}
+
+                                    <div class="col-sm-9">
+                                        {{ form_widget(accountForm.email) }}
+                                    </div>
+
+                                    <div class="text-danger">
+                                        {{ form_errors(accountForm.email) }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form_label(accountForm.firstName, null, {'label_attr': {'class': 'col-sm-3 control-label'}    }) }}
+                                    <div class="col-sm-9">
+                                        {{ form_widget(accountForm.firstName) }}
+                                    </div>
+                                    <div class="text-danger">
+                                        {{ form_errors(accountForm.firstName) }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form_label(accountForm.lastName, null, {'label_attr': {'class': 'col-sm-3 control-label'}    }) }}
+                                    <div class="col-sm-9">
+                                        {{ form_widget(accountForm.lastName) }}
+                                        <p class="help-text">{{ 'regisrer.lastname.help-text'|trans({}, 'messages') |capitalize }}</p>
+                                    </div>
+                                    <div class="text-danger">
+                                        {{ form_errors(accountForm.lastName) }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12 text-right">
+                                        <button type="submit" class="btn btn-blue">{{ 'user.save'|trans({}, 'messages') | capitalize }}</button>
+                                        <button type="button" class="btn btn-default">{{ 'user.cancel'|trans({}, 'messages') | capitalize }}</button>
+                                    </div>
+                                </div>
+
+                                {{ form_widget(accountForm._token) }}
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="Interests">
+                        <h4 class="panel-title clearfix">
+                            <span role="button" class="text-dark-gray" data-toggle="collapse" data-parent="#accordion" href="#collapseInterests" aria-expanded="true" aria-controls="collapseOne">
+                                {{ 'user.interests'|trans({}, 'messages') | capitalize }}
+                                <i class="fa fa-chevron-down pull-right text-gray"></i>
+                            </span>
+                        </h4>
+                    </div>
+                    <div id="collapseInterests" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="Interests">
+                        <div class="panel-body">
+                            <form action="#" method="post">
+                                <div class="text-danger">
+                                    {{ form_errors(myInterestForm.interests) }}
+                                </div>
+                                {{ form_widget(myInterestForm.interests) }}
+
+                                {#<div class="row">#}
+                                    {#<div class="col-xs-12">#}
+                                        {#<strong class="interest-title">{{ form_label(myInterestForm.skyRide) }}</strong>#}
+                                        {#<div class="row">#}
+                                            {#{{ form_widget(myInterestForm.skyRide) }}#}
+                                        {#</div> <br />#}
+                                    {#</div>#}
+                                {#</div>#}
+                                {#{{ form_errors(myInterestForm.skyRide) }}#}
+
+
+                                {{ form_widget(myInterestForm._token) }}
+                                <div class="form-group">
+                                    <div class="col-sm-offset-9 col-sm-3 text-right">
+                                        <button type="submit" class="btn btn-blue">{{ 'user.save'|trans({}, 'messages') | capitalize }}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingThree">
+                        <h4 class="panel-title clearfix">
+                            <span class="collapsed text-dark-gray" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                {{ 'user.personal_info'|trans({}, 'messages') | capitalize }}
+                                <i class="fa fa-chevron-down pull-right text-gray"></i>
+                            </span>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div class="panel-body text-gray">
+
+                            <form action="#" method="POST">
+
+                                <div class="form-group">
+                                    <strong>
+                                        {{ form_label(personalInfo.city) }}
+                                    </strong>
+                                    {{ form_widget(personalInfo.city, {'attr': {'google-places-autocomplete': '', 'place': 'userLocation', 'data-types': "['(cities)']" } }) }}
+                                    <input name="{{ personalInfo.location.vars.full_name }}" id="{{ personalInfo.location.vars.id }}" data-ng-init="userLocation={{ personalInfo.vars.value.getLocation|default("''") }}" type="hidden" value="[[ userLocation ]]"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <strong>
+                                        {{ form_label(personalInfo.summary) }}
+                                    </strong>
+                                    {{ form_widget(personalInfo.summary) }}
+                                    <div class="text-danger">
+                                        {{ form_errors(personalInfo.craziestOutdoorAdventure) }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <strong>
+                                        {{ form_label(personalInfo.craziestOutdoorAdventure, 'user.craziest_outdoor'|trans({}, 'messages') | capitalize ) }}
+                                    </strong>
+                                    {{ form_widget(personalInfo.craziestOutdoorAdventure) }}
+
+                                    <div class="text-danger">
+                                        {{ form_errors(personalInfo.craziestOutdoorAdventure) }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <strong>
+                                        {{ form_label(personalInfo.favoriteOutdoorActivity, 'user.favorite_outdoor'|trans({}, 'messages') | capitalize ) }}
+                                    </strong>
+                                    {{ form_widget(personalInfo.favoriteOutdoorActivity) }}
+
+                                    <div class="text-danger">
+                                        {{ form_errors(personalInfo.favoriteOutdoorActivity) }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <strong>
+                                        {{ form_label(personalInfo.likeTryTomorrow, 'user.like_try'|trans({}, 'messages') | capitalize) }}
+                                    </strong>
+                                    {{ form_widget(personalInfo.likeTryTomorrow) }}
+
+                                    <div class="text-danger">
+                                        {{ form_errors(personalInfo.likeTryTomorrow) }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-xs-12">
+                                        <strong>
+                                            {{ form_label(personalInfo.personalInfo, 'Personal Info'| capitalize) }}
+                                        </strong>
+                                        {{ form_widget(personalInfo.personalInfo, {'attr': { 'rows' : '5'}   } ) }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-9 col-sm-3 text-right">
+                                        <button type="submit" class="btn btn-blue">{{ 'user.save'|trans({}, 'messages') | capitalize }}</button>
+                                    </div>
+                                </div>
+                                {{ form_widget(personalInfo._token) }}
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block interests_widget %}
+    {% for interestGroup in form.vars.interestGroups %}
+
+        <div class="row">
+            <div class="col-xs-12">
+                <strong class="interest-title">{{ interestGroup.name }}<bdi> *</bdi></strong>
+                <div class="row" id="ski-riding">
+                    {% if interestGroup.name != "Areas I ski/ride most" %}
+                        {% for interest in interestGroup.interest %}
+                            <div class="col-xs-6 col-md-4">
+                                <label class="checkbox-inline">
+                                    <input name="{{ form.vars.full_name }}[{{ interestGroup.id }}][{{ interest.id }}]"
+                                           id="{{ form.vars.id }}[{{ interestGroup.id }}][{{ interest.id }}]"
+                                           type="checkbox"
+                                           {% if form.vars.value[interestGroup.id] is defined and form.vars.value[interestGroup.id][interest.id] is defined %}
+                                            checked
+                                           {% endif %}>{{ interest.name }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% set areaAndSki = generateAreAndSki(interestGroup) %}
+
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <div class="row">
+
+                            {% for group, interest in areaAndSki %}
+                                <div class="col-sm-6">
+                                    <div class="checkbox-dropdown">
+                                        {% if interest.image is defined %}
+                                        <img src="{{ interest.image }}" height="20">
+                                        {% endif %}
+                                        &nbsp&nbsp{{ group }}
+                                        <ul class="checkbox-dropdown-list">
+                                            {% for interestId, areaAndSky in interest.interests %}
+                                                <li>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input name="{{ form.vars.full_name }}[{{ interestGroup.id }}][{{ interestId }}]"
+                                                                   id="{{ form.vars.id }}[{{ interestGroup.id }}][{{ interestId }}]"
+                                                                   type="checkbox"
+                                                                    {% if form.vars.value[interestGroup.id] is defined and form.vars.value[interestGroup.id][interestId] is defined %}
+                                                                        checked
+                                                                    {% endif %}
+                                                                    >{{ areaAndSky }}
+                                                        </label>
+                                                    </div>
+
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <br />
+                                </div>
+                            {% endfor %}
+                            </div>
+
+                        </div>
+                    {% endif %}
+                </div> <br />
+            </div>
+        </div>
+    {% endfor %}
+
+    <div style="clear: both"></div>
+
+{% endblock %}
+
+
+{#{% block javascripts %}#}
+    {#{{ parent() }}#}
+    {#<script src='{{ asset('bundles/app/js/dropDown.js') }}' type="text/javascript"></script>#}
+{#{% endblock %}#}

@@ -1,0 +1,221 @@
+{% extends "LBUserBundle:Basses:settings.html.twig" %}
+
+{% block settings_content %}
+    {{ parent() }}
+
+    <h4 class="text-gray">{{ 'user.profile_settings'|trans({}, 'messages') | capitalize }}</h4>
+
+    {#<form method="post" action="{{ path('profile_visibility') }}" id="profile-visibility">#}
+        {#{{ form_start(form) }}#}
+
+        {#{{ form_errors(form) }}#}
+
+        <div class="form-style clearfix">
+
+            <div class="row">
+                <p class="col-xs-6 text-white border-right">{{ 'user.base'|trans({}, 'messages') | capitalize }}</p>
+                <p class="col-xs-6 text-white">{{ 'user.visibility'|trans({}, 'messages') | capitalize }}</p>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6 border-right">
+                    <strong class="text-gray">{{ 'user.first_name'|trans({}, 'messages') | capitalize }}</strong>
+                </div>
+                <div class="col-xs-6">
+                    <strong class="text-gray">{{ 'user.everyone'|trans({}, 'messages') | upper }}</strong>
+                </div>
+            </div>
+            <hr/>
+
+            <hr/>
+            <div class="row">
+                <div class="col-xs-6 border-right">
+                    <strong class="text-gray">{{ 'user.age'|trans({}, 'messages') | capitalize }}</strong>
+                </div>
+                <div class="col-xs-6">
+                    <strong class="text-gray">{{ 'user.everyone'|trans({}, 'messages') | upper }}</strong>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="col-xs-6 border-right">
+                    <strong class="text-gray">{{ 'user.i_am_a'|trans({}, 'messages') | capitalize }}</strong>
+                </div>
+                <div class="col-xs-6">
+                    <strong class="text-gray">{{ 'user.everyone'|trans({}, 'messages') | upper }}</strong>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="col-xs-6 border-right">
+                    <strong class="text-gray">{{ 'user.looking_for'|trans({}, 'messages') | capitalize }}</strong>
+                </div>
+                <div class="col-xs-6">
+                    <strong class="text-gray">{{ 'user.everyone'|trans({}, 'messages') | upper }}</strong>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="col-xs-6 border-right">
+                    <strong class="text-gray">{{ 'user.city'|trans({}, 'messages') | capitalize }}</strong>
+                </div>
+                <div class="col-xs-6">
+                    <strong class="text-gray">{{ 'user.everyone'|trans({}, 'messages') | upper }}</strong>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="col-xs-6 border-right">
+                    <strong class="text-gray row">
+                        {{ form_label(form.stateVisibility, 'State',  { 'label_attr': {'class': 'col-xs-12 col-md-12' } } ) }}
+                    </strong>
+                </div>
+                <div class="col-xs-6">
+                    {#{{ form_widget(form.stateVisibility) }}#}
+                    <strong class="text-gray">{{ 'user.everyone'|trans({}, 'messages') | upper }}</strong>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="col-xs-6 border-right">
+                    <strong class="text-gray row">
+                        {{ form_label(form.zipCodeVisibility, 'Zip Code',  { 'label_attr': {'class': 'col-xs-12 col-md-12' } } ) }}
+                    </strong>
+                </div>
+                <div class="col-xs-6">
+                    {#{{ form_widget(form.zipCodeVisibility) }}#}
+                    <strong class="text-gray">{{ 'user.everyone'|trans({}, 'messages') | upper }}</strong>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="col-xs-6 border-right">
+                    <strong class="text-gray row">
+                        {{ form_label(form.countryVisibility, 'Country',  { 'label_attr': {'class': 'col-xs-12 col-md-12' } } ) }}
+                    </strong>
+                </div>
+                <div class="col-xs-6">
+                    {#{{ form_widget(form.countryVisibility) }}#}
+                    <strong class="text-gray">{{ 'user.everyone'|trans({}, 'messages') | upper }}</strong>
+                </div>
+            </div>
+            <hr/>
+
+        </div>
+
+
+
+        <div class="form-style">
+
+            <div class="row">
+                <p class="col-xs-6 text-white border-right">{{ 'user.about_me'|trans({}, 'messages') | capitalize }}</p>
+                <p class="col-xs-6 text-white">{{ 'user.visibility'|trans({}, 'messages') | capitalize }}</p>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6 border-right">
+                    <strong class="text-gray">{{ 'user.my_summary'|trans({}, 'messages') | capitalize }}</strong>
+                </div>
+                <div class="col-xs-6">
+                    <strong class="text-gray">{{ 'user.everyone'|trans({}, 'messages') | upper }}</strong>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="col-xs-6 border-right">
+                    <strong class="text-gray row">
+                        {{ form_label(form.craziestOutdoorAdventureVisibility, 'user.craziest_outdoor'|trans({}, 'messages'),  { 'label_attr': {'class': 'col-xs-12 col-md-12' } } ) }}
+                    </strong>
+                </div>
+                <div class="col-xs-6">
+                    {#{{ form_widget(form.craziestOutdoorAdventureVisibility) }}#}
+                    <strong class="text-gray">{{ 'user.everyone'|trans({}, 'messages') | upper }}</strong>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="col-xs-6 border-right">
+                    <strong class="text-gray row">
+                        {{ form_label(form.favoriteOutdoorActivityVisibility, 'user.favorite_outdoor'|trans({}, 'messages'),  { 'label_attr': {'class': 'col-xs-12 col-md-12' } } ) }}
+                    </strong>
+                </div>
+                <div class="col-xs-6">
+                    {#{{ form_widget(form.favoriteOutdoorActivityVisibility) }}#}
+                    <strong class="text-gray">{{ 'user.everyone'|trans({}, 'messages') | upper }}</strong>
+
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="col-xs-6 border-right">
+                    <strong class="text-gray row">
+                        {{ form_label(form.likeTryTomorrowVisibility, 'user.like_try_second'|trans({}, 'messages'),  { 'label_attr': {'class': 'col-xs-12 col-md-12' } } ) }}
+                    </strong>
+                </div>
+                <div class="col-xs-6">
+                    {#{{ form_widget(form.likeTryTomorrowVisibility) }}#}
+                    <strong class="text-gray">{{ 'user.everyone'|trans({}, 'messages') | upper }}</strong>
+                </div>
+            </div>
+            <hr/>
+
+        </div>
+
+
+        <div class="form-style">
+
+            <div class="row">
+                <p class="col-xs-6 text-white border-right">{{ 'user.my_activity'|trans({}, 'messages') | capitalize }}</p>
+                <p class="col-xs-6 text-white">{{ 'user.visibility'|trans({}, 'messages') | capitalize }}</p>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6 border-right">
+                    <strong class="text-gray">{{ 'user.favorite_summer'|trans({}, 'messages') | capitalize }}</strong>
+                </div>
+                <div class="col-xs-6">
+                    <strong class="text-gray">{{ 'user.everyone'|trans({}, 'messages') | upper }}</strong>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="col-xs-6 border-right">
+                    <strong class="text-gray">{{ 'user.areas'|trans({}, 'messages') | capitalize }}</strong>
+                </div>
+                <div class="col-xs-6">
+                    <strong class="text-gray">{{ 'user.everyone'|trans({}, 'messages') | upper }}</strong>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="col-xs-6 border-right">
+                    <strong class="text-gray">{{ 'user.favorite_winter'|trans({}, 'messages') | capitalize }}</strong>
+                </div>
+                <div class="col-xs-6">
+                    <strong class="text-gray"> {{ 'user.everyone'|trans({}, 'messages') | upper }}</strong>
+                </div>
+            </div>
+            <hr/>
+
+        </div>
+
+        {#<div class="text-right">#}
+            {#<input type="submit" value="Save Settings" class="btn btn-blue">#}
+        {#</div>#}
+
+        {#{{ form_end(form) }}#}
+    {#</form>#}
+<br />
+
+{% endblock %}

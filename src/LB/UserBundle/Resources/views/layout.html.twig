@@ -1,0 +1,19 @@
+{% extends "::base.html.twig" %}
+
+{% block AngularApp %} <html data-ng-app="user"> {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts output='js/lbuser_layout.js'
+        'app/bower_components/angular-resource/angular-resource.min.js'
+        'app/bower_components/ngImgCrop/compile/minified/ng-img-crop.js'
+        'app/bower_components/dropzone/downloads/dropzone.min.js'
+        'app/scripts/Google/Google.js'
+        'bundles/lbuser/js/angular/user.js'
+        %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&v=3&key={{ google_browser_api_key }}" type="text/javascript"></script>
+{% endblock %}

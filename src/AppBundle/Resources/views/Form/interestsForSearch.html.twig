@@ -1,0 +1,44 @@
+
+{% block interests_widget %}
+    {% set selected = form.parent.vars.value.interests %}
+
+      {% for key, interestGroup in form.vars.interestGroups %}
+          {% if interestGroup.name != "Areas I ski/ride most" %}
+                <div class="form-group">
+                    <select class="form-control interest-select interest-select{{ key }}"
+                            data-placeholder="{{ interestGroup.name }}"
+                            data-init="{{ selected|json_encode }}"
+                            multiple="multiple">
+                        {% for interest in interestGroup.interest %}
+                            <option {% if interest.id in selected  %} selected {% endif %} value="{{ interest.id }}">{{ interest.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+        {% else %}
+            <div class="form-group">
+
+                {% set areaAndSki = generateAreAndSki(interestGroup) %}
+
+                <select class="ski-and-riding-responsive form-control interest-select"  multiple="multiple"
+                        data-init="{{ selected|json_encode }}"
+                        data-placeholder="{{ interestGroup.name }}">
+                    {% for group, interest in areaAndSki %}
+                        {% if interest.image is defined %}
+                        <optgroup label="{{ group }}" data-image="{{ interest.image }}">
+                        {% endif %}
+                        {% if interest.interests is defined%}
+                            {% for id, interestName in interest.interests %}
+                                <option {% if id in selected  %} selected {% endif %} value="{{ id }}">{{ interestName }}</option>
+                            {% endfor %}
+                        {% endif %}
+                        {% if interest.image is defined %}
+                        </optgroup>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+

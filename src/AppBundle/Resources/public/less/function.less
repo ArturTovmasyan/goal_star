@@ -1,0 +1,36 @@
+/* radius functions */
+.rounded-corners(@radius: 50%) {
+  border-radius: @radius;
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  -ms-border-radius: @radius;
+  -o-border-radius: @radius;
+}
+
+.transition(@ms: 600ms) {
+  transition: all @ms;
+  -webkit-transition: all @ms;
+  -moz-transition: all @ms;
+  -ms-transition: all @ms;
+  -o-transition: all @ms;
+}
+
+.box-shadow(@h_shadow: 1px, @v_shadow: 1px, @blur: 4px, @color: #cccccc) {
+  -moz-box-shadow: @h_shadow @v_shadow @blur @color;
+  -webkit-box-shadow: @h_shadow @v_shadow @blur @color;
+  box-shadow: @h_shadow @v_shadow @blur @color;
+}
+
+.box-shadow-input(@h_shadow: 0, @v_shadow: 0, @blur: 7px, @color: #c5c5c5) {
+  -moz-box-shadow: @h_shadow @v_shadow @blur @color;
+  -webkit-box-shadow: @h_shadow @v_shadow @blur @color;
+  box-shadow: @h_shadow @v_shadow @blur @color;
+}
+
+.blur{
+  -webkit-filter: blur(20px);
+  -moz-filter: blur(20px);
+  -o-filter: blur(20px);
+  -ms-filter: blur(20px);
+  filter: blur(20px);
+}

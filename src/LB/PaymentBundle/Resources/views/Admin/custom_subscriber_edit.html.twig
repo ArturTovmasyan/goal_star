@@ -1,0 +1,99 @@
+{% extends base_template %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="{{ asset('app/bower_components/jquery/dist/jquery.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('app/bower_components/select2/dist/js/select2.min.js') }}"></script>
+    <link href="{{ asset('app/bower_components/select2/dist/css/select2.min.css')  }}" rel="stylesheet" />
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="hidden-xs"><a href="{{ url('sonata_admin_dashboard') }}">{% trans %}Dashboard{% endtrans %}</a></li>
+    <li class="active hidden-xs">Custom Subscriber</li>
+{% endblock %}
+
+
+{% block content %}
+
+    <style>
+        input[type=date] {
+            line-height: 24px !important;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12 ">
+                <div class="box box-success">
+                    <div class="box-header">
+                        <h4 class="box-title">
+                            Custom Subscriber
+                        </h4>
+                    </div>
+                    <div class="box-body">
+                        <div class="sonata-ba-collapsed-fields">
+                            <form action="#" method="post">
+
+                                {% for child in form %}
+                                    <div class="form-group">
+
+                                        {% if child.vars.name  != '_token' %}
+                                            {{ form_label(child) }}
+                                        {% endif %}
+
+                                        <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                                            {{ form_widget(child) }}
+                                        </div>
+                                        {{ form_errors(child) }}
+                                    </div>
+
+                                {% endfor %}
+                                <input type="submit" name="submit" class="btn btn-primary" value="Save">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var prefix = (window.location.pathname.indexOf('app_dev.php') === -1) ? "/" : "/app_dev.php/";
+        $(".custom-subscriber-user").select2({
+            ajax: {
+                url: prefix + "api/v1.0/user/search",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        q: params // search term
+                    };
+                },
+                results: function (data) {
+                    return data;
+                },
+                cache: true
+            },
+            minimumInputLength: 3
+        });
+
+        $(".custom-subscriber-subscribe").select2({
+            ajax: {
+                url: prefix + "api/v1.0/payment/search",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        q: params // search term
+                    };
+                },
+                results: function (data) {
+                    return data;
+                },
+                cache: true
+            },
+            minimumInputLength: 3
+        });
+    </script>
+
+{% endblock %}

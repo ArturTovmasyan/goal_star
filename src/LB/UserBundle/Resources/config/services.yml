@@ -1,0 +1,81 @@
+#<?xml version="1.0" ?>
+#
+#<container xmlns="http://symfony.com/schema/dic/services"
+#    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+#    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+#
+#    <services>
+#        <service id="lp_hwi_oauth.user.provider" class="LB\UserBundle\Provider\FOSUBUserProvider">
+#            <argument type="service" id="fos_user.user_manager" />
+#            <!--<argument>plain_value</argument>-->
+#             <!--<argument>fos_user.user_manager</argument>-->
+#            <!--<argument>{facebook: facebook_id, google: google_id}</argument>-->
+#            <argument key="facebook">facebook_id</argument>
+#        </service>
+#    </services>
+#</container>
+
+
+parameters:
+    lb_user_provider.class: LB\UserBundle\Provider\FOSUBUserProvider
+
+services:
+    lp_hwi_oauth.user.provider:
+        class: "%lb_user_provider.class%"
+        arguments: [@fos_user.user_manager,{facebook: facebook_id}, @service_container]
+
+    lb_user.form.registration:
+        class: LB\UserBundle\Form\RegistrationType
+        tags:
+            - { name: form.type, alias: lb_user_registration }
+        arguments: [@service_container]
+
+    lb_user.form.profile:
+        class: LB\UserBundle\Form\ProfileBaseFormType
+        tags:
+            - { name: form.type, alias: lb_user_profile }
+
+    lb.twig_extension:
+            class: LB\UserBundle\Twig\TwigExtension
+            public: false
+            tags:
+                - { name: twig.extension }
+            arguments: [@service_container]
+
+    lb_user.form.handler.registration:
+        class: LB\UserBundle\Form\Handler\RegistrationFormHandler
+        scope: request
+        arguments: [@fos_user.registration.form, @request, @fos_user.user_manager, @fos_user.mailer, @fos_user.util.token_generator, @service_container]
+
+    authentication_handler:
+        class: LB\UserBundle\Handler\AuthenticationHandler
+        arguments:
+            container: "@service_container"
+
+    lb_user_api_authenticator:
+        class: LB\UserBundle\Security\ApiKeyAuthenticator
+
+    lb_user_api_provider:
+        class: LB\UserBundle\Provider\ApiKeyUserProvider
+        arguments: [@doctrine.orm.entity_manager]
+
+    lb.user.admin.user:
+        class: LB\UserBundle\Admin\UserAdmin
+        arguments: [~, LB\UserBundle\Entity\User, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: User, label: User}
+
+
+    lb.doctrine.file_listener:
+        class: LB\UserBundle\EventListener\FileListener
+        arguments:  [@service_container]
+        tags:
+        - { name: doctrine.event_listener, event: postLoad }
+
+    lb.fb.service:
+        class: LB\UserBundle\Services\FbService
+        arguments: [@doctrine.orm.entity_manager, %facebook_client_id%, %facebook_client_secret%]
+
+    lb.one_all.service:
+        class: LB\UserBundle\Services\OneAllService
+        arguments: [%oneall_site_public_key%, %oneall_site_private_key%, %oneall_site_subdomain%]

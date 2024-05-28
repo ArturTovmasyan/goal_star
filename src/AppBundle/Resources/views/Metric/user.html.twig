@@ -1,0 +1,458 @@
+<form action="#" method="post">
+    <div class="row">
+        <div class="col-sm-9">
+
+            <div class="row" data-ng-cloak>
+                <div class="col-sm-3" title="City">
+                    <label for="city">
+                        City
+                    </label>
+                    <select name="location" class="form-control" id="city">
+                        {% for location in locations %}
+                            <option value="{{ location }}" {% if selectedLocation == location %} selected {% endif %}>{{ location }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-sm-3" title="Distance">
+                    <label for="distance">
+                        Distance
+                    </label>
+                    <input name="distance" class="form-control" value="{{ distance }}" type="number" id="distance"/>
+                </div>
+
+                <div class="col-sm-3" title="Top Users Count">
+                    <label for="top-count">
+                        Top Users Count
+                    </label>
+                    <input name="count" class="form-control" value="{{ count }}" type="number" min="1" max="100" id="top-count"/>
+                </div>
+
+                <div class="col-sm-3" title="Top Users Type" data-ng-init="type={% if selectedType %} '{{ selectedType }}'{% else %} 'messages'{% endif %}">
+                    <label for="top-type">
+                        Top Users Type
+                    </label>
+                    <select name="type" class="form-control top-by-select" id="top-type">
+                        <option value="messages" {% if selectedType == 'messages' %} selected {% endif %}>Based on Messages </option>
+                        <option value="likes" {% if selectedType == 'likes' %} selected {% endif %}>Based on Likes </option>
+                        <option value="favorite" {% if selectedType == 'favorite' %} selected {% endif %}>Based on Favorite </option>
+                        <option value="visitor" {% if selectedType == 'visitor' %} selected {% endif %}>Based on Visit </option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <label for="gender-type">
+                Gender
+            </label>
+            <select name="gender" class="form-control gender-by-select" id="gender-type" data-ng-init="gender={% if selectedGender %} '{{ selectedGender }}'{% else %} 'all'{% endif %}">
+                <option value="all" {% if selectedGender == 'man' %} selected {% endif %}>All </option>
+                <option value="man" {% if selectedGender == 'man' %} selected {% endif %}>Man </option>
+                <option value="women" {% if selectedGender == 'women' %} selected {% endif %}>Women </option>
+            </select>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <input type="submit" name="submitUser" class="btn btn-primary" value="Filter">
+            <input type="submit" name="cancel" class="btn btn-default" value="Clear">
+        </div>
+    </div>
+</form>
+
+{% if relationStatistic.manMessengers is defined %}
+    <div data-ng-show="type == 'messages' && gender != 'women'" data-ng-cloak>
+        <hr />
+
+        <div class="container">
+            <h3>Most active Men based on Messages</h3>
+            <table class="table table-bordered table-responsive table-striped">
+                <thead>
+                <tr>
+                    <th>uId</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>Count</th>
+                    <th>Activity</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for manMessenger in relationStatistic.manMessengers %}
+                    <tr>
+                        <td>
+                            <a href="{{ app.debug ? '/app_dev.php':'' }}/member/{{ manMessenger.uId }}" title="User Page">{{ manMessenger.uId }}</a>
+                        </td>
+                        <td>{{ manMessenger.firstName }}</td>
+                        <td>{{ manMessenger.lastName }}</td>
+                        <td>{{ manMessenger.email }}</td>
+                        <td>{{ manMessenger.city }}</td>
+                        <td>{{ manMessenger.m_cnt }}</td>
+                        <td>{{ manMessenger.activity |date('Y-m-d')}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
+
+{% if relationStatistic.womanMessengers is defined %}
+    <div data-ng-show="type == 'messages' && gender != 'man'" data-ng-cloak>
+        <hr />
+
+        <div class="container">
+            <h3>Most active Women based on Messages</h3>
+            <table class="table table-bordered table-responsive table-striped">
+                <thead>
+                <tr>
+                    <th>uId</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>Count</th>
+                    <th>Activity</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for womanMessenger in relationStatistic.womanMessengers %}
+                    <tr>
+                        <td>
+                            <a href="{{ app.debug ? '/app_dev.php':'' }}/member/{{ womanMessenger.uId }}" title="User Page">{{ womanMessenger.uId }}</a>
+                        </td>
+                        <td>{{ womanMessenger.firstName }}</td>
+                        <td>{{ womanMessenger.lastName }}</td>
+                        <td>{{ womanMessenger.email }}</td>
+                        <td>{{ womanMessenger.city }}</td>
+                        <td>{{ womanMessenger.m_cnt }}</td>
+                        <td>{{ womanMessenger.activity |date('Y-m-d') }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
+{% if relationStatistic.manLikes is defined %}
+    <div data-ng-show="type == 'likes' && gender != 'women'" data-ng-cloak>
+        <hr />
+
+        <div class="container">
+            <h3>Most active Men based on Likes</h3>
+            <table class="table table-bordered table-responsive table-striped">
+                <thead>
+                <tr>
+                    <th>uId</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>Count</th>
+                    <th>Activity</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for man in relationStatistic.manLikes %}
+                    <tr>
+                        <td><a href="{{ app.debug ? '/app_dev.php':'' }}/member/{{ man.uId }}" title="User Page">{{ man.uId }}</a></td>
+                        <td>{{ man.firstName }}</td>
+                        <td>{{ man.lastName }}</td>
+                        <td>{{ man.email }}</td>
+                        <td>{{ man.city }}</td>
+                        <td>{{ man.l_cnt }}</td>
+                        <td>{{ man.activity |date('Y-m-d')}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
+{% if relationStatistic.womanLikes is defined %}
+    <div data-ng-show="type == 'likes' && gender != 'man'" data-ng-cloak>
+        <hr />
+
+        <div class="container">
+            <h3>Most active Women based on Likes</h3>
+            <table class="table table-bordered table-responsive table-striped">
+                <thead>
+                <tr>
+                    <th>uId</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>Count</th>
+                    <th>Activity</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for woman in relationStatistic.womanLikes %}
+                    <tr>
+                        <td><a href="{{ app.debug ? '/app_dev.php':'' }}/member/{{ woman.uId }}" title="User Page">{{ woman.uId }}</a></td>
+                        <td>{{ woman.firstName }}</td>
+                        <td>{{ woman.lastName }}</td>
+                        <td>{{ woman.email }}</td>
+                        <td>{{ woman.city }}</td>
+                        <td>{{ woman.l_cnt }}</td>
+                        <td>{{ woman.activity |date('Y-m-d')}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
+
+{% if relationStatistic.manFavorite is defined %}
+    <div data-ng-show="type == 'favorite' && gender != 'women'" data-ng-cloak>
+        <hr />
+
+        <div class="container">
+            <h3>Most active Men based on Favorite</h3>
+            <table class="table table-bordered table-responsive table-striped">
+                <thead>
+                <tr>
+                    <th>uId</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>Count</th>
+                    <th>Activity</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for man in relationStatistic.manFavorite %}
+                    <tr>
+                        <td><a href="{{ app.debug ? '/app_dev.php':'' }}/member/{{ man.uId }}" title="User Page">{{ man.uId }}</a></td>
+                        <td>{{ man.firstName }}</td>
+                        <td>{{ man.lastName }}</td>
+                        <td>{{ man.email }}</td>
+                        <td>{{ man.city }}</td>
+                        <td>{{ man.cnt }}</td>
+                        <td>{{ man.activity |date('Y-m-d')}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
+{% if relationStatistic.womanFavorite is defined %}
+    <div data-ng-show="type == 'favorite' && gender != 'man'" data-ng-cloak>
+        <hr />
+
+        <div class="container">
+            <h3>Most active Women based on Favorite</h3>
+            <table class="table table-bordered table-responsive table-striped">
+                <thead>
+                <tr>
+                    <th>uId</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>Count</th>
+                    <th>Activity</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for woman in relationStatistic.womanFavorite %}
+                    <tr>
+                        <td><a href="{{ app.debug ? '/app_dev.php':'' }}/member/{{ woman.uId }}" title="User Page">{{ woman.uId }}</a></td>
+                        <td>{{ woman.firstName }}</td>
+                        <td>{{ woman.lastName }}</td>
+                        <td>{{ woman.email }}</td>
+                        <td>{{ woman.city }}</td>
+                        <td>{{ woman.cnt }}</td>
+                        <td>{{ woman.activity |date('Y-m-d')}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
+
+{% if relationStatistic.manVisitor is defined %}
+    <div data-ng-show="type == 'visitor' && gender != 'women'" data-ng-cloak>
+        <hr />
+
+        <div class="container">
+            <h3>Most active Men based on Visit</h3>
+            <table class="table table-bordered table-responsive table-striped">
+                <thead>
+                <tr>
+                    <th>uId</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>Count</th>
+                    <th>Activity</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for man in relationStatistic.manVisitor %}
+                    <tr>
+                        <td><a href="{{ app.debug ? '/app_dev.php':'' }}/member/{{ man.uId }}" title="User Page">{{ man.uId }}</a></td>
+                        <td>{{ man.firstName }}</td>
+                        <td>{{ man.lastName }}</td>
+                        <td>{{ man.email }}</td>
+                        <td>{{ man.city }}</td>
+                        <td>{{ man.cnt }}</td>
+                        <td>{{ man.activity |date('Y-m-d')}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
+
+{% if relationStatistic.womanVisitor is defined %}
+    <div data-ng-show="type == 'visitor' && gender != 'man'" data-ng-cloak>
+        <hr />
+
+        <div class="container">
+            <h3>Most active Women based on Visit</h3>
+            <table class="table table-bordered table-responsive table-striped">
+                <thead>
+                <tr>
+                    <th>uId</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>Count</th>
+                    <th>activity</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for woman in relationStatistic.womanVisitor %}
+                    <tr>
+                        <td><a href="{{ app.debug ? '/app_dev.php':'' }}/member/{{ woman.uId }}" title="User Page">{{ woman.uId }}</a></td>
+                        <td>{{ woman.firstName }}</td>
+                        <td>{{ woman.lastName }}</td>
+                        <td>{{ woman.email }}</td>
+                        <td>{{ woman.city }}</td>
+                        <td>{{ woman.cnt }}</td>
+                        <td>{{ woman.activity|date('Y-m-d') }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
+<hr /><br />
+
+<div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+        <div class="row">
+            <div class="col-sm-6">
+                <div id="genderChart">&nbsp;</div>
+            </div>
+            <div class="col-sm-6">
+                <div id="interestChart" data-ng-show="gender == 'all'">&nbsp;</div>
+                <div id="interestManChart" data-ng-show="gender == 'man'">&nbsp;</div>
+                <div id="interestWomenChart" data-ng-show="gender == 'women'">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{#<div id="genderChart">&nbsp;</div>#}
+
+{#<div id="interestChart">&nbsp;</div>#}
+<br /><br />
+
+<div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+        <div class="row">
+            <div class="col-sm-6">
+                <div id="ageChart" data-ng-show="gender == 'all'">&nbsp;</div>
+                <div id="ageManChart" data-ng-show="gender == 'man'">&nbsp;</div>
+                <div id="ageWomenChart" data-ng-show="gender == 'women'">&nbsp;</div>
+            </div>
+            <div class="col-sm-6">
+                <div id="paidChart" data-ng-show="gender == 'all'">&nbsp;</div>
+                <div id="paidManChart" data-ng-show="gender == 'man'">&nbsp;</div>
+                <div id="paidWomenChart" data-ng-show="gender == 'women'">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</div>
+{#<div id="ageChart">&nbsp;</div>#}
+{#<br /><br />#}
+
+{#<div id="paidChart">&nbsp;</div>#}
+<br /><br />
+
+<div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+        <div class="row">
+            <div class="col-sm-6">
+                <div id="registerChart" data-ng-show="gender == 'all'">&nbsp;</div>
+                <div id="registerManChart" data-ng-show="gender == 'man'">&nbsp;</div>
+                <div id="registerWomenChart" data-ng-show="gender == 'women'">&nbsp;</div>
+            </div>
+            <div class="col-sm-6">
+                <div id="deviceChart" data-ng-show="gender == 'all'">&nbsp;</div>
+                <div id="deviceManChart" data-ng-show="gender == 'man'">&nbsp;</div>
+                <div id="deviceWomenChart" data-ng-show="gender == 'women'">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</div>
+<br /><br />
+<div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="paymentChart" data-ng-show="gender == 'all'">&nbsp;</div>
+                <div id="paymentManChart" data-ng-show="gender == 'man'">&nbsp;</div>
+                <div id="paymentWomenChart" data-ng-show="gender == 'women'">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{#<div id="registerChart">&nbsp;</div>#}
+{#<br /><br />#}
+
+{#<div id="deviceChart">&nbsp;</div>#}
+<br /><br />
+
+<script type="text/javascript">
+    {{ chart(relationStatistic.genderChart) }}
+
+    {{ chart(relationStatistic.interestChart) }}
+    {{ chart(relationStatistic.interestManChart) }}
+    {{ chart(relationStatistic.interestWomenChart) }}
+
+    {{ chart(relationStatistic.ageChart) }}
+    {{ chart(relationStatistic.ageManChart) }}
+    {{ chart(relationStatistic.ageWomenChart) }}
+
+    {{ chart(relationStatistic.paidChart) }}
+    {{ chart(relationStatistic.paidManChart) }}
+    {{ chart(relationStatistic.paidWomenChart) }}
+
+    {{ chart(relationStatistic.registerChart) }}
+    {{ chart(relationStatistic.registerManChart) }}
+    {{ chart(relationStatistic.registerWomenChart) }}
+
+    {{ chart(relationStatistic.deviceChart) }}
+    {{ chart(relationStatistic.deviceManChart) }}
+    {{ chart(relationStatistic.deviceWomenChart) }}
+
+    {{ chart(relationStatistic.paymentChart) }}
+    {{ chart(relationStatistic.paymentManChart) }}
+    {{ chart(relationStatistic.paymentWomenChart) }}
+</script>

@@ -1,0 +1,15 @@
+{
+  "rest": {
+    "hostname":   "luvbyrd.laravelsoft.com",
+    "userIdPath": "/api/v1.0/message/user/id",
+    "statusPath": "/api/v1.0/users/{user}/statuses/{status}",
+    "emailNotification": "/api/v1.0/messages/{userId}/email",
+    "pushNotification": "/api/v1.0/messages/{userId}/push"
+  },
+  "socket": {
+    "port": 8443,
+    "secure": true,
+    "rejectUnauthorized": false
+  },
+  "ssl": {}
+}

@@ -1,0 +1,46 @@
+{% block location_type_widget %}
+{% set route = app.request.get('_route') %}
+
+    <div data-ng-app="Ads" data-ng-controller="AdsGeoController">
+
+        <input type="text"
+               data-google-places-autocomplete
+               data-place="place"
+               class="form-control"
+               {% if route == "admin_lsoft_ad_ad_edit" or route == "admin_lsoft_ad_ad_create"%}
+                   data-types="['(cities)']"
+                   data-ng-init="isAddManager = true"
+                {% if form.parent.vars.value %}
+                    value="{{ form.parent.vars.value.city }}"
+                {% endif %}
+               {% endif %}
+                {% if route == "admin_app_event_create" or route == "admin_app_event_edit" %}
+                    data-ng-init="isEventManager = true;markersClickable = false{% if form.parent.vars.value and form.parent.vars.value.city %};initEventLocation({{ form.parent.vars.value.cityLat }},{{ form.parent.vars.value.cityLng }},'{{ form.parent.vars.value.city }}')"
+                    value="{{ form.parent.vars.value.city }}
+                    {% endif %}
+                    "
+                {% endif %}
+               style="margin-bottom:5px"/>
+
+        {% if route != "admin_lsoft_ad_ad_edit" and route != 'admin_lsoft_ad_ad_create' %}
+            <div data-simple-map-marker
+                 data-map-click="markersClickable"
+                 data-init-markers="{{ form.parent.vars.value.getLocationsJson|default('') }}"
+                 data-storage="markersStorage"
+                 class="map"
+                 style="width: 100%; height: 400px">
+            </div>
+        {% endif %}
+
+        <input id="{{ form.vars.id }}" name="{{ full_name }}" type="hidden" class="markers-storage" value="[[ markersStorage | groups ]]">
+    </div>
+
+    <script src="{{ asset('app/bower_components/angular/angular.min.js') }}"></script>
+    <script src="{{ asset('app/scripts/Google/Google.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/angular/ads.js') }}"></script>
+    {% if route == "admin_app_event_create" or route == "admin_app_event_edit" %}
+        <script src="{{ asset('bundles/app/js/event.js') }}"></script>
+    {% endif %}
+
+    {% if route != "admin_lsoft_ad_ad_edit" and route != "admin_lsoft_ad_ad_create" %}<script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&v=3&key={{ google_browser_api_key }}"></script>{% endif %}
+{% endblock location_type_widget %}

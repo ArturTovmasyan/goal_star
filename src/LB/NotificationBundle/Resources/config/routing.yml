@@ -1,0 +1,4 @@
+lb_note:
+    resource: "@LBNotificationBundle/Controller/Rest/NotificationController.php"
+    type:     rest
+

@@ -1,0 +1,134 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% stylesheets output='css/layout.css'
+        'app/bower_components/seiyria-bootstrap-slider/css/bootstrap-slider.css'
+        'app/scripts/bootstrap-offcanvas/doc/css/bootstrap.offcanvas.min.css'
+        'app/bower_components/select2/dist/css/select2.min.css'
+        filter='cssrewrite' %}
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+    <link href="{{ asset('bundles/app/css/dropDown.css') }}" rel="stylesheet">
+    <link href="{{ asset('app/bower_components/dropzone/downloads/css/dropzone.css') }}" rel="stylesheet">
+
+{% endblock %}
+
+{% block header %}
+    {% include 'AppBundle:Blocks:header.html.twig' %}
+{% endblock %}
+
+{% block content %}
+
+    {% set currentUser = app.user %}
+
+    <div id="members">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 col-md-3">
+                    <button type="button" class="navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#menu-offcanvas">
+                        <i></i>
+                        <i style="display: none;right: 0;"></i>
+                    </button>
+
+                    <div class="navbar navbar-offcanvas" role="navigation" id="menu-offcanvas">
+
+                        <div id="left-block">
+                            <div class="row user-information">
+
+                                <div class="col-xs-4 col-md-3">
+                                    <figure class="img-circle">
+                                        <a href="{{ path('profile_view_for_me') }}">
+                                            <img src="{{ currentUser.getProfileImagePath()|lbImageFilter('profile') ~ currentUser.getProfileImageCacheVersion }}" alt="{{  currentUser|show_fullName }}" class="img-responsive"/>
+                                        </a>
+                                    </figure>
+                                </div>
+
+                                {%  set name =  currentUser|show_fullName %}
+
+                                <div class="col-xs-8 col-md-9">
+                                    <a href="{{ path('profile_view_for_me') }}" class="{% if name|length > 20 %}smaller{% endif %}"> {{ name }}</a>
+                                </div>
+
+                            </div>
+                            <hr />
+
+                            {% if is_granted('ROLE_USER') %}
+                                {{ render(controller('LBNotificationBundle:Main:notes', {'routeName' : app.request.attributes.get('_route') })) }}
+                            {% endif %}
+
+                            <hr />
+
+                            {% if is_granted('ROLE_USER') and app.request.attributes.get('_route') == 'members' %}
+
+                                {{ render(controller('AppBundle:Main:search', {'interestId' : app.request.get('interestId') })) }}
+                            {% endif %}
+
+                            {% if mustShowGroupCalendar() %}
+
+                                <div class="calendar">
+                                    {{ 'layout.calendar'|trans({}, 'messages') |capitalize }}
+                                    <span>
+                                    <i class="arrow-down"></i>
+                                </span>
+                                </div>
+                                <div>
+                                    {% block groupCalendar %}{% endblock %}
+                                </div>
+                            {% endif %}
+
+                            {% block leftAd %}
+                            {% endblock %}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-12 col-sm-8 col-md-7 bg-white">
+
+                    {% block center_content %}{% endblock %}
+                </div>
+
+                <div class="col-md-2 hidden-xs hidden-sm">
+                    <div id="right-block">
+
+                        {% block rightAd %}
+                        {% endblock %}
+
+                        {#{% if is_granted('ROLE_USER') and app.request.get("_route")!= 'users_connections' %}#}
+                            {#{{ render(controller('AppBundle:Main:friends')) }}#}
+                        {#{% endif %}#}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts output='js/app_layout.js'
+        'app/bower_components/seiyria-bootstrap-slider/js/bootstrap-slider.js'
+        'app/scripts/bootstrap-offcanvas/doc/js/bootstrap.offcanvas.js'
+        'app/bower_components/select2/dist/js/select2.full.min.js'
+        'app/bower_components/angular-resource/angular-resource.min.js'
+        'app/bower_components/ngImgCrop/compile/minified/ng-img-crop.js'
+        'app/bower_components/dropzone/downloads/dropzone.min.js'
+        'app/scripts/Google/Google.js'
+        'app/bower_components/select2/dist/js/select2.full.min.js'
+        'app/bower_components/angular-strap/dist/angular-strap.min.js'
+        'app/bower_components/angular-strap/dist/angular-strap.tpl.min.js'
+        'bundles/lbuser/js/angular/facebook.js'
+        'bundles/lbuser/js/angular/user.js'
+        %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script src='{{ asset('bundles/app/js/dropDown.js') }}' type="text/javascript"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&v=3&key={{ google_browser_api_key }}" type="text/javascript"></script>
+    <script src='https://www.google.com/recaptcha/api.js' type="text/javascript"></script>
+{% endblock %}
+

@@ -1,0 +1,45 @@
+<div class="row information">
+    <div class="col-xs-6 col-sm-8 overflow">
+        <h1 class="username">{{ name }}</h1>
+    </div>
+    <div class="col-xs-6 col-sm-4">
+        <div class="icons text-right">
+            <ul class="profile-icons">
+                <li>
+                    <a href="{{ path('fos_user_change_password') }}"
+                       data-toggle="tooltip"
+                       data-placement="bottom"
+                       title="settings"
+                       class="fa fa-cog">
+                    </a>
+                </li>
+                <li>
+                    {% if edit is defined and edit is null %}
+                        <a href="{{ path('profile_view_for_me', {'edit' : true }) }}"
+                           data-toggle="tooltip"
+                           data-placement="bottom"
+                           title="edit profile"
+                           class="fa fa-user"
+                           id="profileId">
+                        </a>
+                    {% else %}
+                        <a href="{{ path('profile_view_for_me') }}"
+                           data-toggle="tooltip"
+                           data-placement="bottom"
+                           title="profile"
+                           class="fa fa-user edit-profile">
+                        </a>
+                    {% endif %}
+                </li>
+                <li>
+                    <a href="{{ path('gallery') }}"
+                       data-toggle="tooltip"
+                       data-placement="bottom"
+                       title="gallery"
+                       class="fa fa-th-large">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

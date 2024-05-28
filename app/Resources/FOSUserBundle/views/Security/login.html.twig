@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'meta.title.login'|trans({}, 'messages') }}{% endblock %}
+{% block metaDescription %}{{ 'meta.description.login'|trans({}, 'messages') }}{% endblock %}
+
+{% block AngularApp %} <html> {% endblock %}
+
+{% block body %}
+
+    {% block header %}
+        {% include 'AppBundle:Blocks:header.html.twig' %}
+    {% endblock %}
+
+    <div id="login-container">
+        {% if error is defined and error is not null  %}
+            <div class="text-danger">{{ error|trans({}, 'FOSUserBundle') }}</div>
+        {% endif %}
+
+        <div class="container">
+            <div class="row bg-white">
+                <div class="col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-3">
+
+                    {% block fos_form %}
+                        <h1 class="text-center">{{ 'login.sign_in_to_luvByrd'|trans({}, 'messages') | capitalize }}</h1>
+
+                        <p class="text-center">{{ 'login.text'|trans({}, 'messages') | capitalize }}</p>
+
+                        <form class="form-horizontal" action="{{ path("fos_user_security_check") }}" method="post">
+                            {% for type, messages in app.session.flashBag.all %}
+                                {% for message in messages %}
+                                    <p class="text-red text-center"><i class="fa fa-exclamation-triangle"></i>{{ message|trans({}, 'FOSUserBundle') }}</p>
+                                    {#<p class="text-red text-center error"><i class="fa fa-exclamation-triangle"></i>Error email or password</p>#}
+                                {% endfor %}
+                            {% endfor %}
+                            {#<input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />#}
+                            <div class="form-group row">
+                                <label for="username" class="col-sm-4 control-label">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="username"  name="_username" required="required" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="password" class="col-sm-4 control-label">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
+                                <div class="col-sm-8">
+                                    <input type="password" id="password" class="form-control" name="_password" required="required" autocomplete="off"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-offset-4 col-sm-8">
+                                    <div class="checkbox">
+                                        <label for="remember_me">
+                                            <input type="checkbox" id="remember_me" name="_remember_me" value="on"> {{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-offset-4 col-sm-3">
+                                    <input type="submit" id="_submit" name="_submit" class="btn btn-blue" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
+                                </div>
+
+                                <div class="col-sm-5">
+                                    <a href="{{ path('fos_user_resetting_request') }}">{{ 'login.forget_password'|trans({}, 'messages') | capitalize }}</a>
+                                    <a href="{{ path('fos_user_registration_register') }}"><span class="text-pink">{{ 'login.no_account'|trans({}, 'messages')  }}</span></a>
+                                </div>
+
+                            </div>
+                        </form>
+
+                        <div class="text-center relative">
+                            <span>{{ 'login.or'|trans({}, 'messages') | capitalize }}</span>
+                            <hr/>
+                        </div>
+
+                        <div class="connect-social text-center">
+                            {{ include('HWIOAuthBundle:Connect:login.html.twig' ) }}
+                        </div>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock  %}

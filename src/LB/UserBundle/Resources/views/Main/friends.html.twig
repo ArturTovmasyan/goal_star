@@ -1,0 +1,19 @@
+{% extends "LBUserBundle::layout.html.twig" %}
+
+{% block content %}
+    {{ parent() }}
+
+    {% for relatedUser in relatedUsers %}
+        <div>
+            <strong>{{ relatedUser.firstName }} {{ relatedUser.lastName }}</strong>
+            <img src="{% if relatedUser.profileImage %}{{ relatedUser.profileImage.getWebPath() }}{% endif %}" height="150px" width="150px"/>
+            {% if status == constant('LB\\UserBundle\\Entity\\UserRelation::LIKE') %}
+                <div>
+                    <a href="{{ path('rest_get_user_response', {userId: relatedUser.id, status: constant('LB\\UserBundle\\Entity\\UserRelation::DOUBLE_LIKE')}) }}" >Yes</a>
+                    <a href="{{ path('rest_get_user_response', {userId: relatedUser.id, status: constant('LB\\UserBundle\\Entity\\UserRelation::DENIED_LIKE')}) }}" >No</a>
+                </div>
+            {% endif %}
+
+        </div>
+    {% endfor %}
+{% endblock %}

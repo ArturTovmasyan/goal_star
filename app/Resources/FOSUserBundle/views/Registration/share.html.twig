@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% block header %}
+        {% include 'AppBundle:Blocks:header.html.twig' %}
+    {% endblock %}
+
+    <div id="login-container">
+        <div class="container">
+            <div class="row bg-white">
+                <div class="col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-3">
+                    {#<a href="http://api.addthis.com/oexchange/0.8/offer?url=http://addthis.com" rel="nofollow">this link</a>#}
+                    {#<a href="http://api.addthis.com/oexchange/0.8/forward/facebook/offer?url=http://addthis.com" rel="nofollow">this one</a>#}
+                    {#<!-- Go to www.addthis.com/dashboard to customize your tools -->#}
+                    <div class="addthis_inline_share_toolbox"></div>
+                    {#<a href="http://api.addthis.com/oexchange/0.8/offer?url=http://www.luvbyrd.com&pubid=ra-583d305390ce71e2&ct=1" rel="nofollow">this link</a>#}
+                    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-583d305390ce71e2"></script>
+
+                    <script>
+
+                        var addthis_config = {
+                            data_track_clickback: false
+                        }
+
+                        function shareEventHandler(evt) {
+//                            if (evt.type == 'addthis.user.clickback') {
+
+                                console.log(evt);
+//                                alert(typeof(evt.data)); // evt.data is an object hash containing all event data
+//                                alert(evt.data.service); // evt.data.service is specific to the "addthis.menu.share" event
+//                            }
+                        }
+
+                        // Listen for the share event
+                        addthis.addEventListener('addthis.user.clickback', shareEventHandler);
+                        addthis.addEventListener('addthis.user.clickback', shareEventHandler);
+
+                    </script>
+
+                    {#<div class="oas_box oas_box_btns_lfnm">#}
+                        {#<span class="oas_btn oas_btn_facebook" title="Share On Facebook"></span>#}
+                        {#<span class="oas_btn oas_btn_twitter" title="Share On Twitter"></span>#}
+                        {#<span class="oas_btn oas_btn_google_plus" title="Share On Google"></span>#}
+                        {#<span class="oas_btn oas_btn_linkedin" title="Share On LinkedIn"></span>#}
+                        {#<span class="oas_btn oas_btn_email" title="Share On Email"></span>#}
+                    {#</div>#}
+
+                    {#<script type="text/javascript">#}
+                        {#var oa = document.createElement('script');#}
+                        {#oa.type = 'text/javascript'; oa.async = true;#}
+                        {#oa.src = '//luvbyrd.api.oneall.com/socialize/library.js';#}
+                        {#oa.callback_uri = 'http://0e244ca7.ngrok.io/share';#}
+                        {#var s = document.getElementsByTagName('script')[0];#}
+                        {#s.parentNode.insertBefore(oa, s);#}
+
+                        {#var _oneall = _oneall || [];#}
+                        {#/* Example */#}
+                        {#_oneall.push(['social_link', 'set_callback_uri', 'http://0e244ca7.ngrok.io/share']);#}
+
+                    {#</script>#}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock  %}
+

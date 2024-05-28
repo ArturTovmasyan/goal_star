@@ -1,0 +1,82 @@
+<div class="col-sm-6" data-ng-repeat="group in groups">
+    <a href="{{ app.debug ? '/app_dev.php':'' }}/group/view/[[ group.slug ]]">
+        <figure>
+            <span data-ng-show="group.type" class="ng-hide"></span>
+            <ul>
+                <li>[[ group.event_date|date:'MMM' ]]</li>
+
+                <li>
+                    <strong>[[ group.event_date|date:'dd' ]]</strong>
+                </li>
+
+                <li>[[ group.event_date|date:'yyyy' ]]</li>
+            </ul>
+
+            <img data-ng-src="[[ group.image_cache_path ]]" alt="Group Image" class="img-responsive"/>
+
+            <figcaption>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <h3>[[ group.name | limitTo:57 ]] <bdi data-ng-show="group.name.length > 57" class="ng-hide">...</bdi></h3>
+                        <p>
+                            <i class="fa fa-map-marker"></i>
+                            [[ group.address | limitTo:20 ]]<span data-ng-show="group.address.length > 25" class="ng-hide">...</span>
+                        </p>
+                    </div>
+                    <div class="col-xs-4">
+                        <p class="admin-img">
+                            <img data-ng-src="[[ group.author.image_cache_path ]]" alt="Admin Image" class="img-circle img-responsive"/>
+                            <span>[[ group.author.full_name  ]]</span>
+                        </p>
+                    </div>
+                </div>
+            </figcaption>
+        </figure>
+    </a>
+</div>
+
+<div style="text-align: center;" data-ng-show="membersLoading" class="ng-hide">
+    <img src="{{ asset('bundles/app/images/loading.gif') }}"/>
+</div>
+
+
+<div class="col-sm-12 text-center">
+    <ul class="pagination member-pegination ng-hide" data-ng-show="paginationArray.length > 1" data-ng-cloak>
+        <li>
+            <a href="javascript:void(0)" data-ng-click="pagination(1)" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li data-ng-show="pagination_left_dots" class="ng-hide">
+            <a href="javascript:void(0)">...</a>
+        </li>
+        <li data-ng-class="{active: page == (k + 1)}"
+            data-ng-show="paginationSurrounding(k + 1)"
+            data-ng-repeat="(k, p) in paginationArray track by $index" class="ng-hide">
+            <a href="javascript:void(0)" data-ng-click="pagination(k + 1)">[[ k + 1 ]]</a>
+        </li>
+        <li data-ng-show="pagination_right_dots" class="ng-hide">
+            <a href="javascript:void(0)">...</a>
+        </li>
+        <li>
+            <a href="javascript:void(0)" data-ng-click="pagination(paginationArray.length)" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+<div data-ng-show="groups.length == 0" class="ng-hide">
+    {% set pathName = app.request.attributes.get('_route') %}
+
+    {% if pathName == 'group_list' %} {% set title =  'group.list'|trans({}, 'messages') %}
+        {% elseif pathName == 'group_invite_list' %} {% set title =  'group.invite_list'|trans({}, 'messages') %}
+        {% elseif pathName == 'group_joined_list' %} {% set title =  'group.joined_list'|trans({}, 'messages') %}
+        {% elseif pathName == 'group_hosting_list' %} {% set title =  'group.hosting_list'|trans({}, 'messages') %}
+        {% else %}{% set title = 'There is not any group'  %} {% endif %}
+
+    <h2 class="{% if title |length > 32 %} message-small {% else %} empty-message {% endif %}">
+        {{ title }}
+    </h2>
+</div>

@@ -1,0 +1,24 @@
+<div class="subscribe-item  {% if app.user and app.user.hasSubscribeToPlan(stripeId) %}subscribe-active{% endif %}">
+
+    {% if app.user and (app.user.hasSubscribeToPlan(stripeId) or app.user.hasSubscribeToPlan(constant("LB\\PaymentBundle\\Entity\\Subscriber::UNLIMITED"))) %}
+        <div>
+            <strong>{{ subscriber.name|ucwords }} </strong>
+            <span>{{ ((subscriber.name|ucwords) != 'Unlimited Package') ?subscriber.description: ('subscriber.unlimited'|trans({}, 'messages'))  }}</span>
+            <span>${{ subscriber.amount/100 }}</span>
+        </div>
+    {% else %}
+
+
+        <a class="generateStripe" data-name="{{ subscriber.name }}" data-amount="{{ subscriber.amount }}" data-currency="{{ subscriber.currency }}"
+           data-stripe-id="{{ subscriber.stripeId }}" data-email="{{  app.user ? app.user.email : null }}"
+           href="javascript:void(0)">
+            <strong>{{ subscriber.name|ucwords }} </strong>
+            <span>{{ ((subscriber.name|ucwords) != 'Unlimited Package') ?subscriber.description: ('subscriber.unlimited'|trans({}, 'messages')) }}</span>
+            <span>${{ subscriber.amount/100 }}</span>
+            <br />
+            <input name="coupon" id="{{ subscriber.stripeId }}_coupon" placeholder="Coupon"
+                   onkeypress="pressEnter(event,'{{ subscriber.name }}', '{{ subscriber.amount }}', '{{ subscriber.currency }}', '{{ subscriber.stripeId }}', '{{  app.user ? app.user.email : null }}')"/>
+        </a>
+    {% endif %}
+
+</div>

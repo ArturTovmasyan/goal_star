@@ -1,0 +1,36 @@
+{% extends "::base.html.twig" %}
+
+{% block AngularApp %}
+    <html data-ng-app="blog">
+{% endblock %}
+
+{% block title %}{{ 'meta.title.blog'|trans({}, 'messages') }}{% endblock %}
+{% block metaDescription %}{{ 'meta.description.blog'|trans({}, 'messages') }}{% endblock %}
+
+    {% block header %}
+        {% include 'AppBundle:Blocks:header.html.twig' %}
+    {% endblock %}
+
+    {% block content %}
+
+        <div id="blog">
+            <div class="row">
+                <div class="col-sm-12 col-md-8 col-md-offset-2 bg-white text-center">
+                    {% block center_content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ parent() }}
+
+        {% javascripts output='js/base_blog.js'
+        'app/scripts/Facebook/Facebook.js'
+        'app/scripts/Twitter/Twitter.js'
+        'bundles/app/js/angular/blog.js'
+        %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+{% endblock %}

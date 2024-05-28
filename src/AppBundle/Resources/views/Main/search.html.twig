@@ -1,0 +1,91 @@
+{% form_theme form 'AppBundle:Form:interestsForSearch.html.twig' %}
+
+<h4>{{ 'search.looking_for_a'|trans({}, 'messages') }}</h4>
+
+<form class="gender" action="{{ path('search') }}" data-ng-init="search.interestId={{ interestId|default("''") }}" method="post">
+
+    <div class="checkbox" data-ng-init="search.gender={{ searchData.lookingFor|default("''") }}">
+        <label class="fa fa-mars" data-ng-class="{'text-blue': search.gender == 4 }">
+
+            <input type="radio" name="lookingFor"
+                   data-ng-model="search.gender"
+                   value="4"
+                   >
+            <span>{{ 'search.man'|trans({}, 'messages') | capitalize }}</span>
+
+        </label>
+    </div>
+
+    <div class="checkbox">
+        <label class="fa fa-venus" data-ng-class="{ pink: search.gender == 5 }">
+
+            <input type="radio" name="lookingFor"
+                   data-ng-model="search.gender"
+                   value="5"
+                   >
+            <span>{{ 'search.woman'|trans({}, 'messages') | capitalize }}</span>
+
+        </label>
+    </div>
+
+    <div class="checkbox">
+
+        <label class="fa fa-venus-mars" data-ng-class="{'text-yellow': search.gender == 6 }">
+            <input type="radio"
+                   name="lookingFor"
+                   data-ng-model="search.gender"
+                   value="6">
+            <span>{{ 'search.bisexual'|trans({}, 'messages') | capitalize }}</span>
+
+        </label>
+    </div>
+    <hr />
+
+    <h4>{{ 'search.age'|trans({}, 'messages') | capitalize }}</h4>
+    <br/>
+    <div data-ls-ui-slider data-slider-value="search.age" data-init="[{{ searchData.ageFrom|default(18) }},{{ searchData.ageTo|default(99) }}]"></div>
+
+    <div class="left-form">
+        {{ form_widget(form.interests) }}
+
+        {% set address =  searchData.city.address|default(null) %}
+
+        <div class="form-group city-form clearfix">
+            <div>
+                <input type="text" class="form-control bg-transparent text-white"
+                       data-google-places-autocomplete
+                       data-types="['(cities)']"
+                       data-place="search.city"
+                       data-ng-init="search.city={{ searchData.city|json_encode|default("''") }}"
+                       placeholder="City"
+                       data-ng-keydown="cityChange($event)"
+                       value="{{ address }}"/>
+            </div>
+            <div>
+                <input type="number"
+                       class="form-control bg-transparent text-white"
+                       data-ng-model="search.radius"
+                       data-ng-init="search.radius={{ searchData.distance|default("''") }}"
+                       placeholder="Miles"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group city-form">
+        <div>
+            <input type="text"
+                   class="form-control bg-transparent text-white"
+                   data-ng-model="search.zipCode"
+                   data-ng-init="search.zipCode='{{ searchData.zipCode|default("") }}'"
+                   placeholder="Zip code"/>
+        </div>
+    </div>
+
+    <div class="form-group text-center">
+        <button type="button" data-ng-click="search.interestId=null;searchMembers()" class="btn btn-blue">{{ 'search.search'|trans({}, 'messages') | capitalize }}</button>
+        <button type="reset" data-ng-click="reset()" class="btn btn-blue">{{ 'search.reset'|trans({}, 'messages') | capitalize }}</button>
+    </div>
+
+    {{ form_widget(form._token) }}
+
+</form>

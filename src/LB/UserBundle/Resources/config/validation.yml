@@ -1,0 +1,10 @@
+FOS\UserBundle\Form\Model\ChangePassword:
+    properties:
+        new:
+           - NotBlank:
+              groups: [ChangePassword, ResetPassword]
+              message: fos_user.password.short
+           - Regex:
+              pattern: "/^(?=.*[A-Z])(?=.*\d).*$/"
+              groups: [ChangePassword, ResetPassword]
+              message: fos_user.password.conditions

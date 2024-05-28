@@ -1,0 +1,495 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: adsZone.yml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+    page_count: 12
+    node_path: /usr/local/bin/node
+
+framework:
+    esi:             ~
+    translator:      { fallbacks: ["%locale%"] }
+    secret:          "%secret%"
+    ide: "phpstorm://open?file=%%f&line=%%l"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    #serializer:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        assets_version: v233
+
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+          gc_probability: 0
+          save_path: ~
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    form:
+        resources: ['bootstrap_3_horizontal_layout.html.twig', 'AppBundle:Form:interests.html.twig', 'AppBundle:Form:icon.html.twig', 'AppBundle:Form:location.html.twig', 'AppBundle:Form:form_label.html.twig', 'LSoftAdBundle:Form:ad_file.html.twig', 'SonataCoreBundle:Form:datepicker.html.twig']
+    globals:
+        google_analytics_account_id: %google_analytics_account_id%
+        message_socket_disabled: %message_socket_disabled%
+        show_ads: %show_ads%
+        env_prefix: ~
+        google_browser_api_key: %google_browser_api_key%
+        iframe_host: %iframe_host%
+
+    paths:
+        '%kernel.root_dir%/../web': ~
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ AppBundle, FOSCommentBundle, FOSUserBundle, LBMessageBundle, LBUserBundle ]
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
+        less:
+            node: %node_path%
+            node_paths: [/usr/local/lib/node_modules]
+            apply_to: "\.less$"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+        types:
+              json: Sonata\Doctrine\Types\JsonType
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+        result_cache_driver: apc
+        entity_listener_resolver: lv.listener_resolver
+        dql:
+            datetime_functions:
+                date: Oro\ORM\Query\AST\Functions\SimpleFunction
+                time: Oro\ORM\Query\AST\Functions\SimpleFunction
+                TIMESTAMPDIFF: Oro\ORM\Query\AST\Functions\SimpleFunction
+            numeric_functions:
+                year: Oro\ORM\Query\AST\Functions\SimpleFunction
+                month: Oro\ORM\Query\AST\Functions\SimpleFunction
+                week: Oro\ORM\Query\AST\Functions\SimpleFunction
+                day: Oro\ORM\Query\AST\Functions\SimpleFunction
+                DEGREES: DoctrineExtensions\Query\Mysql\Degrees
+                ACOS: DoctrineExtensions\Query\Mysql\Acos
+                SIN: DoctrineExtensions\Query\Mysql\Sin
+                RADIANS: DoctrineExtensions\Query\Mysql\Radians
+                COS: DoctrineExtensions\Query\Mysql\Cos
+            string_functions:
+                SUBSTRING_INDEX: AppBundle\DQL\SubstringIndex
+        filters:
+                user_deactivate_filter:
+                    class:   LB\UserBundle\DoctrineFilter\UserDeactivateFilter
+                    enabled: true
+                user_block_filter:
+                    class:   LB\UserBundle\DoctrineFilter\UserBlockFilter
+                    enabled: false
+
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    encryption: tls
+    auth_mode:  login
+    port:  587
+    logging:  "%kernel.debug%"
+    #spool:     { type: memory }
+
+
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: LB\UserBundle\Entity\User
+    service:
+        user_manager: app_user_manager
+        mailer: lb_user.custom.mailer
+
+
+    registration:
+        form:
+            type: lb_user_registration
+            handler: lb_user.form.handler.registration
+    profile:
+        form:
+            type: lb_user_profile
+
+    resetting:
+            email:
+                from_email:
+                    address:        info@luvbyrd.com
+                    sender_name:    Luvbyrd
+
+hwi_oauth:
+    firewall_names: [main]
+    fosub:
+        properties:
+            facebook: facebook_id
+    resource_owners:
+        facebook:
+            type:                facebook
+            client_id:           "%facebook_client_id%"
+            client_secret:       "%facebook_client_secret%"
+            scope:               "user_birthday, public_profile, email, user_friends,user_photos"
+            infos_url:           "https://graph.facebook.com/v2.8/me?fields=id,name,email,picture,gender,age_range,birthday,friends"
+            authorization_url:   "https://www.facebook.com/v2.8/dialog/oauth"
+            access_token_url:    "https://graph.facebook.com/v2.8/oauth/access_token"
+            revoke_token_url:    "https://graph.facebook.com/v2.8/me/permissions"
+        twitter:
+            type:                twitter
+            client_id:           "%twitter_client_id%"
+            client_secret:       "%twitter_client_secret%"
+        instagram:
+            type:                instagram
+            client_id:           "%instagram_client_id%"
+            client_secret:       "%instagram_client_secret%"
+
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+
+# add sonata admin raw type
+sonata_doctrine_orm_admin:
+    templates:
+      types:
+        list:
+          raw: AppBundle:Admin:list_raw.html.twig
+
+sonata_admin:
+    security:
+        handler: sonata.admin.security.handler.role
+
+# Check its existing or add
+stof_doctrine_extensions:
+    default_locale: en_EN
+    translation_fallback: false
+    orm:
+        default:
+            timestampable: true
+            sluggable: true
+
+sensio_framework_extra:
+    view:
+        annotations: false
+
+fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
+    view:
+        view_response_listener: true
+    routing_loader:
+        default_format: json
+        include_format: false
+
+lb_message:
+    message_user: LB\UserBundle\Entity\User
+
+fos_comment:
+    db_driver: orm
+    class:
+        model:
+            comment: AppBundle\Entity\Comment
+            thread: AppBundle\Entity\Thread
+    acl: true
+    service:
+        acl:
+            thread: fos_comment.acl.thread.roles
+            comment: fos_comment.acl.comment.roles
+            vote: fos_comment.acl.vote.roles
+        manager:
+            thread: fos_comment.manager.thread.acl
+            comment: fos_comment.manager.comment.acl
+            vote: fos_comment.manager.vote.acl
+    acl_roles:
+        comment:
+            create: ROLE_USER
+            view: IS_AUTHENTICATED_ANONYMOUSLY
+            edit: ROLE_ADMIN
+            delete: ROLE_ADMIN
+        thread:
+            create: IS_AUTHENTICATED_ANONYMOUSLY
+            view: IS_AUTHENTICATED_ANONYMOUSLY
+            edit: ROLE_ADMIN
+            delete: ROLE_ADMIN
+        vote:
+            create: IS_AUTHENTICATED_ANONYMOUSLY
+            view: IS_AUTHENTICATED_ANONYMOUSLY
+            edit: ROLE_ADMIN
+            delete: ROLE_ADMIN
+
+
+#paginatin
+knp_paginator:
+    page_range: 5 # default page range used in pagination control
+    default_options:
+        page_name: page # page query parameter name
+        sort_field_name: sort # sort field query parameter name
+        sort_direction_name: direction # sort direction query parameter name
+        distinct: true # ensure distinct results, useful when ORM queries are using GROUP BY statements
+    template:
+        pagination: KnpPaginatorBundle:Pagination:sliding.html.twig # sliding pagination controls template
+        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
+
+monolog:
+    channels: ["luvbyrd", "stripe", "group", "register", "image"]
+    handlers:
+        luvbyrd:
+            type:  stream
+            path:  "%kernel.logs_dir%/luvbyrd.log"
+            channels: [luvbyrd]
+        stripe:
+            type:  stream
+            path:  "%kernel.logs_dir%/stripe.log"
+            channels: [stripe]
+        image:
+            level: info
+            type:  stream
+            path:  "%kernel.logs_dir%/image.log"
+            channels: [image]
+        group:
+            type:     stream
+            path:  "%kernel.logs_dir%/group.log"
+            channels: [group]
+        register:
+            type:     stream
+            path:  "%kernel.logs_dir%/register.log"
+            channels: [register]
+presta_sitemap:
+    timetolive: 604800
+
+sonata_media:
+    class:
+        media: LB\MediaBundle\Entity\Media
+        gallery: LB\MediaBundle\Entity\Gallery
+        gallery_has_media: LB\MediaBundle\Entity\GalleryHasMedia
+    default_context: list
+    db_driver: doctrine_orm # or doctrine_mongodb, doctrine_phpcr
+    contexts:
+        default:  # the default context is mandatory
+            providers:
+                - sonata.media.provider.dailymotion
+                - sonata.media.provider.youtube
+                - sonata.media.provider.image
+                - sonata.media.provider.file
+
+            formats: ~
+        list:
+            providers:
+                - sonata.media.provider.image
+            formats:
+                  big:   { width: 640 , quality: 70}
+    cdn:
+        server:
+            path: /uploads/media # http://media.sonata-project.org/
+
+    filesystem:
+        local:
+            directory:  %kernel.root_dir%/../web/uploads/media
+            create:     false
+
+ivory_ck_editor:
+    default_config: default
+    configs:
+        default:
+            filebrowserBrowseRoute: admin_lb_media_media_browser
+            filebrowserImageBrowseRoute: admin_lb_media_media_browser
+            # Display images by default when clicking the image dialog browse button
+            filebrowserImageBrowseRouteParameters:
+                provider: sonata.media.provider.image
+            filebrowserUploadRoute: admin_lb_media_media_upload
+            filebrowserUploadRouteParameters:
+                provider: sonata.media.provider.file
+            # Upload file as image when sending a file from the image dialog
+            filebrowserImageUploadRoute: admin_lb_media_media_upload
+            filebrowserImageUploadRouteParameters:
+                provider: sonata.media.provider.image
+                context: list # Optional, to upload in a custom context
+
+liip_imagine:
+    resolvers:
+       default:
+          web_path: ~
+
+    filter_sets:
+        cache: ~
+        single_thumb:
+            quality: 100
+            filters:
+                thumbnail: { size: [82, 82], mode: outbound }
+            post_processors:
+               opt_post_processor: {}
+        single_big:
+            quality: 100
+            filters:
+              thumbnail: { size: [570, 590], mode: inset, allow_upscale: false }
+            post_processors:
+              opt_post_processor: {}
+
+        top_members:
+            quality: 100
+            filters:
+              thumbnail: { size: [100, 100], mode: outbound }
+            post_processors:
+              opt_post_processor: {}
+        groups:
+            quality: 100
+            filters:
+              thumbnail: { size: [312, 175], mode: outbound }
+            post_processors:
+              opt_post_processor: {}
+        group_single:
+            quality: 100
+            filters:
+              thumbnail: { size: [400, 600], mode: inset, allow_upscale: false }
+            post_processors:
+              opt_post_processor: {}
+        groups_author:
+            quality: 100
+            filters:
+              thumbnail: { size: [60, 60], mode: outbound }
+            post_processors:
+              opt_post_processor: {}
+        comment:
+            quality: 100
+            filters:
+              thumbnail: { size: [83, 83], mode: outbound }
+            post_processors:
+              opt_post_processor: {}
+        profile:
+            quality: 100
+            filters:
+              thumbnail: { size: [60, 60], mode: outbound }
+            post_processors:
+              opt_post_processor: {}
+        box:
+            quality: 100
+            filters:
+              thumbnail: { size: [198, 200], mode: outbound }
+            post_processors:
+              opt_post_processor: {}
+        friends:
+            quality: 100
+            filters:
+              thumbnail: { size: [25, 25], mode: outbound }
+            post_processors:
+              opt_post_processor: {}
+        members:
+            quality: 100
+            filters:
+              thumbnail: { size: [160, 160], mode: outbound }
+            post_processors:
+              opt_post_processor: {}
+        gallery:
+            quality: 100
+            filters:
+              thumbnail: { size: [220, 220], mode: inset, allow_upscale: false }
+            post_processors:
+              opt_post_processor: {}
+        member_sliding:
+           quality: 100
+           filters:
+              thumbnail: { size: [550, 430], mode: inset, allow_upscale: false }
+           post_processors:
+              opt_post_processor: {}
+        homepage_group:
+           quality: 100
+           filters:
+              thumbnail: { size: [300, 210], mode: inset, allow_upscale: false }
+           post_processors:
+              opt_post_processor: {}
+        blog_image:
+           quality: 100
+           filters:
+              thumbnail: { size: [510, 270], mode: inset, allow_upscale: false }
+           post_processors:
+              opt_post_processor: {}
+        mobile:
+           quality: 100
+           filters:
+              thumbnail: { size: [400, 400], mode: inset, allow_upscale: false }
+           post_processors:
+              opt_post_processor: {}
+        mobile_list:
+           quality: 100
+           filters:
+              thumbnail: { size: [100, 100], mode: inset, allow_upscale: false }
+           post_processors:
+               opt_post_processor: {}
+        blog_list_small:
+           quality: 100
+           filters:
+               central_crop: { size: [370, 230] }
+           post_processors:
+               opt_post_processor: {}
+        blog_list_horizontal:
+           quality: 100
+           filters:
+               central_crop: { size: [770, 230] }
+           post_processors:
+               opt_post_processor: {}
+        blog_list_big:
+           quality: 100
+           filters:
+               central_crop: { size: [770, 540] }
+           post_processors:
+               opt_post_processor: {}
+        blog_list_vertical:
+           quality: 100
+           filters:
+               central_crop: { size: [370, 540] }
+           post_processors:
+               opt_post_processor: {}
+        event_inner_big:
+           quality: 100
+           filters:
+               central_crop: { size: [780, 360] }
+           post_processors:
+               opt_post_processor: {}
+
+l_soft_ad:
+    pattern: luvbyrd
+    lifetime: 86000
+    analytics: true
+
+rms_push_notifications:
+  ios:
+      timeout: 60 # Seconds to wait for connection timeout, default is 60
+      sandbox: false
+#      pem: %kernel.root_dir%/Certificates/luvbyrdDev.pem
+#      pem: %kernel.root_dir%/Certificates/luvbyrdProd.pem
+      pem: %kernel.root_dir%/Certificates/LuvByrd_Certificates.pem
+#      passphrase: %kernel.root_dir%/Certificates/Certificates_dev.p12
+lexik_maintenance:
+    driver:
+        class: '\Lexik\Bundle\MaintenanceBundle\Drivers\FileDriver'
+        options: {file_path: %kernel.root_dir%/lock}

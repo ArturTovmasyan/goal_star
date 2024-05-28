@@ -1,0 +1,120 @@
+{#{% extends "::base.html.twig" %}#}
+
+{#{% block title %}{{ 'meta.title.register'|trans({}, 'messages') }}{% endblock %}#}
+{#{% block metaDescription %}{{ 'meta.description.register'|trans({}, 'messages') }}{% endblock %}#}
+
+{#{% block AngularApp %} <html data-ng-app="user" data-ng-controller="RegistrationController"> {% endblock %}#}
+
+{#{% block stylesheets %}#}
+    {#{{ parent() }}#}
+
+    {#<link href="{{ asset('app/bower_components/ngImgCrop/compile/minified/ng-img-crop.css') }}" rel="stylesheet"/>#}
+    {#<link href="{{ asset('app/bower_components/dropzone/downloads/css/dropzone.css') }}" rel="stylesheet">#}
+    {#<link href="{{ asset('app/bower_components/select2/dist/css/select2.min.css') }}" rel="stylesheet">#}
+    {#<link href="{{ asset('bundles/app/css/dropDown.css') }}" rel="stylesheet">#}
+
+{#{% endblock %}#}
+
+{#{% block header %}#}
+    {#{% include 'AppBundle:Blocks:header.html.twig' %}#}
+{#{% endblock %}#}
+
+{#{% block content %}#}
+<div id="register2">
+        <div class="row bg-white">
+            <div class="col-sm-12">
+                <a href="#close-modal" rel="modal:close">
+                    <span aria-hidden="true" class="close-modal"></span>
+                </a>
+                {% if app.request.isMethod("POST") %}
+                    <div class="bg-danger help-block text-center">
+                            <p class="text-red">{{form.city.vars.errors[0].message|default(null) }}</p>
+                            <p class="text-red">{{form.looking_for.vars.errors[0].message|default(null) }}</p>
+                            <p class="text-red">{{form.I_am.vars.errors[0].message|default(null) }}</p>
+                    </div>
+                {% endif %}
+
+                <h1 class="text-center">Fill the sign up fields</h1>
+
+                <form id="register1-form" novalidate action="{{ path('register_step_2') }}" enctype="multipart/form-data" method="POST" class="fos_user_registration_register form-horizontal">
+                    <div class="row">
+                        <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+
+                            {{ form_errors(form) }}
+
+                            <div class="form-group row">
+                                {{ form_label(form.birthday, null, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+
+                                <div class="col-sm-9">
+                                    <div class="row">
+
+                                        <div class="col-xs-3 col-sm-4">
+                                            {{ form_widget(form.birthday.day) }}
+                                        </div>
+
+                                        <div class="col-xs-5 col-sm-4">
+                                            {{ form_widget(form.birthday.month) }}
+                                        </div>
+
+                                        <div class="col-xs-4 col-sm-4">
+                                            {{ form_widget(form.birthday.year) }}
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                {{ form_errors(form.city) }}
+                                {{ form_label(form.city, 'City, Country', {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                                <div class="col-sm-9">
+                                    {{ form_widget(form.city, {'attr': {'google-places-autocomplete': '', 'place': 'userLocation', 'data-types': "['(cities)']" } }) }}
+                                    <input name="{{ form.location.vars.full_name }}" id="{{ form.location.vars.id }}" data-ng-init="userLocation={{ form.vars.value.getLocation|default("''") }}" type="hidden" value="[[ userLocation ]]"/>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 text-right">
+                            <input type="submit" name="continue" class="btn btn-blue" value="Continue" />
+                            <input type="submit" name="skip" class="btn btn-blue" value="Skip for now" />
+                        </div>
+                    </div>
+
+                    {{ form_widget(form._token) }}
+
+                </form>
+            </div>
+
+        </div>
+</div>
+{#{% endblock %}#}
+
+{#{% block javascripts %}#}
+    {#{{ parent() }}#}
+
+    {#{% javascripts output='js/fos_register_2.js'#}
+        {#'app/bower_components/ngImgCrop/compile/minified/ng-img-crop.js'#}
+        {#'app/bower_components/dropzone/downloads/dropzone.min.js'#}
+        {#'app/bower_components/angular-resource/angular-resource.min.js'#}
+        {#'app/scripts/Google/Google.js'#}
+        {#'app/bower_components/select2/dist/js/select2.full.min.js'#}
+        {#'app/bower_components/angular-strap/dist/angular-strap.min.js'#}
+        {#'app/bower_components/angular-strap/dist/angular-strap.tpl.min.js'#}
+        {#'bundles/lbuser/js/angular/facebook.js'#}
+        {#'bundles/lbuser/js/angular/user.js'#}
+        {#%}#}
+    {#<script src="{{ asset_url }}" type="text/javascript"></script>#}
+    {#{% endjavascripts %}#}
+
+    {#<script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&v=3&key={{ google_browser_api_key }}" type="text/javascript"></script>#}
+    {#<script src='https://www.google.com/recaptcha/api.js' type="text/javascript"></script>#}
+
+    {#<script src='{{ asset('bundles/app/js/dropDown.js') }}' type="text/javascript"></script>#}
+
+
+{#{% endblock %}#}
+
+

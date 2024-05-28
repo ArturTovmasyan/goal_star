@@ -1,0 +1,215 @@
+{% extends "AppBundle:Blog:base.html.twig" %}
+
+{% block title %}{% if blog is not null %}{{ 'meta.title.blog_show'|trans({'%blogTitle%': blog.title}, 'messages') }}{% endif %}{% endblock %}
+{% block metaDescription %}
+    {% if blog is not null and blog.metaDescription is defined %}
+        {{ 'meta.description.blog_show'|trans({'%blogMetaDescription%': blog.metaDescription}, 'messages') }}
+    {% endif %}
+{% endblock %}
+
+{%- block ogTitle -%}{{ blog.title }}{%- endblock -%}
+{%- block ogDescription -%}{{ blog.metaDescription }}{%- endblock-%}
+
+{%- block ogImage -%}
+    {%- if blog.fileName -%}
+        {{ app.request.getSchemeAndHttpHost() }}{{ blog.getDownloadLink }}
+    {%- else -%}
+        {{- parent() -}}
+    {%- endif -%}
+{%- endblock -%}
+
+{# Twitter meta Tags #}
+{% block twitterMetaTitle %}
+    {{ 'meta.title.blog_show'|trans({'%blogTitle%': blog.title}, 'messages') }}
+{% endblock %}
+{% block twitterMetaDescription %}
+    {% if blog is not null and blog.metaDescription is defined %}
+        {{ 'meta.description.blog_show'|trans({'%blogMetaDescription%': blog.metaDescription}, 'messages') }}
+    {% endif %}
+{% endblock %}
+{% block twitterMetaImage %}{{ app.request.getSchemeAndHttpHost() }}{{ blog.getDownloadLink }}{% endblock %}
+
+{% block center_content %}
+    <div class="row">
+        <div class="col-xs-offset-2 col-xs-10 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+
+            {#<h1 class="blog-title">{{ blog.title }}</h1>#}
+
+            {#<ul>#}
+
+            {#<li>#}
+            {#<a href="#">#}
+            {#<i class="fa fa-calendar"></i>#}
+            {#{{ blog.created|date('M d, Y') }}#}
+            {#</a>#}
+            {#</li>#}
+
+            {#<li>#}
+            {#{%  set name =  blog.author|show_fullName %}#}
+
+            {#<a href="{{ path('blog_list_author', {'author' : blog.author.username|default(-1) }) }}">#}
+            {#<i class="fa fa-user"></i>#}
+            {#{{name|default('blog.no_author'|trans({}, 'messages')) }}#}
+            {#</a>#}
+            {#</li>#}
+
+            {#{% set categories = blog.getCategory %}#}
+
+            {#{% if categories|length > 0 %}#}
+
+            {#<li>#}
+            {#<i class="fa fa-heart"></i>#}
+
+            {#{% for category in categories %}#}
+
+            {#<a href="{{ path('blog_list_category', {'slug' : category.slug}) }}" id="blogTagId">{{ category.name }}</a>#}
+
+            {#{% if category != loop.last %} , {% endif %}#}
+
+            {#{% endfor %}#}
+            {#</li>#}
+            {#{% endif %}#}
+            {#</ul>#}
+
+
+
+            <figure class="figure-lg">
+                <div class="background-grey">
+
+                    <div class="date-place">
+                        <a href="#">
+                            <span>{{ blog.created|date('d') }}</span>
+                            <span>{{ blog.created|date('M') }}</span>
+                        </a>
+                    </div>
+
+                    {% if blog.filename  %}
+                        <img  src="{{ blog.getDownloadLink|lbImageFilter('blog_image')}}" alt="{{ blog.title }}" class="img-responsive">
+                    {% endif %}
+
+                </div>
+                {#{% if blog.filename  %}#}
+                {#<img  src="{{ blog.getDownloadLink|lbImageFilter('blog_image') }}" alt="{{ blog.title }}">#}
+                {#{% endif %}#}
+
+                <figcaption>
+
+                    <h2 class="blog-title">{{ blog.title }}</h2>
+
+                    <ul class="text-left post">
+                        <li>
+                            {%  set name =  blog.author|show_fullName %}
+
+                            {{ 'blog.post'|trans({}, 'messages')| capitalize }}
+
+                            <a href="{{ path('blog_list_author', {'author' : blog.author.username|default(-1) }) }}" class="pink">
+                                {{name|default('blog.no_author'|trans({}, 'messages')) }}
+                            </a>
+                        </li>
+
+                        {% set categories = blog.getCategory %}
+
+                        {% if categories|length > 0 %}
+
+                            <li>
+                                <i class="fa fa-heart"></i>
+
+                                {% for category in categories %}
+
+                                    <a href="{{ path('blog_list_category', {'slug' : category.slug}) }}" id="blogTagId">{{ category.name }}</a>
+
+                                    {% if category != loop.last %} , {% endif %}
+
+                                {% endfor %}
+                            </li>
+                        {% endif %}
+
+                    </ul>
+
+                    <div class="text-center">{{ blog.content|blogSplit(false)|raw }}</div>
+
+                </figcaption>
+
+            </figure>
+
+
+
+            {#<div class="text-center">{{ blog.content|blogSplit(false)|raw }} </div>#}
+
+            {#<div class="relative">#}
+            {#<hr/>#}
+            {#<ul class="social clearfix">#}
+            {#<li>#}
+            {#<a href="javascript:void(0)"#}
+            {#data-fb-link="{{ app.request.uri }}"#}
+            {#data-fb-picture="{{ app.request.getSchemeAndHttpHost() }}{{ blog.getDownloadLink }}"#}
+            {#data-fb-description="Luvbyrd Blog"#}
+            {#data-fb-name="{{ blog.title }}"#}
+            {#data-fb-share>#}
+            {#<i class="fa fa-facebook"></i>#}
+            {#</a>#}
+            {#</li>#}
+            {#<li>#}
+            {#<a target=”_blank” href="https://twitter.com/intent/tweet?url={{ app.request.uri }}&amp;text={{ blog.title }}&amp;”">#}
+            {#<i class="fa fa-twitter"></i>#}
+            {#</a>#}
+            {#</li>#}
+            {#</ul>#}
+            {#</div>#}
+            {#<br/>#}
+
+
+            {{ render(controller("AppBundle:Blog:getRelated", {'slug':blog.slug})) }}
+
+            <div class="row">
+                <div class="col-sm-8 col-lg-9">
+                    {% set tags = blog.tags %}
+
+                    {% if tags|length > 0 %}
+                        <p class="text-left">
+
+                            {% for tag in blog.tags %}
+                                <a href="{{ path('blog_list_tag', {'slug' : tag.slug}) }}" class="blogTagId">{{ tag.name }}</a>
+
+                                {#{% if tag != loop.last %} , {% endif %}#}
+
+                            {% endfor %}
+                        </p>
+                    {% endif %}
+                </div>
+                <div class="col-sm-4 col-lg-3 text-right">
+                    <ul class="social">
+                        <li>
+                            <a href="javascript:void(0)"
+                               data-fb-link="{{ app.request.uri }}"
+                               data-fb-picture="{{ app.request.getSchemeAndHttpHost() }}{{ blog.getDownloadLink }}"
+                               data-fb-description="Luvbyrd Blog"
+                               data-fb-name="{{ blog.title }}"
+                               data-fb-share>
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a target=”_blank” href="https://twitter.com/intent/tweet?url={{ app.request.uri }}&amp;text={{ blog.title }}&amp;”">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+            <div id="show_comment">
+                {% if is_granted("ROLE_USER") %}
+                    {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': blog.id} %}
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+
+
+

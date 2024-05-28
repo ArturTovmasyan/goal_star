@@ -1,0 +1,7 @@
+{% extends "FOSUserBundle:Security:login.html.twig" %}
+
+{% block fos_form %}
+    <p class="form-message text-center">
+        {{ 'resetting.check_email'|trans({'%email%': email}, 'FOSUserBundle') }}
+    </p>
+{% endblock %}

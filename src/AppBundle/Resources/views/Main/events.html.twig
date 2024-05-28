@@ -1,0 +1,44 @@
+{% extends 'AppBundle::eventLayout.html.twig' %}
+
+{% block innerContent %}
+
+    <h1 class="center">Find adventurous events for you</h1>
+
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3 col-md-12 col-md-offset-0">
+            <div class="row" data-ng-cloak>
+
+                <div class="col-md-4 element-animate" data-ng-repeat="(k,data) in events track by $index" data-ng-cloak data-ng-if="data && data.length">
+                    <figure class="event-card"  data-ng-repeat="(i,event) in data track by $index"
+                            data-ng-cloak data-ng-if="event" data-ng-style="{'height':((event.row == 2)?524:247) }">
+                        <a href="{{ app.debug ? '/app_dev.php':'' }}/event/[[ event.id ]]" data-ng-class="{'height': event.row == 2}">
+                            <span class="new-wrapper">
+                                <img  data-ng-src="[[ event.cached_image]]" alt="Washed Out" height="[[ ((event.row == 2)?457:180) ]]">
+                            </span>
+
+                            <figcaption>
+                                <span> start : [[ event.start | date:"MM/dd/yyyy 'at' h:mma"]]</span>
+                                {#<span> end : [[ event.end | date:"MM/dd/yyyy 'at' h:mma"]]</span>#}
+                                <h4>[[ event.title ]]</h4>
+                            </figcaption>
+                        </a>
+                    </figure>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a class="btn btn-pink" data-ng-click="getReserve()" data-ng-if="!busy && !isEnd" data-ng-cloak>
+            <span></span>
+            <span></span>
+            <span></span>
+        </a>
+    </div>
+
+    <div style="text-align: center;" data-ng-show="loading" class="ng-hide">
+        <img src="{{ asset('bundles/app/images/loading.gif') }}"/>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,52 @@
+<div id="signup" class="bg-light-grey">
+
+    <h2 class="text-center">
+        <a href="{{ path('fos_user_registration_register') }}" class="text-dark">
+            {{ 'signUp.sign_up'|trans({}, 'messages') | capitalize }}  <span>{{ 'signUp.free'|trans({}, 'messages') }}</span>
+        </a>
+    </h2>
+    <div class="container">
+        <figure class="clouds">
+            <img src="{{ asset("bundles/app/images/clouds.png") }}" alt="Sign up Image" class="img-responsive"/>
+        </figure>
+    </div>
+
+    {#<h2 class="bg-gray text-center text-white">{{ 'signUp.available'|trans({}, 'messages') | capitalize }}</h2>#}
+</div>
+
+{#<div id="available" class="signup-bg">#}
+    {#<div class="container">#}
+        {#<div class="row clearfix">#}
+
+            {#<div class="col-sm-4">#}
+                {#<figure>#}
+                    {#<img src="{{ asset("bundles/app/images/phone_new.png") }}" alt="Image" class="img-responsive"/>#}
+                {#</figure>#}
+            {#</div>#}
+            {#<div class="col-sm-8">#}
+                {#<div class="signup-information">#}
+                    {#<p>{{ 'signUp.text'|trans({}, 'messages') | capitalize }}#}
+                        {#<i></i>#}
+                    {#</p>#}
+
+                    {#<ul class="app">#}
+                        {#<li>#}
+                            {#&#123;&#35;<a href="javascript:void(0)"&#35;&#125;#}
+                               {#&#123;&#35;data-placement="bottom"&#35;&#125;#}
+                               {#&#123;&#35;data-animation="am-flip-x"&#35;&#125;#}
+                               {#&#123;&#35;data-type="info"&#35;&#125;#}
+                               {#&#123;&#35;data-html="true"&#35;&#125;#}
+                               {#&#123;&#35;data-template='{{ include('AppBundle:Blocks:ios_tooltip.html.twig') }}'&#35;&#125;#}
+                               {#&#123;&#35;data-trigger="hover"&#35;&#125;#}
+                               {#&#123;&#35;data-bs-tooltip></a>&#35;&#125;#}
+                            {#<a target="_blank" href="https://itunes.apple.com/us/app/luvbyrd/id1076265929?mt=8"></a>#}
+                        {#</li>#}
+                        {#<li>#}
+                            {#<a target="_blank" href="https://play.google.com/store/apps/details?id=com.luvbyrd.luvbyrd"></a>#}
+                        {#</li>#}
+                    {#</ul>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+{#</div>#}

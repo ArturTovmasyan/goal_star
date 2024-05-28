@@ -1,0 +1,126 @@
+{% extends 'AppBundle::member.html.twig' %}
+
+{% block title %}{{ 'meta.title.members'|trans({}, 'messages') }}{% endblock %}
+{% block metaDescription %}{{ 'meta.description.members'|trans({}, 'messages') }}{% endblock %}
+
+{% block AngularApp %}
+    <html data-ng-app="member" data-ng-controller="ListController">
+{% endblock %}
+
+{% block leftAd %}
+
+    <div class="addvertisment">
+        {{ render_esi(controller('LSoftAdBundle:Default:index', { 'domain': 'Members', 'zone': 'leftbottom' })) }}
+    </div>
+{% endblock %}
+
+{% block center_content %}
+    <div class="members bg-white" data-ng-cloak>
+        <div class="row">
+            <div class="ng-hide col-sm-6 col-md-4" data-ng-show="members.length" data-ng-repeat="(k,member) in members">
+
+
+
+                <figure class="overflow ng-hide" data-ng-show="member">
+
+
+
+                    <a href="{{ app.debug ? '/app_dev.php':'' }}/member/[[ member.u_id ]]?page=[[search.page]]&point=[[k]]" class="img-circle member">
+                        <img data-ng-src="[[ member.image_cache_path ]]"
+                             class="img-responsive img-circle"
+                             alt="[[ member.full_name ]]"/>
+                        <span class="bg-white">
+                            <i class="is-online fa fa-circle" data-ng-class="{'green': (member.activity.minute >=0 && member.activity.minute <= 30)}"
+                               title="[[ member.activity.title ]]">
+                            </i>
+                        </span>
+                    </a>
+
+
+
+                    <figcaption>
+
+                        <a href="{{ app.debug ? '/app_dev.php':'' }}/member/[[ member.u_id ]]?page=[[search.page]]&point=7">
+                            <span data-ng-show="member.status == 0" class="ng-hide fa fa-heart text-pink"></span>
+                            <span data-ng-show="member.status == 11" class="ng-hide fa fa-times text-blue"></span>
+                            <span data-ng-bind="member.full_name" class="full-name"></span>
+                        </a>
+
+                        <span>
+                            [[ member.age ]] / [[ member._i_am == UserStatuses['MAN'] ? 'man' : (member._i_am == UserStatuses['WOMAN'] ? 'woman': 'bisexual') ]] / [[ member.only_city ]]
+                        </span>
+
+                    </figcaption>
+                </figure>
+            </div>
+            <div style="text-align: center;" data-ng-show="membersLoading" class="ng-hide">
+                <img src="{{ asset('bundles/app/images/loading.gif') }}"/>
+            </div>
+        </div>
+
+        <p data-ng-hide="members.length || membersLoading" class="text-center{% if 'Members have not been found'|length > 32 %}message-small{% else %} empty-message {% endif %}">Members have not been found</p>
+
+        <div class="sliding-modal" style="display: none;">
+            {{ include("AppBundle:Blocks:member_sliding.html.twig") }}
+            <a href="#close-modal" rel="modal:close" class="close-modal">Close</a>
+        </div>
+
+        <div class="text-center">
+            <ul class="pagination member-pegination ng-hide" data-ng-show="paginationArray.length > 1" data-ng-cloak>
+                <li>
+                    <a href="javascript:void(0)" data-ng-click="pagination(1)" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li data-ng-show="pagination_left_dots" class="ng-hide">
+                    <a href="javascript:void(0)">...</a>
+                </li>
+                <li class="ng-hide" data-ng-class="{active: search.page == (k + 1)}"
+                    data-ng-show="paginationSurrounding(k + 1)"
+                    data-ng-repeat="(k, p) in paginationArray track by $index">
+                    <a href="javascript:void(0)" data-ng-click="pagination(k + 1)">[[ k + 1 ]]</a>
+                </li>
+                <li data-ng-show="pagination_right_dots" class="ng-hide">
+                    <a href="javascript:void(0)">...</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" data-ng-click="pagination(paginationArray.length)" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    {# This is important for pagination route navigation #}
+    <div data-ng-view></div>
+
+    <input type="hidden" id="refreshed" value="no">
+
+    <div class="addvertisment">
+        {{ render_esi(controller('LSoftAdBundle:Default:index', { 'domain': 'Members', 'zone': 'bottomcenter' })) }}
+    </div>
+
+{% endblock %}
+
+{% block rightAd %}
+
+    <div class="addvertisment">
+        {{ render_esi(controller('LSoftAdBundle:Default:index', { 'domain': 'Members', 'zone': 'righttop' })) }}
+    </div>
+
+    <div class="addvertisment">
+        {{ render_esi(controller('LSoftAdBundle:Default:index', { 'domain': 'Members', 'zone': 'rightbottom' })) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts output='js/members.js'
+        'app/bower_components/angular-route/angular-route.min.js'
+        'bundles/app/js/angular/member.js'
+        %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

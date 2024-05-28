@@ -1,0 +1,14 @@
+{% if ad %}
+<div class="ad ad-{{ zone }}">
+    {% if ad.code %}
+        <script type="text/javascript"
+                src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+        {{ ad.code|raw }}
+    {% else %}
+        <a href="{{ ad.url }}" target="_blank">
+            <img src="{{ ad.getDownloadLink }}" alt="{{ ad.name }}" class="img-responsive">
+        </a>
+    {% endif %}
+</div>
+{% endif %}

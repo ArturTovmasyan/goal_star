@@ -1,0 +1,60 @@
+{% extends base_template %}
+
+{% block actions %}
+    <div class="sonata-actions btn-group">
+        {% include 'SonataAdminBundle:Button:list_button.html.twig' %}
+        {% include 'SonataAdminBundle:Core:create_button.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('app/bower_components/angular/angular.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset("app/scripts/Interpolation/Interpolation.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("bundles/app/js/angular/metric.js") }}" type="text/javascript"></script>
+    <script src="//code.highcharts.com/4.1.8/highcharts.js"></script>
+    <script src="//code.highcharts.com/4.1.8/modules/exporting.js"></script>
+{% endblock %}
+
+{% block list_table %}
+
+    {% set submitUser = app.request.get('submitUser', null) %}
+    {% set submitRelation = app.request.get('submitRelation', null) %}
+
+    <div class="col-sm-12">
+        <ul class="nav nav-tabs">
+            <li {% if not submitUser %} class="active" {% endif %} ><a data-toggle="tab" href="#relation-statistic">User relation statistic</a></li>
+            <li {% if submitUser %} class="active" {% endif %} ><a data-toggle="tab" href="#info-statistic">User statistic</a></li>
+        </ul>
+
+        <div class="tab-content" data-ng-app="MetricAdmin">
+
+        <div id="relation-statistic" class="tab-pane fade {% if not submitUser %} in active {% endif %}">
+
+            {% set from = app.request.get('from', null)%}
+            {% set to = app.request.get('to', null) %}
+            {% set select = app.request.get('groupBy', null) %}
+            {% set yearForMonthly = app.request.get('yearForMonthly', null) %}
+
+
+            {{ render(controller('AppBundle:Metric:relation',
+            { 'from': from, 'to' : to, 'select' : select, 'submit':submitRelation , 'yearForMonthly': yearForMonthly})) }}
+        </div>
+
+
+
+        <div id="info-statistic" class="tab-pane fade {% if submitUser %} in active {% endif %}" data-ng-controller="topUsersController">
+
+            {% set location = app.request.get('location', null)%}
+            {% set distance = app.request.get('distance', 1)%}
+            {% set count = app.request.get('count', 10)%}
+            {% set type = app.request.get('type', 'messages')%}
+            {% set gender = app.request.get('gender', 'all')%}
+
+            {{ render(controller('AppBundle:Metric:user', {'location': location, 'distance': distance, 'count': count, 'type': type, 'gender' : gender})) }}
+        </div>
+
+    </div>
+
+    </div>
+{% endblock %}

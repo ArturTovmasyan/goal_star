@@ -1,0 +1,183 @@
+<!DOCTYPE html >
+<html amp lang="en">
+
+{% set host = 'https://www.luvbyrd.com' %}
+
+<head>
+    <meta charset="utf-8" />
+    <title>{% block title %}{{ 'meta.title.base'|trans({}, 'messages') }}{% endblock %}</title>
+    <meta name="description" content="{% block metaDescription %}{{ 'meta.description.base'|trans({}, 'messages') }}{% endblock %}">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@luvbyrdluv">
+    <meta name="twitter:title" content="{% block twitterMetaTitle %}Luvbyrd{% endblock %}">
+    <meta name="twitter:description" content="{% block twitterMetaDescription %}Luvbyrd{% endblock %}">
+    <meta name="twitter:creator" content="@luvbyrdluv">
+    <meta name="twitter:image" content="{% block twitterMetaImage %}{% endblock %}">
+    <meta name="twitter:domain" content="{{ app.request.getSchemeAndHttpHost() }}">
+
+    <meta property="og:title" content="{%- block ogTitle -%}{{ block('title') }}{%- endblock -%}" />
+    <meta property="og:url" content="{%- block og_url -%}{{- app.request.uri -}} {%- endblock -%}" />
+    <meta property="og:description" content="{%- block ogDescription -%}{{ block('meta_description') }}{%- endblock -%}" />
+    <meta property="og:site_name" content="Luvbyrd" />
+    <meta property="og:image" content="{%- block ogImage -%}https://www.luvbyrd.com/bundles/app/images/luvbyrd.jpg{%- endblock -%}" />
+    <meta property="og:type" content="{% block ogType%}website{% endblock %}">
+    {#<meta property="fb:pages" content="1711606329055370" />#}
+    <meta property="fb:app_id" content="1705691336309955" />
+
+    {# this allows to add additional meta data #}
+    {% block meta %}{% endblock %}
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('luvbyrd57.png') }}">
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('luvbyrd57.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('luvbyrd72.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('luvbyrd114.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('luvbyrd144.png') }}">
+    <link rel="canonical" href="https://www.luvbyrd.com{{ app.request.getPathInfo }}" />
+
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+
+    <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
+    <script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>
+    <script async custom-element="amp-social-share" src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"></script>
+    <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
+    <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
+    <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.1.js"></script>
+
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+
+    <style amp-custom>
+
+
+        {% block stylesheets %}
+            {% stylesheets output='css/amp-base.css'
+                'bundles/app/less/amp.less'
+                'bundles/app/less/blog.less'
+                'bundles/app/less/contact.less'
+                'bundles/app/less/terms.less'
+                'bundles/app/less/why-join.less'
+            %}
+            {{ source(asset_url|remove_asset_version) }}
+            {% endstylesheets %}
+        {% endblock %}
+
+    </style>
+
+    {% block ampStyle %}
+    {% endblock %}
+    {% block javascripts %}
+    {% endblock %}
+</head>
+
+<body>
+{% block body %}
+
+    {{ include('AppBundle::ampMenu.html.twig') }}
+
+    <div id="mainframe">
+        <div id="wrap">
+            <header>
+                <nav class="amp-header">
+
+                    <div class="content-container">
+                        <div class="full-width clear">
+                            <a class="logo" href="{{ path("homepage") }}">
+                                <amp-img src="{{ asset('bundles/app/images/logo-canoe-inner.png') }}" alt= "LuvByrd" width="263" height="78"></amp-img>
+                            </a>
+
+                            <div class="sidebar-right">
+                                {#{{ render_esi(controller('AppBundle:Main:esiUserForAmp')) }}#}
+                                <button on='tap:sidebar.toggle'>
+                                    <amp-img src="{{ asset('bundles/app/images/grey-burger.svg') }}" alt="Menu" width="30" height="30"></amp-img>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="line"></div>
+                </nav>
+            </header>
+
+            <div class="content-container">
+                {% block content %}{% endblock %}
+            </div>
+
+        </div>
+
+        <footer class="amp-footer">
+
+                <div class="content-container">
+                    <div class="footer-bottom">
+
+                        <ul class="app-icons">
+                        <li>
+                            {{ 'base.download_our_free_apps'|trans({}, 'messages') }}
+                        </li>
+
+                        <li>
+                            <a target="_blank" href="https://itunes.apple.com/us/app/luvbyrd/id1076265929?mt=8">
+                                {{ 'base.iPhone_app'|trans({}, 'messages') }}
+                            </a>
+
+                        </li>
+
+                        <li>
+                            <a target="_blank" href="https://play.google.com/store/apps/details?id=com.luvbyrd.luvbyrd">
+                                {{ 'base.android_app'|trans({}, 'messages') }}
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{ path("contact") }}">{{ 'contact.help'|trans({}, 'messages') }}</a>
+                        </li>
+
+                        <li>
+                            <a href="{{ path("contact") }}">{{ 'contact.advertise_text'|trans({}, 'messages') }}</a>
+                        </li>
+
+                        <li>
+                            <a href="{{ path("contact") }}">{{ 'contact.contact_us'|trans({}, 'messages') }}</a>
+                        </li>
+                    </ul>
+
+                        <span class="line"></span>
+                    </div>
+                </div>
+
+                <div class="content-container">
+                    <div class="footer-bottom">
+                        <small>{{ 'base.copyright'|trans({}, 'messages') }} &copy; {{ 'base.text'|trans({}, 'messages') }}</small>
+
+                        <small class="right">
+                            <a href="http://laravelsoft.com" target="_blank" class="text-white">Created by LaravelSoft</a>
+                        </small>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+
+
+        </footer>
+    </div>
+{#todo ga_id in parameters#}
+    {#{% if not app.debug %}#}
+        {#<amp-analytics type="googleanalytics" id="mainanalytics">#}
+            {#<script type="application/json">#}
+                {#{#}
+                    {#"vars": {#}
+                        {#"account": "{{ ga_id }}"#}
+                    {#},#}
+                    {#"triggers": {#}
+                        {#"trackPageview": {#}
+                            {#"on": "visible",#}
+                            {#"request": "pageview"#}
+                        {#}#}
+                    {#}#}
+                {#}#}
+            {#</script>#}
+        {#</amp-analytics>#}
+    {#{% endif %}#}
+{% endblock %}
+</body>
+</html>

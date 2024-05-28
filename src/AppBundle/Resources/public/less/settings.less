@@ -1,0 +1,186 @@
+@import "../../../app/bower_components/bootstrap/less/variables.less";
+@import "function.less";
+
+.settings{
+  padding:40px 0;
+  margin:50px auto 30px;
+
+  .padding{
+    padding:10px 0;
+  }
+  p{
+    font-weight:normal;
+    font-size:14px;
+  }
+
+  h4{
+    font-size:14px;
+  }
+  .settings-menu{
+    ul{
+      margin-bottom:15px;
+      padding:15px 0 0;
+      list-style: none;
+      border-bottom:1px solid #ed4f4f;
+      li{
+        display: inline-block;
+        a{
+          color:#7d7d7d;
+          display: block;
+          padding: 5px 4px;
+          font-size:12px;
+
+          &:hover{
+            background-color:#ed4f4f;
+            color:#ffffff;
+          }
+        }
+
+      }
+      .current{
+        a{
+          background:#ed4f4f;
+          color:#ffffff;
+        }
+      }
+    }
+  }
+
+
+  label{
+    color:#8d8d8d;
+    font-weight:normal;
+  }
+
+  .bg-dark-gray{
+    background-color: #3f3e47;
+    font-size: 12px;
+    padding:10px 20px;
+    color:#ffffff;
+  }
+}
+
+
+.users-blocked{
+  display: block;
+  padding:20px;
+}
+.form-style{
+  border:1px solid #2ac4f4;
+  margin-bottom:25px;
+
+  p{
+    padding:10px 15px;
+    background-color: #2ac4f4;
+    color:#ffffff;
+    margin-bottom:0;
+  }
+  &>div{
+    padding:0 15px;
+  }
+
+  strong{
+    display: block;
+    padding:15px 0;
+    font-weight:normal;
+
+    label{
+      padding-top:0;
+    }
+  }
+
+  label{
+    padding-top:20px;
+    font-weight:normal;
+  }
+  a{
+    display: block;
+    padding:15px 0;
+    &:hover{
+      color:#00b6dd !important;
+    }
+  }
+
+  hr{
+    margin: 0;
+  }
+  select{
+    margin-top:10px;
+  }
+
+  .bootstrap-switch{
+    width:90px;
+    margin-top:15px;
+
+    input:focus{
+      outline:none;
+      box-shadow:none;
+    }
+
+    .bootstrap-switch-handle-off{
+      background:#ef4e67 !important;
+      color:#ffffff !important;
+    }
+    .bootstrap-switch-handle-on{
+      background:#a7b249 !important;
+      color:#ffffff !important;
+    }
+  }
+}
+
+@media (min-width: @screen-sm) {
+  .settings{
+    margin: 55px auto 20px;
+    .settings-menu{
+      ul{
+        padding: 25px 0 0;
+        li{
+
+          a{
+            font-size: 15px;
+            padding: 5px 10px;
+          }
+        }
+      }
+    }
+
+
+    h4{
+      font-size:16px;
+    }
+
+    label{
+      color:#8d8d8d;
+      font-weight:normal;
+    }
+    .bg-blue{
+      font-size:14px;
+    }
+  }
+}
+
+@media (min-width: @screen-md) {
+  .settings{
+    margin: 75px auto 30px;
+
+    h1{
+      padding:0;
+    }
+    .settings-menu{
+      ul{
+        padding:60px 0 0;
+        li{
+          a{
+            font-size:18px;
+          }
+        }
+      }
+    }
+
+
+    form{
+      padding-bottom:25px;
+    }
+
+  }
+}

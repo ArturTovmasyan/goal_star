@@ -1,0 +1,39 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block title %}{% if app.user is not null %}{{ 'meta.title.group'|trans({'%firstName%': app.user.firstname}, 'messages') }}{% endif %}{% endblock %}
+{% block metaDescription %}{{ 'meta.description.group'|trans({}, 'messages') }}{% endblock %}
+
+{% set pathName = app.request.attributes.get('_route') %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset("app/bower_components/angular-motion/dist/angular-motion.min.css") }}" rel="stylesheet">
+    <link href="{{ asset("app/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css") }}" rel="stylesheet">
+
+{% endblock %}
+
+{% block groupCalendar %}
+    {% if pathName == 'group_list' %}
+        <div data-ls-datepicker data-active-dates='{{ render(controller("AppBundle:Group:calendar", {'type':pathName})) }}'></div>
+    {% endif %}
+{% endblock %}
+
+{% block center_content %}
+    <div id="group-page">
+        {% block group_content %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts output='js/base_group.js'
+        'app/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js'
+        'app/bower_components/angular-sanitize/angular-sanitize.min.js'
+        'app/scripts/Confirm/Confirm.js'
+        'bundles/app/js/angular/group.js'
+        %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

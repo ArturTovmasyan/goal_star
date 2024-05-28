@@ -1,0 +1,72 @@
+{% extends "AppBundle:Blog:base.html.twig" %}
+
+{% block center_content %}
+
+    <div class="row">
+        <div class="col-xs-offset-2 col-xs-10 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+
+            <br/>
+
+            {% for blog in pagination %}
+
+                {% set link = path('page', {'slug' : blog.slug}) %}
+
+                <figure class="figure-lg">
+
+                    <div class="background-grey">
+
+                        <div class="date-place">
+                            <a href="{{ link }}">
+                                <span>{{ blog.created|date('d') }}</span>
+                                <span>{{ blog.created|date('M') }}</span>
+                            </a>
+                        </div>
+
+                        {% if blog.filename  %}
+                            <a href="{{ link }}">
+                                <img  src="{{ blog.getDownloadLink|lbImageFilter('blog_image')}}" alt="{{ blog.title }}" class="img-responsive">
+                            </a>
+                        {% endif %}
+
+                    </div>
+
+                    <figcaption>
+
+                        <h2 class="blog-title">
+                            <a href="{{ link }}" id="blogId">{{ blog.title }}</a>
+                        </h2>
+
+                        <p class="text-left post">
+                            {%  set name =  blog.author|default('blog.no_author'| trans)|show_fullName %}
+
+                            {{ 'blog.post'|trans({}, 'messages')| capitalize }}
+                            <a href="{{ path('blog_list_author', {'author' : blog.author.username|default(-1) }) }}" class="pink">
+                                {{ name }}
+                            </a>
+                        </p>
+
+                        <div class="text-center">{{ blog.content|blogSplit|raw }}</div>
+                        <div class="text-left">
+                            <a href="{{ link }}" class="btn btn-continue">{{ 'blog.continue_reading'|trans({}, 'messages')| upper }}</a>
+                        </div>
+
+                    </figcaption>
+                </figure>
+
+            {% else %}
+
+                <p class="text-center">{{ 'blog.no_blog'|trans({}, 'messages')| capitalize }}</p>
+
+            {% endfor %}
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% block group_nav %}
+
+<div class="group-menu">
+    <div class="row">
+        {{ render(controller("AppBundle:Group:notification", {'routeName' : app.request.attributes.get('_route') }) ) }}
+        <div class="col-sm-7 col-md-6 text-right">
+            {% if group is iterable or group == null%}
+            {% else %}
+                {% if group.isAuthor(currentUser) or group.isModerator(currentUser) %}
+                    <a type="button" class="btn btn-pink" href="{{ path('group_delete', {'id' : group.id }) }}">{{ 'group.delete'|trans({}, 'messages') }}</a>
+                    <a type="button" class="btn btn-gray" href="{{ path('group_create', {'slug' : group.slug }) }}">{{ 'group.edit'|trans({}, 'messages') }}</a>
+                {% endif %}
+            {% endif %}
+            <a type="button" class="btn btn-gray" href="{{ path('group_create') }}">{{ 'group.create'|trans({}, 'messages') }}</a>
+        </div>
+
+    </div>
+
+    <hr />
+</div>
+
+{% endblock %}

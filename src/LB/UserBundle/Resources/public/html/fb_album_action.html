@@ -1,0 +1,61 @@
+<div id="fb-images-modal" class="modal" tabindex="-1" role="dialog" aria-hidden="true" data-ng-controller="FBAlbumController">
+    <div class="modal-dialog" data-ng-init="init()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" ng-click="$hide()">
+                    <span aria-hidden="true" class="close-modal"></span>
+                </button>
+                <h4 class="modal-title text-left">Choose photos to upload</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <div class="fb-image-place" data-ng-show="images.length === 0">
+                            <div class="text-center clearfix">
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-4" data-ng-repeat="(key,album) in albums">
+                                        <figure data-ng-click="changeContent(key)">
+                                            <img data-ng-src="[[album.cover]]" height="135">
+                                            <figcaption>[[album.name]]</figcaption>
+                                        </figure>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="fb-image-place" data-ng-show="images.length > 0">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-3" data-ng-repeat="(key,image) in images">
+                                    <div class="image-place">
+                                        <div class="blue-checkbox custom">
+                                            <input ng-checked="isSelected(image) || isAlreadySelected(image)" ng-disabled="isSelected(image)" id="fb-image-[[key]]_register" class="css-checkbox" type="checkbox" data-ng-click="modalSelectImage(image)" value="[[image]]" />
+                                            <label ng-class="{'label-checked': isSelected(image)}" for="fb-image-[[key]]_register" class="css-label-blue"></label>
+                                        </div>
+                                        <img data-ng-src="[[image]]" height="90">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center;" data-ng-show="loading">
+                            <img src="/bundles/app/images/loading.gif"/>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6 text-left">
+                                <div data-ng-click="back()" data-ng-show="images.length > 0" class="btn btn-blue">Back</div>
+                            </div>
+
+                            <div class="col-xs-6  text-right">
+                                <button data-ng-click="submit()" class="btn btn-blue">Upload</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

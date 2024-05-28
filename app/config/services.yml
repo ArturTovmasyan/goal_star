@@ -1,0 +1,206 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+    node_dir: %kernel.root_dir%/../src/LB/MessageBundle/nodejs/
+    template_dir: %kernel.root_dir%/cache/tmp/
+
+services:
+    sitemap.listner:
+            class: AppBundle\Event\Listener\SitemapListener
+            arguments:
+                - @router
+                - @doctrine.orm.default_entity_manager
+            tags:
+                - { name: "presta.sitemap.listener"}
+    app.admin.interest:
+        class: AppBundle\Admin\InterestAdmin
+        arguments: [~, AppBundle\Entity\Interest, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, show_in_dashboard: false}
+
+    app.admin.ad_geo:
+        class: AppBundle\Admin\AdGeoAdmin
+        arguments: [~, AppBundle\Entity\AdGeo, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: Ad, label: Ad Geo}
+
+    app.admin.tag:
+        class: AppBundle\Admin\TagAdmin
+        arguments: [~, AppBundle\Entity\Tag, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: Tag, label: Tag}
+
+    app.admin.state:
+        class: AppBundle\Admin\StateAdmin
+        arguments: [~, AppBundle\Entity\State, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: config, label: State}
+    app.admin.event:
+        class: AppBundle\Admin\EventAdmin
+        arguments: [~, AppBundle\Entity\Event, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: Event, label: Event}
+
+    app.admin.interest_group:
+        class: AppBundle\Admin\InterestGroupAdmin
+        arguments: [~, AppBundle\Entity\InterestGroup, AppBundle:Admin/CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: config, label: Interest}
+
+    app.admin.blog:
+        class: AppBundle\Admin\BlogAdmin
+        arguments: [~, AppBundle\Entity\Blog, AppBundle:Admin/CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: Blog, label: Blog}
+        calls:
+            - [ setTemplate, [edit, AppBundle:Admin:blog_edit.html.twig]]
+
+    app.admin.report:
+            class: AppBundle\Admin\ReportAdmin
+            arguments: [~, AppBundle\Entity\Report, SonataAdminBundle:CRUD]
+            tags:
+                - {name: sonata.admin, manager_type: orm, group: Report, label: Report}
+
+    app.admin.page:
+            class: AppBundle\Admin\PageAdmin
+            arguments: [~, AppBundle\Entity\Page, SonataAdminBundle:CRUD]
+            tags:
+                - {name: sonata.admin, manager_type: orm, group: Page, label: Page}
+    app.admin.user.statistic:
+            class: AppBundle\Admin\StatisticAdmin
+            arguments: [~, ~, AppBundle:Admin/UserStatistic]
+            tags:
+                - {name: sonata.admin, manager_type: orm, group: Statistics, label: User}
+
+    app.admin.metric.statistic:
+            class: AppBundle\Admin\MetricAdmin
+            arguments: [~, ~, AppBundle:Admin/MetricStatistic]
+            tags:
+                - {name: sonata.admin, manager_type: orm, group: Statistics, label: Metric}
+
+    lsoft.ad.admin.ads.provider:
+            class: AppBundle\Admin\LSoftAdProviderAdmin
+            tags:
+                - { name: sonata.admin, manager_type: orm, group: "LSoft Ad", label: "Ads Provider" }
+            arguments: [~, LSoft\AdBundle\Entity\AdsProvider, ~]
+
+    lsoft.ad.admin.ad:
+            class: AppBundle\Admin\LSoftAdAdmin
+            tags:
+                - { name: sonata.admin, manager_type: orm, group: "LSoft Ad", label: "Ad" }
+            arguments: [~, LSoft\AdBundle\Entity\Ad, ~]
+
+    lsoft.ads.check_data:
+            class:  AppBundle\Services\AdsDataProvider
+            arguments: [@service_container]
+
+    app.interests:
+        class: AppBundle\Form\Type\Interests
+        arguments: [@service_container]
+        tags:
+            - { name: form.type, alias: interests}
+    app.icon.type:
+        class: AppBundle\Form\Type\IconType
+        tags:
+            - { name: form.type, alias: icon_type}
+
+    app.location.type:
+        class: AppBundle\Form\Type\LocationType
+        tags:
+            - { name: form.type, alias: location_type}
+
+    kernel.listener.logged_in_user_listener:
+        class: AppBundle\Listener\KernelListener
+        arguments: [ @service_container ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    split.twig_extension:
+            class: AppBundle\Twig\Extension\SplitExtension
+            tags:
+                - { name: twig.extension }
+    app.twig_extension:
+        class: AppBundle\Twig\Extension\AppExtension
+        arguments: [ @service_container ]
+        tags:
+              - { name: twig.extension }
+
+    app.image_filter.twig_extension:
+        class: AppBundle\Twig\Extension\ImageFilterExtension
+        arguments: [ @service_container ]
+        tags:
+              - { name: twig.extension }
+
+    file_info.twig_extension:
+        class: AppBundle\Twig\Extension\FileInfoExtension
+        tags:
+            - { name: twig.extension }
+
+    app.email:
+        class: AppBundle\Services\AppEmail
+        arguments: [@service_container]
+
+    app.luvbyrd.service:
+        class: AppBundle\Services\LuvbyrdService
+        arguments: [@service_container]
+
+    app.push.note:
+        class: AppBundle\Services\PushNoteService
+        arguments: [@service_container]
+
+    app.full_name:
+        class: AppBundle\Services\UserNameFilter
+        arguments: [@service_container]
+
+    app.mandrill:
+        class: AppBundle\Services\MandrillService
+        arguments: [@service_container]
+
+    app.mailchimp:
+            class: AppBundle\Services\Mailchimp
+            arguments: [@service_container]
+
+    my_password_encoder:
+        class: LB\UserBundle\Util\MyPasswordEncoder
+        arguments: [@service_container]
+
+    security.access.post_voter:
+        class:      LB\UserBundle\Security\GroupVoter
+        public:     false
+        tags:
+            - { name: security.voter }
+
+    security.user_checker:
+        class: LB\UserBundle\Checker\MyUserChecker
+        arguments: [ @service_container ]
+
+    lv.listener_resolver:
+            class: AppBundle\Listener\MyEntityListenerResolver
+            arguments: [ @service_container ]
+
+    app_user_manager:
+        class: LB\UserBundle\Doctrine\UserManager
+        arguments: [@security.encoder_factory, @fos_user.util.username_canonicalizer, @fos_user.util.email_canonicalizer, @fos_user.entity_manager, LB\UserBundle\Entity\User]
+
+    app.listener.serializationlistener:
+        class: AppBundle\Event\Listener\MySerializerListener
+        tags:
+            - { name: jms_serializer.event_subscriber }
+        arguments: [@service_container]
+
+    lv_annotation_driver:
+        class: AppBundle\Annotation\AnnotationDriver
+        tags: [{name: kernel.event_listener, event: kernel.controller, method: onKernelController}]
+        arguments: [@annotation_reader]
+
+    app.filter.central_crop:
+        class: AppBundle\LiipFilters\CentralCropFilterLoader
+        tags:
+            - { name: liip_imagine.filter.loader, loader: central_crop }
+
+    app.post_processor.opt_post_processor:
+        class: AppBundle\PostProcessor\OptPostProcessor
+        tags:
+            - { name: liip_imagine.filter.post_processor, post_processor: opt_post_processor }
+        arguments: [@monolog.logger.image, '/usr/local/bin/node', %node_dir%, %template_dir%]

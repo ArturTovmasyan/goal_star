@@ -1,0 +1,62 @@
+{% block body_text %}
+    {% autoescape false %}
+
+        {% if data['status'] == constant('AppBundle\\Model\\EmailSettingsData::NEW_MESSAGE') %}
+            {% set transName = 'new_messages' %}
+            {% set link =  data['messageLink'] %}
+
+        {% elseif data['status'] == constant('AppBundle\\Model\\EmailSettingsData::SEND_FRIEND_REQUEST') %}
+            {% set transName = 'friend_rquest' %}
+            {% set link =  data['friendRequestLink'] %}
+
+        {% elseif data['status'] == constant('AppBundle\\Model\\EmailSettingsData::ACCEPT_FRIEND_REQUEST') %}
+            {% set transName = 'connection' %}
+            {% set link =  data['favoriteLink'] %}
+
+        {% elseif data['status'] == constant('AppBundle\\Model\\EmailSettingsData::FAVORITE') %}asd
+            {% set transName = 'favorite' %}
+            {% set link =  data['favoriteLink'] %}
+
+        {% elseif data['status'] == constant('AppBundle\\Model\\EmailSettingsData::JOIN_GROUP') %}
+            {% set transName = 'invite_join_group' %}
+            {% set link =  data['acceptFriendLink'] %}
+
+        {% elseif data['status'] == constant('AppBundle\\Model\\EmailSettingsData::JOIN_PRIVATE_GROUP') %}
+            {% set transName = 'join_private_group' %}
+            {% set link =  data['acceptFriendLink'] %}
+
+        {% else %}
+            {% set transName = 'default' %}
+            {% set link =  data['url'] %}
+        {% endif %}
+
+        <div style="width:600px;border:1px solid #e0e0e0;">
+            <figure style="background-color: #3f3e47;text-align: center;padding:40px 0;margin:0;">
+                <img src="https://www.luvbyrd.com/bundles/app/images/logo-canoe.png" alt="LuvByrd">
+            </figure>
+
+            <br /> <br /> <br />
+
+            {% set href_style = 'color:#2ac4f4;font-size:18px;text-decoration: none' %}
+
+            <h4 style="color:#586466;text-align:center;font-size:18px;line-height:26px;">
+                {{ transName|trans({'%username%': data['userName'], '%link%': link, '%url%': data['url'], '%href_style%' : href_style }, 'email') }}
+            </h4>
+
+            <hr style="border:1px solid #e0e0e0;margin: 0 140px;"/>
+
+            <br />
+
+            <p style="text-align:center;">
+                <a href="{{ data['url'] }}" style="text-decoration: underline; color: #586466;font-size:16px;">luvbyrd.com</a>
+            </p>
+
+            <br /> <br /> <br />
+
+            <p style="text-align:center;border-top:1px solid #e0e0e0;padding:15px 0 0;">
+                <small style="font-size:16px;color:#586466;">Copyright &copy; 2016 LuvByrd</small>
+            </p>
+        </div>
+
+    {% endautoescape %}
+{% endblock %}

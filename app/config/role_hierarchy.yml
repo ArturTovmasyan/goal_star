@@ -1,0 +1,78 @@
+security:
+    role_hierarchy:
+            ROLE_ADMIN:       [ROLE_USER, ROLE_SONATA_ADMIN]
+            ROLE_SUPER_ADMIN: ROLE_ADMIN
+            ROLE_USER:   [ROLE_USER]
+
+            ROLE_ADMIN_VIEW:    [ROLE_ADMIN, ROLE_SONATA_ADMIN, ROLE_SONATA_VIEW, LIST, GUEST]
+            ROLE_ADMIN_CREATE: [VIEW, ROLE_SONATA_CREATE]
+            ROLE_ADMIN_EDIT: [VIEW, ROLE_SONATA_EDIT]
+            ROLE_ADMIN_DELETE: [VIEW, ROLE_SONATA_DELETE]
+
+            ROLE_SONATA_VIEW:
+                - ROLE_APP_ADMIN_TAG_LIST
+                - ROLE_APP_ADMIN_TAG_VIEW
+
+                - ROLE_APP_ADMIN_AD_GEO_LIST
+                - ROLE_APP_ADMIN_AD_GEO_VIEW
+
+                - ROLE_APP_ADMIN_INTEREST_LIST
+                - ROLE_APP_ADMIN_INTEREST_VIEW
+
+                - ROLE_APP_ADMIN_INTEREST_GROUP_LIST
+                - ROLE_APP_ADMIN_INTEREST_GROUP_VIEW
+
+                - ROLE_APP_ADMIN_BLOG_LIST
+                - ROLE_APP_ADMIN_BLOG_VIEW
+
+                - ROLE_APP_ADMIN_REPORT_LIST
+                - ROLE_APP_ADMIN_REPORT_VIEW
+
+                - ROLE_APP_ADMIN_PAGE_LIST
+                - ROLE_APP_ADMIN_PAGE_VIEW
+
+                - ROLE_APP_ADMIN_USER_STATISTIC_LIST
+                - ROLE_APP_ADMIN_USER_STATISTIC_VIEW
+
+                - ROLE_SONATA_MEDIA_ADMIN_GALLERY_VIEW
+                - ROLE_SONATA_MEDIA_ADMIN_GALLERY_LIST
+
+                - ROLE_SONATA_MEDIA_ADMIN_MEDIA_VIEW
+                - ROLE_SONATA_MEDIA_ADMIN_MEDIA_LIST
+
+                - ROLE_LB_USER_ADMIN_USER_VIEW
+                - ROLE_LB_USER_ADMIN_USER_LIST
+
+            ROLE_SONATA_EDIT:
+                - ROLE_APP_ADMIN_TAG_EDIT
+                - ROLE_APP_ADMIN_AD_GEO_EDIT
+                - ROLE_APP_ADMIN_INTEREST_EDIT
+                - ROLE_APP_ADMIN_INTEREST_GROUP_EDIT
+                - ROLE_APP_ADMIN_BLOG_EDIT
+                - ROLE_APP_ADMIN_REPORT_EDIT
+                - ROLE_APP_ADMIN_PAGE_EDIT
+                - ROLE_SONATA_MEDIA_ADMIN_GALLERY_EDIT
+                - ROLE_SONATA_MEDIA_ADMIN_MEDIA_EDIT
+                - ROLE_LB_USER_ADMIN_USER_EDIT
+
+            ROLE_SONATA_CREATE:
+                - ROLE_APP_ADMIN_TAG_CREATE
+                - ROLE_APP_ADMIN_AD_GEO_CREATE
+                - ROLE_APP_ADMIN_INTEREST_CREATE
+                - ROLE_APP_ADMIN_INTEREST_GROUP_CREATE
+                - ROLE_APP_ADMIN_BLOG_CREATE
+                - ROLE_APP_ADMIN_REPORT_CREATE
+                - ROLE_APP_ADMIN_PAGE_CREATE
+                - ROLE_SONATA_MEDIA_ADMIN_GALLERY_CREATE
+                - ROLE_SONATA_MEDIA_ADMIN_MEDIA_CREATE
+                - ROLE_LB_USER_ADMIN_USER_CREATE
+            ROLE_SONATA_DELETE:
+                - ROLE_APP_ADMIN_TAG_DELETE
+                - ROLE_APP_ADMIN_AD_GEO_DELETE
+                - ROLE_APP_ADMIN_INTEREST_DELETE
+                - ROLE_APP_ADMIN_INTEREST_GROUP_DELETE
+                - ROLE_APP_ADMIN_BLOG_DELETE
+                - ROLE_APP_ADMIN_REPORT_DELETE
+                - ROLE_APP_ADMIN_PAGE_DELETE
+                - ROLE_SONATA_MEDIA_ADMIN_GALLERY_DELETE
+                - ROLE_LB_USER_ADMIN_USER_DELETE

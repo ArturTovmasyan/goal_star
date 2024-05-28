@@ -1,0 +1,28 @@
+<div class="modal bg-light-grey" id="users-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" data-ng-cloak>
+
+        <div class="bg-white border-bottom">
+            <h3 class="text-left">People who are going <span data-ng-click="$hide()" class="close-icon">&times;</span></h3>
+        </div>
+
+        <div data-ls-slim-scroll
+             data-scroll-height="420"
+             data-scroll-bind-bottom-function="nextUsers()">
+            <div data-ng-cloak
+                 class="element-animate"
+                 data-ng-repeat="user in users">
+                <div class="users-list bg-white">
+                    <div class="round clearfix">
+                        <figure class="pull-left img-circle ">
+                            <img data-ng-src="[[ ::user.profile_image_path ]]" alt="[[ ::user.show_name ]]" class="img-circle img-responsive" />
+                        </figure>
+
+                        <h4 class="text-dark-gray pull-left">
+                            [[ ::user.show_name ]]
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

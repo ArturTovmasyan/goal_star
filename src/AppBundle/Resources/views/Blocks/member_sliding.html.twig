@@ -1,0 +1,41 @@
+<div id="member-sliding">
+    <div class="row modal-top ng-hide" data-ng-show="slidingMember">
+
+        <div class="col-sm-10 col-sm-offset-1">
+            <a href="javascript:void(0)"
+               class="fa fa-heart [[ slidingMember.status == UserStatuses['LIKE'] ? 'text-pink':'text-white' ]]"
+               data-ng-click="nextMember(1)"></a>
+            <a href="javascript:void(0)" class="fa fa-times text-white" data-ng-click="nextMember(0)"></a>
+            <a href="{{ app.debug ? "/app_dev.php": "" }}/member/[[ slidingMember.id ]]" class="text-white">
+                [[ slidingMember.show_name ]] [[ slidingMember.age ]]
+            </a>
+            &nbsp;
+            <a href="javascript:void(0)" class="text-white" data-ng-click="nextMember(-1)">Skip</a>
+        </div>
+    </div>
+
+    <div class="relative">
+        <ul class="member-sliding-images clearfix" style="width: 550px">
+            <li data-ng-class="{'to-left': image.toLeft, 'to-right': image.toRight, animated: animated}"
+                data-ng-init="image.toRight=true;image.toLeft=false"
+                data-ng-repeat="(k, image) in slidingMember.all_files"
+                data-ng-show="k == activeImageSlide" class="ng-hide">
+                <figure>
+                    <img data-ng-src="[[ image.web_path ]]">
+                </figure>
+            </li>
+        </ul>
+
+        <ul class="ng-hide member-images" style="width: [[ 75*(slidingMember.all_files.length+1) ]]px;" data-ng-show="slidingMember.all_files.length">
+            <li data-ng-repeat="(k, image) in slidingMember.all_files"
+                data-ng-click="toSelectedSlide(k)"
+                data-ng-class="{'active-slide': k == activeImageSlide}">
+                <img data-ng-src="[[ image.thumb_path ]]" class="img-responsive">
+            </li>
+        </ul>
+    </div>
+
+    <span class="jssora16l ng-hide" data-ng-click="prevSlide()" data-ng-show="activeImageSlide"></span>
+    <!-- Arrow Right -->
+    <span class="jssora16r ng-hide" data-ng-click="nextSlide()" data-ng-show="activeImageSlide < slidingMember.all_files.length - 1"></span>
+</div>

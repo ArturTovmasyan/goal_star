@@ -1,0 +1,117 @@
+{% extends "AppBundle:Group:base.html.twig" %}
+
+{% block title %}
+    {%- if app.user is not null and form.vars['value'] is not null -%}
+        {%- if form.vars['value'].name is not null -%}
+            {{- 'meta.title.group_create_group_name'|trans({'%firstName%': app.user.firstname, '%groupName%': form.vars['value'].name }, 'messages') -}}
+        {%- else -%}
+            {{- 'meta.title.group_create'|trans({'%firstName%': app.user.firstname}, 'messages') -}}
+        {%- endif -%}
+    {%- endif -%}
+{% endblock %}
+{% block metaDescription %}{{ 'meta.description.group_create'|trans({}, 'messages') }}{% endblock %}
+
+{% block AngularApp %}
+    <html data-ng-app="group">
+{% endblock %}
+
+{% block group_content %}
+    {% include "@App/Group/group_nav.html.twig" with {'group': null} %}
+    {% set location = [] %}
+
+{# get location from form and create json type data for maps #}
+    {% if form.children['latitude'].vars['value'] is not null and form.children['longitude'].vars['value'] is not null %}
+    {#{% set location = location|merge({'location' :{'latitude':form.children['latitude'].vars['value'], 'longitude':form.children['longitude'].vars['value']}}) %}#}
+    {% endif %}
+    {% if form.children['address'].vars['value'] is not null %}
+        {% set location = location|merge({'address':form.children['address'].vars['value']}) %}
+    {% endif %}
+{% set location = location|serialize('json') %}
+<div class="row">
+    <div class="col-sm-10 col-md-offset-1 col-md-10 col-md-offset-1">
+{{ form_start(form, {'action' : '#'} ) }}
+
+    <div class="form-group">
+        {{ form_label(form.name) }}
+        <div class="col-sm-7 col-md-8"> {{ form_widget(form.name) }} </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.file) }}
+        <div class="col-sm-7 col-md-8"> {{ form_widget(form.file) }} </div>
+
+        {% if form.vars.value.filename %}
+            <div class="col-sm-7 col-md-8">
+                <figure>
+                    <img  src="{{ form.vars.value.downloadlink }}" alt="Group Image" class="img-responsive">
+                </figure>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.eventDate) }}
+        <div class="col-sm-7 col-md-8">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-6"> {{ form_widget(form.eventDate.date) }} </div>
+                        <div class="col-sm-6"> {{ form_widget(form.eventDate.time) }} </div>
+                    </div>
+                </div>
+                {{ form_errors(form.eventDate) }}
+            </div>
+        </div>
+    </div>
+
+    {% if form.vars['value'].isAuthor(app.user) or form.vars['value'].id is null %}
+    <div class="form-group">
+        {{ form_label(form.joinLimit) }}
+        <div class="col-sm-4"> {{ form_widget(form.joinLimit) }} </div>
+    </div>
+    {% else %}
+        <div class="form-group hidden">
+            {{ form_label(form.joinLimit) }}
+            <div class="col-sm-7 col-md-8 hidden"> {{ form_widget(form.joinLimit) }} </div>
+        </div>
+    {% endif %}
+    <div class="form-group">
+        {{ form_label(form.description) }}
+        <div class="col-sm-7 col-md-8"> {{ form_widget(form.description) }} </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.type) }}
+        <div class="col-sm-7 col-md-8"> {{ form_widget(form.type) }} </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-7 col-sm-offset-5 col-md-8  col-md-offset-4">
+            <input required type="text"
+                   data-google-places-autocomplete
+                   data-types="['establishment']"
+                   data-place="place"
+                   class="form-control"
+                   name="location-name"
+                   value="{{ locationName }}"/>
+            <br />
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div data-simple-map-marker data-single-marker="place.location" class="map"></div>
+                </div>
+            </div>
+
+            <input type="hidden" name="location" required="required" class="form-control" data-ng-init="place={{ loc|default("''") }}" data-ng-model="place" value="[[ place ]]"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        {#{{ form_label(form.submit) }}#}
+        <div class="col-sm-4 col-sm-offset-8 text-right"> {{ form_widget(form.submit) }} </div>
+    </div>
+
+{{ form_end(form) }}
+
+    </div>
+</div>
+{% endblock %}

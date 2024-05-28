@@ -1,0 +1,357 @@
+blog:
+  continue_reading: Read more
+  no_blog: no blog
+  related: Related
+  comment: Comment
+  no_author: No Author
+  post: Post by
+
+event:
+  author: by Mike Kesh
+  buy: Buy Ticket
+  date_and_time: Date and time
+  location: Location
+  view_map: View Map
+  friends: People who are going
+  share: Share with friends
+  connected: Going
+  donate: Donate
+  give_amount:  Give a custom amount
+  free: Get Free
+  get: Get Free Ticket
+  other_events: Other Events You May Like
+
+connection:
+  connections: Connections
+  no_connection: No Connection
+
+contact:
+  contact: Contact
+  help: Need help?
+  advertise_text: Would you like to advertise with us?
+  contact_us: Contact Us
+  text: If you have any questions, comments, suggestions or you’d like to advertise with us, please drop us a line
+  main_office: Main Office
+  address: Address:
+  address_text: "LuvByrd 700 Colorado Boulevard #616 Denver Colorado, 80206"
+  email: Email:
+  email_text: info@luvbyrd.com
+  advertising: Advertising:
+  advertising_text: 'Wanna advertise with LuvByrd? Email us at info@luvbyrd.com'
+  form:
+    name: Your Name
+    email: Your Email
+    subject: Subject
+    username: Username
+    your_message: Your Message
+    device: Your device
+    send: Send
+
+contentTop:
+  sign: Sign up with
+  username: Username
+  email_address: Email address
+  password: Password
+  confirm: Confirm
+  agree: I agree with the
+  terms: terms and conditions /
+  privacy: Privacy Policy
+  sign_up: SIGN UP
+  sign_in: SIGN IN
+  textFirst: Join today, to meet thousands of other
+  textSecond: outdoor singles just like you!
+
+favorite:
+  new: New
+  favorited_you: Favorited you
+  favorited_by_me: Favorited By Me
+  no_favorite: No Favorite
+
+friends:
+  no_friends: No Friends
+
+howMatch:
+  how_match: Our most popular and best value
+  enjoy: Enjoy these valuable features and start your next dating adventure today
+  thanks: Thanks for being a part of LuvByrd!
+  info: All membership features are billed each month from when you signed up.
+#  subscribe: Subscribe For Free
+#  free: free
+#  lb: LuvByrd is free!!
+#  your_level: Your Level
+#  select: select
+#  membership: Membership Level
+#  membership_text: You have selected the FREE membership level.
+#  price: The price for membership is
+#  now: now
+#  discount: Do you have a discount code?
+#  discount_link: Click here to enter your discount code
+#  discount_code: Discount Code
+#  apply: Apply
+#  please_login: Please Login or Register a new account in order to continue
+#  login: Login
+#  sign_up: Sign Up
+#  account: Your Account
+
+like:
+  liked_you: Liked you
+  liked_by_me: Liked By Me
+  new: New
+  no_data: No data
+
+search:
+  man: Man
+  woman: Woman
+  bisexual: Bisexual
+  age: Age
+  search: Search
+  reset: Reset
+  looking_for_a: Looking for a
+
+signUp:
+  sign_up: Sign Up Today For
+  check_us: Check us out and start your next dating adventure!
+  sign_up_now: SIGN UP NOW
+  available: Available Everywhere
+  text: LuvByrd is available everywhere! Download our app today and connect with someone wherever your adventures take you!
+  free: FREE
+
+singleMember:
+  summary: Summary
+  personal_info: Personal Info
+  i_am: I'm here to make new friends
+  craziest_outdoor: My craziest outdoor adventure was...
+  favorite_outdoor: My favorite outdoor activity is ... and why?
+  like_try: What's the one thing on your bucket list you'd like to try tomorrow?
+
+visitor:
+  visited_you: Visited you
+  new: New
+  no_data: No Visitors
+
+message:
+  messages: Messages
+
+notification:
+  liked_you: Likes
+  favorited_you: Favorites
+  visitors: Visitors
+  messages: Messages
+  connections: Connections
+
+user:
+  members_you: Members you currently block
+  user: User
+  action: Action
+  unblock: UNBLOCK
+  no_user_found: No user found
+  disable_account: Disable Account
+  enable_account:   Enable Account
+  disable_account_text: Disabling your account will restrict your profile to be listed in search results.
+  enable_account_text: Enabling your account will list your profile in search results.
+  consequences: I understand the consequences.
+  email_notification: Email Notification
+  email_notification_text: Send a notification by email when:
+  messages: Messages
+  messages_text: A member sends you a new message
+  friends: Connections
+  member_sends: When a connection is made
+  member_accepts: When someone favorites you
+  groups: Groups
+  member_invites: A member invites you to join a group
+  group_information: Group information is updated
+  promoted: You are promoted to a group administrator or moderator
+  member_requests: A member requests to join a private group for which you are an admin
+  basic_info: Your Basic Info
+  gender: Gender
+  man: Man
+  woman: Woman
+  bisexual: Bisexual
+  save: Save
+  cancel: Cancel
+  your_account: Your account
+  interests: Interests
+  personal_info: Personal Info
+  profile_settings: Profile Settings
+  base: BASE
+  visibility: Visibility
+  first_name: First Name
+  everyone: EVERYONE
+  age: AGE
+  i_am_a: I am a
+  looking_for: Looking for a
+  city: City
+  about_me: ABOUT ME
+  my_summary: My SUMMARY
+  my_activity: MY ACTIVITY
+  favorite_summer: Favorite Summer Activities
+  areas: Areas I ski/ride most
+  favorite_winter: Favorite Winter Activities
+  craziest_outdoor: My craziest outdoor adventure was...
+  favorite_outdoor: My favorite outdoor activity is ... and why?
+  like_try: What's the one thing on your bucket list you'd like to try tomorrow?
+  like_try_second: What's the one thing on your bucket list ... tomorrow?
+  sky_ride: Areas I ski/ride most
+  gallery: Gallery
+  interested_in: interested in
+
+# empty list messages
+nofriends: No friends
+nofavorite: No favorites yet, make sure your profile is up to date.
+noliked: No one likes bathroom selfies!
+novisitors: Ut-Ohhh! Oh well, go do something awesome!
+noconnection:  Outdoors+Luv=Awesome! Keep searching!
+
+# meta
+meta:
+  title:
+    base: LuvByrd | Dating for the Outdoor Enthusiast
+    login: Login into Luvbyrd
+    resetting: Resetting password in Luvbyrd
+    register: Create an Account | LuvByrd
+    members: Members | Luvbyrd
+    events: Events | Luvbyrd
+    me: %firstName% | Luvbyrd
+    connections: Friends | %firstName% | LuvByrd
+    like: Requests | Friends | %firstName% | LuvByrd
+    like_by_me: Requests | Friends | %firstName% | LuvByrd
+    favorite: Favorite | %firstName% | LuvByrd
+    visitor: Visitor | %firstName% | LuvByrd
+    messages: Messages | %firstName% | LuvByrd
+    group: Group | %firstName% | LuvByrd
+    group_invite: Group | Invite | %firstName% | Luvbyrd
+    group_join: Group | Join | %firstName% | Luvbyrd
+    group_hosting: Group | Hosting | %firstName% | Luvbyrd
+    group_view: Group | View | %groupName% | %firstName% | Luvbyrd
+    group_create: Group | Create | %firstName% | Luvbyrd
+    group_create_group_name: Group | Create | %groupName% | %firstName% | Luvbyrd
+    contact: Contact | LuvByrd
+    page: %pageTitle% | LuvByrd
+    blog: Blog | LuvByrd
+    blog_show: %blogTitle% | LuvByrd
+    member_ship: Member ship | LuvByrd
+  description:
+    base: Online dating for the outdoor enthusiast. Meeting someone who loves the outdoors as much as you has never been easier.
+    login: Login into Luvbyrd
+    register: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    members: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    events: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    me: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    connections: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    like: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    like_by_me: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    favorite: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    visitor: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    messages: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    group: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    group_invite: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    group_join: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    group_hosting: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    group_view: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    group_create: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    contact: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    page: %pageMetaDescription%
+    blog: LuvByrd is a new dating site that is focused on introducing people who enjoy the outdoors.
+    blog_show: %blogMetaDescription% | LuvByrd
+    member_ship: Member ship | LuvByrd
+regisrer:
+  lastname:
+    help-text: Visible to admin only
+
+group:
+  list: Nothing going on this month, create an event and invite some people.
+  invite_list: Try creating a group and invite a few people.
+  joined_list: Don’t be shy!
+  hosting_list: Get outside and do something awesome with someone!
+  all: All
+  invited: Invited
+  joined: Joined
+  hosting: Hosting
+  edit: Edit Group
+  delete: Delete
+  create: Create Group
+  member: Member
+  moderator: Moderator
+  details: Details
+  map: Map
+  group_admin: Group admin
+  moderators: Moderators
+  members_requests: Members Requests
+  members: Members
+  form:
+      name: Name
+      group_image: Group Image
+      date: Date
+      limit_of_members: Limit of members
+      description: Description
+      type: Type
+      choose_an_group_type: Choose an group type
+      public: Public
+      private: Private
+      submit: Submit
+
+find:
+  follow_us_here: Follow us here
+
+slider:
+  text: Enjoy these cool reads
+  luv: Luv
+  byrd: Byrd
+
+layout:
+  calendar: calendar
+
+login:
+  sign_in_to_luvByrd: Sign in to LuvByrd
+  text: Please enter your sign in details. Sign up here if you are not registered yet.
+  forget_password: Forget your password?
+  no_account: Do not have an account? Register!
+  or: or
+
+base:
+  download_our_free_apps: Download our free apps:
+  iPhone_app: iPhone app
+  android_app: Android app
+  copyright: Copyright
+  text: LuvByrd. Dating for outdoor enthusiast
+
+drag_drop: Drag & Drop a Photo
+
+membership:
+  title: Membership Account
+  level: Level
+  cancel: Cancel Membership
+  expires_on: expires on
+  cancel_success: Subscription %subscribe% was successfully canceled
+  create_success: Subscription for %subscribe% was successfully created
+  create_error: Subscription for %subscribe% was not created, plesa try again
+
+note:
+  like: %firstName% liked you on Luvbyrd
+  connection: You have a new connection with %firstName% on Luvbyrd
+  visit: %firstName% visited you on Luvbyrd
+  favorite: %firstName% added you to favorites list on Luvbyrd
+  email: %firstName% sent you a new message on Luvbyrd
+
+forbidden_Error: You must enable your account, to access other pages
+subscriber:
+  like: |
+   See who’s liked you.
+   Who knows,
+   they might be the one :)
+  visit: |
+     We know you want
+     to know who’s
+     checking you out.
+  favorite: |
+   Know who’s
+   favorited you as their
+   favorite LuvByrd .
+  message:  |
+    Message who
+    you want, when you want.
+  unlimited: |
+         Includes unlimited messaging,
+         access to likes, visitors
+         favorites, unlimited messaging
+         and connections.

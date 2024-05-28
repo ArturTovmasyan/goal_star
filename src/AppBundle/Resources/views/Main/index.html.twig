@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset('bundles/app/less/letterText.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('bundles/app/js/slick/slick.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('bundles/app/js/slick/slick-theme.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('app/bower_components/angular-motion/dist/angular-motion.min.css') }}" rel="stylesheet"/>
+
+{% endblock %}
+
+{% block AngularApp %} <html data-ng-app="main" data-ng-controller="MainController"> {% endblock %}
+
+{% block content %}
+    <div id="vertical-menu" class="vertical-menu">
+        <ul>
+            <li>
+                <a href="javascript:void(0)" data-target-id="#content-top" onclick="navigateMenu('#content-top', this)"></a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" data-target-id="#signup" onclick="navigateMenu('#signup', this)"></a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" data-target-id="#available" onclick="navigateMenu('#available', this)"></a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" data-target-id="#slider" onclick="navigateMenu('#slider', this)"></a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" data-target-id="#featured" onclick="navigateMenu('#featured', this)"></a>
+            </li>
+        </ul>
+    </div>
+
+    {#{% include 'AppBundle:Main:contentTop.html.twig' %}#}
+    {% include 'AppBundle:Main:signUp.html.twig' %}
+    {{ include('AppBundle:Main:slider.html.twig', {blogs: blogs}) }}
+    {% include 'AppBundle:Main:featured.html.twig' %}
+    {% include 'AppBundle:Main:findUs.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('app/bower_components/angular/angular.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('app/bower_components/angular-animate/angular-animate.min.js') }}" type="text/javascript"></script>
+
+    {% javascripts output='js/main_index.js'
+        'app/bower_components/angular-strap/dist/angular-strap.min.js'
+        'app/bower_components/angular-strap/dist/angular-strap.tpl.min.js'
+        'app/bower_components/jquery.scrollTo/jquery.scrollTo.min.js'
+        'app/bower_components/re-tree/re-tree.min.js'
+        'app/bower_components/ng-device-detector/ng-device-detector.min.js'
+        'app/bower_components/jquery.cookie/jquery.cookie.js'
+        'bundles/app/js/slick/slick.min.js'
+        'bundles/app/js/letterText/letterText.js'
+        'bundles/app/js/navigateMenu.js'
+        'bundles/app/js/homepage.js'
+        'bundles/app/js/angular/main.js'
+        %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+{% endblock %}

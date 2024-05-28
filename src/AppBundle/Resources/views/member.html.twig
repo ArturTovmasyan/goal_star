@@ -1,0 +1,14 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+
+{% block stylesheets %}
+{{ parent() }}
+
+    {% stylesheets output='css/member.css'
+        'app/bower_components/angular-motion/dist/angular-motion.min.css'
+        'bundles/app/less/jssor-slider.css'
+        'bundles/app/less/member-sliding.css'
+        filter='cssrewrite' %}
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}

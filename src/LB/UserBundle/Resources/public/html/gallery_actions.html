@@ -1,0 +1,21 @@
+<div class="popover" tabindex="-1" class="images">
+    <div class="arrow"></div>
+    <h3 class="popover-title" data-ng-bind="title" data-ng-show="title"></h3>
+    <div class="popover-content">
+        <a data-ng-show="fileLength > 1" href="javascript:void(0)"
+           data-ls-confirm
+           data-modal-title="Are you sure you want to delete this photo?"
+           data-confirm="deleteAction()"
+           data-ng-click="$hide()">Delete this photo
+        </a>
+        <a href="javascript:void(0)" data-ng-click="setProfileAction()">Set as Profile Picture</a>
+        <a href="javascript:void(0)"
+           data-ng-if="imagePath"
+           data-edit-photo
+           data-image-id="[[ imageId]]"
+           data-image-path="[[ imagePath ]]">
+            Add Caption
+        </a>
+        <a href="javascript:void(0)" data-ng-click="setRotateAction()">Rotate</a>
+    </div>
+</div>

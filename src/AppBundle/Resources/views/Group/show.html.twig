@@ -1,0 +1,355 @@
+{% extends "AppBundle:Group:base.html.twig" %}
+
+{%- block ogTitle-%}{{ group.name }}{%- endblock -%}
+{#{%- block ogDescription-%}{{ group.description }}{%- endblock-%}#}
+
+{%- block ogImage -%}
+    {%- if group.fileName -%}
+        {{ app.request.getSchemeAndHttpHost() }}{{ group.getDownloadLink }}
+    {%- else -%}
+        {{- parent() -}}
+    {%- endif -%}
+{%- endblock -%}
+
+{% block title %}{% if app.user is not null and group is defined %}{{ 'meta.title.group_view'|trans({'%firstName%': app.user.firstname, '%groupName%': group.name }, 'messages') }}{% endif %}{% endblock %}
+{% block metaDescription %}{{ 'meta.description.group_view'|trans({}, 'messages') }}{% endblock %}
+
+{% block AngularApp %}
+    <html data-ng-app="group" data-ng-controller="GroupSingleController" data-ng-init="groupId={{ group.id }}">
+{% endblock %}
+
+{% set currentUser = app.user %}
+
+{% set isAuthor = group.isAuthor(currentUser) %}
+
+{% block group_content %}
+{% include "@App/Group/group_nav.html.twig" with {'group': group} %}
+<div class="show-page">
+    <div class="row">
+
+        <div class="col-sm-6 border-right-blue group-column">
+
+            <div class="row">
+                <div class="col-sm-12 border-bottom-blue">
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <ul class="date">
+                                <li>
+                                    {{ group.eventDate|date('M')}}
+                                </li>
+
+                                <li>
+                                    {{ group.eventDate|date('d')}}
+                                </li>
+
+                                <li>
+                                    {{ group.eventDate|date('Y')}}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-8">
+
+                            <a  href="
+                                {% if isAuthor or group.isModerator(currentUser) %}
+                                    {{ path('group_create', {'slug' : group.slug }) }}
+                                {% else  %}
+                                    {{ path("group_view", {'slug' : group.slug }) }}
+                                {% endif %}
+                                " class="event-title {% if group.name|length > 44 %}title-smaller{% endif %}">
+                            {{ group.name }}
+                            </a>
+                            <br/>
+                        </div>
+                    </div>
+
+                    {% if not isAuthor %}
+                        {% set userMemberStatuses = group.memberStatuses(currentUser) %}
+                        {% set userModeratorStatuses = group.moderatorStatuses(currentUser) %}
+                        <div class="row buttons">
+                            <div class="col-sm-5">
+                                <strong> {{ 'group.member'|trans({}, 'messages') }}</strong>
+                            </div>
+                            <div class="col-sm-7 text-right">
+                                <span class="ng-hide"
+                                     data-ng-cloak
+                                     data-ng-init="isLimited={{ group.isLimited ? 1:0 }};
+                                     isPrivate={{ group.type ? 1:0 }};
+                                     memberAuthorStatus={{ (userMemberStatuses and userMemberStatuses['author_status']) ? userMemberStatuses['author_status']:0 }};
+                                     memberMemberStatus={{ (userMemberStatuses and userMemberStatuses['member_status']) ? userMemberStatuses['member_status']:0 }};
+                                     moderatorModeratorStatus={{ (userModeratorStatuses and userModeratorStatuses['moderator_status']) ? userModeratorStatuses['moderator_status']:0 }};
+                                     moderatorAuthorStatus={{ (userModeratorStatuses and userModeratorStatuses['author_status']) ? userModeratorStatuses['author_status']:0 }}"
+                                     data-ng-click="joinLeaveAsMember(0)"
+                                     data-ng-show="memberAuthorStatus && memberMemberStatus">
+                                    <a href="javascript:void(0)" class="btn btn-warning">Leave Group</a>
+                                </span>
+                                <span class="ng-hide"
+                                     data-ng-cloak
+                                     data-ng-click="joinLeaveAsMember(1)"
+                                     data-ng-show="!isLimited && !memberAuthorStatus && !memberMemberStatus">
+                                    <a href="javascript:void(0)" class="btn btn-info">Join Group</a>
+                                </span>
+
+                                <span class="ng-hide"
+                                     data-ng-cloak
+                                     data-ng-click="joinLeaveAsMember(1)"
+                                     data-ng-show="!isLimited && !memberMemberStatus && memberAuthorStatus">
+                                    <a href="javascript:void(0)" class="btn btn-info">Accept</a>
+                                </span>
+
+                                <span class="ng-hide"
+                                     data-ng-cloak
+                                     data-ng-click="joinLeaveAsMember(0)"
+                                     data-ng-show="!memberMemberStatus && memberAuthorStatus">
+                                    <a href="javascript:void(0)" class="btn btn-pink">Reject</a>
+                                </span>
+
+                                <span class="ng-hide"
+                                     data-ng-cloak
+                                     data-ng-show="memberMemberStatus && !memberAuthorStatus">
+                                    <p>Request is sent</p>
+                                </span>
+
+                                <span class="ng-hide"
+                                     data-ng-cloak
+                                     data-ng-show="isLimited && (memberMemberStatus || !memberAuthorStatus)">
+                                    <p>It is full</p>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row buttons ng-hide" data-ng-show="moderatorAuthorStatus">
+                            <div class="col-sm-5">
+                                <strong>{{ 'group.moderator'|trans({}, 'messages') }}</strong>
+                            </div>
+                            <div class="col-sm-7 text-right">
+                                <span class="ng-hide"
+                                     data-ng-cloak
+                                     data-ng-click="joinLeaveAsModerator(0)"
+                                     data-ng-show="moderatorModeratorStatus">
+                                    <a href="javascript:void(0)" class="btn btn-warning">Leave Group</a>
+                                </span>
+
+                                <span class="ng-hide"
+                                     data-ng-cloak
+                                     data-ng-click="joinLeaveAsModerator(1)"
+                                     data-ng-show="!isLimited && !moderatorModeratorStatus">
+                                    <a href="javascript:void(0)" class="btn btn-info">Accept</a>
+                                </span>
+
+                                <span class="ng-hide"
+                                     data-ng-cloak
+                                     data-ng-click="joinLeaveAsModerator(0)"
+                                     data-ng-show="!moderatorModeratorStatus">
+                                    <a href="javascript:void(0)" class="btn btn-pink">Reject</a>
+                                </span>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <h3 class="text-dark-gray">{{ 'group.details'|trans({}, 'messages') }}</h3>
+
+            <div class="row">
+                <div class="col-sm-12 border-bottom-blue">
+                    <ul class="date-details">
+                        <li class="row">
+                            <strong class="col-sm-6">Date</strong>
+                            <span class="col-sm-6 text-right">{{ group.eventDate|date('M.d.Y')}}</span>
+                        </li>
+
+                        <li class="row">
+                            <strong class="col-sm-6">Time</strong>
+                            <span class="col-sm-6 text-right">{{ group.eventDate|date('h:i A')}}</span>
+                        </li>
+
+                        <li class="row">
+                            <strong class="col-sm-6">Location</strong>
+                            <span class="col-sm-6 text-right">{{ group.address}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <h3 class="text-dark-gray">{{ 'group.map'|trans({}, 'messages') }}</h3>
+            <div class="row">
+                <div class="col-sm-12">
+                    {% set location = {latitude: group.latitude, longitude: group.longitude} %}
+                    <div data-simple-map-marker
+                         data-view="true"
+                         data-single-marker="{{ location|json_encode }}"
+                         style="width: 100%;height: 200px">
+                    </div>
+                </div>
+
+            </div>
+            <br />
+        </div>
+
+        <div class="col-sm-6 group-column">
+            <figure>
+                <img  src="{{ group.imageCachePath }}" alt="Group Image" class="img-responsive">
+            </figure>
+
+            <p>{{ group.description | auto_link_text | raw}}</p>
+            <div class="border-bottom-blue"></div>
+            <h4 class="text-dark-gray">{{ 'group.group_admin'|trans({}, 'messages') }}</h4>
+            <p class="group-admin-info">
+                {%  set name =  group.author|show_fullName %}
+                <img src="{{ group.author.profileImagePath|lbImageFilter('groups_author')~ group.author.getProfileImageCacheVersion }}" alt="Group Author Image" class="img-circle img-responsive">
+               <a href="{{ path('member', {'uid':group.author.getUId()}) }}" class="text-gray">{{ name }}</a>
+            </p>
+            <br />
+            <div class="row">
+                <div class="col-sm-12">
+                {% set moderators = [] %}
+                {% for moderator in group.moderators %}
+                    {% if isAuthor or (moderator.authorStatus and moderator.moderatorStatus) %}
+                        {% set moderators = moderators|merge([{'id':moderator.moderator.id,
+                            'show_name':moderator.moderator|show_fullName,
+                            'profile_image_path':moderator.moderator.profileImagePath,
+                            'author_status':moderator.authorStatus,
+                            'moderator_status':moderator.moderatorStatus}]) %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if isAuthor %}
+                    <select class="moderator-select"
+                        style="width:100%"
+                        data-ajax-url="{{ path('rest_get_groups_users', {group: group.id, type: 'moderator'}) }}">
+                    </select>
+                {% endif %}
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-12">
+                    {% set members = [] %}
+                    {% for member in group.members %}
+                        {% set members = members|merge([{'id':member.member.id,
+                            'show_name':member.member|show_fullName,
+                            'profile_image_path':member.member.profileImagePath,
+                            'author_status':member.authorStatus,
+                            'member_status':member.memberStatus,
+                        }]) %}
+                    {% endfor %}
+
+                    {% if isAuthor %}
+                        <select class="member-select"
+                            style="width: 100%"
+                            data-ajax-url="{{ path('rest_get_groups_users', {group: group.id, type: 'member'}) }}">
+                        </select>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="ng-hide" data-ng-init="moderators={{ moderators | json_encode }}" data-ng-show="moderatorModeratorStatus && moderatorAuthorStatus || {{ isAuthor?1:0 }}" data-ng-cloak>
+        <h4 class="bg-blue title text-white">{{ 'group.moderators'|trans({}, 'messages') |capitalize }}</h4>
+        <div class="row">
+            <div class="col-xs-6 col-sm-3 col-md-2" data-ng-repeat="moderator in moderators">
+                <figure>
+                    {% if isAuthor %}
+                        <p>
+                            <span class="fa fa-square text-pink" title="Remove" data-toggle="tooltip" data-placement="bottom">
+                                <i class="fa fa-remove text-white"
+                                   data-modal-title="Are you sure to remove this moderator ?"
+                                   data-confirm="removeModerator(moderator.id)"
+                                   data-ls-confirm></i>
+                            </span>
+                        </p>
+                        <i class="waiting ng-hide" data-ng-show="moderator.author_status && !moderator.moderator_status"></i>
+                    {% endif %}
+                    <img data-ng-src="[[ moderator.profile_image_path ]]" alt="Moderator Image" class="img-responive"/>
+                    <figcaption>
+                        <span style="position: relative">
+                            <a href="{{ app.debug ? '/app_dev.php':'' }}/member/[[ moderator.u_id ]]">[[ moderator.show_name ]]</a>
+                        </span>
+                    </figcaption>
+                </figure>
+            </div>
+            <div data-ng-show="!moderators.length" class="ng-hide">
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There is not any moderator</p>
+            </div>
+        </div>
+    </section>
+
+    {% if isAuthor and members is iterable and members|length > 0 %}
+        <section>
+            <h4 class="bg-blue title text-white">{{ 'group.members_requests'|trans({}, 'messages') |capitalize }}</h4>
+            <div class="row">
+                <div class="col-xs-6 col-sm-3 col-md-2" data-ng-repeat="member in members" data-ng-if="!member.author_status && member.member_status">
+                    <figure>
+                        <p data-ng-init="requestedMemberExists(true)">
+                            <span class="fa fa-check-square text-blue"
+                                  title="Accept"
+                                  data-ng-click="addMember(member);member.author_status=true"
+                                  data-toggle="tooltip"
+                                  data-placement="bottom">
+                            </span>
+                            <span class="fa fa-square text-pink" title="Remove" data-toggle="tooltip" data-placement="bottom">
+                                <i class="fa fa-remove text-white"
+                                   data-modal-title="Are you sure to remove this moderator ?"
+                                   data-confirm="removeMember(member.id)"
+                                   data-ls-confirm></i>
+                            </span>
+                        </p>
+
+                        <img data-ng-src="[[ member.profile_image_path ]]" alt="Member Image" class="img-responive"/>
+                        <figcaption>
+                            <span style="position: relative">
+                                <a href="{{ app.debug ? '/app_dev.php':'' }}/member/[[ member.u_id ]]">[[ member.show_name ]]</a>
+                            </span>
+                        </figcaption>
+                    </figure>
+                </div>
+                <div data-ng-show="!requestedMemberExistsVariable" class="ng-hide">
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There is not any member</p>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    <section data-ng-init="members={{ members | json_encode }}" data-ng-cloak>
+        <h4 class="bg-blue title text-white">{{ 'group.members'|trans({}, 'messages') |capitalize }}</h4>
+        <div class="row">
+            <div class="col-xs-6 col-sm-3 col-md-2" data-ng-repeat="member in members" data-ng-if="({{ isAuthor?1:0 }} && member.author_status && !member.member_status) || member.author_status && member.member_status">
+                <figure data-ng-init="memberExists(true)">
+                    {% if isAuthor %}
+                        <p>
+                            <span class="fa fa-square text-pink" title="Remove" data-toggle="tooltip" data-placement="bottom">
+                                <i class="fa fa-remove text-white"
+                                   data-modal-title="Are you sure to remove this member ?"
+                                   data-confirm="removeMember(member.id)"
+                                   data-ls-confirm></i>
+                            </span>
+                        </p>
+                        <i class="waiting ng-hide" data-ng-show="member.author_status && !member.member_status"></i>
+                    {% endif %}
+
+                    <img data-ng-src="[[ member.profile_image_path ]]" alt="Member Image" class="img-responive"/>
+                    <figcaption>
+                        <span style="position: relative">
+                            <a href="{{ app.debug ? '/app_dev.php':'' }}/member/[[ member.u_id ]]">[[ member.show_name ]]</a>
+                        </span>
+                    </figcaption>
+                </figure>
+            </div>
+            <div data-ng-show="!members.length || !memberExistsVariable" class="ng-hide">
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There is not any member</p>
+            </div>
+        </div>
+    </section>
+
+
+</div>
+    {% if is_granted("ROLE_USER") and is_comment == true %}
+        {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': group.id} %}
+    {% endif %}
+
+{% endblock %}

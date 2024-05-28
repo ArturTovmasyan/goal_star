@@ -1,0 +1,147 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block AngularApp %} <html data-ng-app="gallery" data-ng-controller="GalleryController"> {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset("app/bower_components/angular-motion/dist/angular-motion.min.css") }}" rel="stylesheet">
+    <link href="{{ asset("bundles/app/less/jssor-slider.css") }}" rel="stylesheet">
+
+{% endblock %}
+
+{% block center_content %}
+
+    <div id="gallery">
+        {% include 'LBUserBundle:Main:profileIcons.html.twig' with {'name': 'user.gallery'|trans({}, 'messages') |capitalize } %}
+        <hr />
+
+        {% set  messages = app.session.flashBag.get('file_error') %}
+        {% if messages|length > 0 %}
+            <div class="alert alert-danger">
+                <ul class="list-unstyled">
+                    {% for message in messages %}
+                        <li>
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>{{ message|trans({}, 'FOSUserBundle') }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <div class="row">
+
+            {% for key, file in files %}
+                <div class="col-xs-6 col-md-4">
+                    <figure>
+                        <a href="javascript:void(0)"
+                           data-actions
+                           data-delete-action="deleteImage('{{ url('file-delete',{'id':file.id }) }}')"
+                           data-set-profile-action="setProfilePicture('{{url('set_profile', {'id' : file.id } )}}')"
+                           data-set-rotate-action='rotate("rotate_{{ key }}")'
+                           data-image-path="{{ file.getWebPath  }}"
+                           data-image-id="#rotate_{{ key }}"
+                           data-physically-rotate-action='physicallyRotate("{{ file.id }}")'
+                           data-file-length="{{ files|length }}"
+                           title="Actions"
+                           class="delete">
+                            <i class="fa fa-ellipsis-h"></i>
+                        </a>
+
+                        {% set cacheVersion = file.generateCacheVersion  %}
+
+                        <div class="caption-wrapper">
+                            <a href="javascript:void(0)">
+                                <img id="rotate_{{ key }}" src="{{ file.getWebPath|lbImageFilter('gallery') ~ cacheVersion }}" alt="{{ file.name }}" class="img-responsive"/>
+                            </a>
+
+                            {% if file.caption %}
+                                <div class="caption">
+                                    <p class='caption-content'>{{ file.caption }}</p>
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                    </figure>
+                    {% if is_granted('ROLE_SUPER_ADMIN') and files|length > 1 %}
+                        <a href="javascript:void(0)"
+                           data-ls-confirm
+                           data-confirm="deleteImage('{{ url('file-delete',{'id':file.id }) }}')"
+                           data-modal-title="Are you sure you want to delete this photo?"
+                           class="trash">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    {% endif %}
+                </div>
+
+            {% endfor %}
+
+            <form action="#" class="gallery-upload" method="post">
+                <div class="form-group row">
+                    <div class="col-xs-12">
+                        <div class="text-center" data-ng-init="initDropzone('{{ path('add_images') }}')">
+                            <div class="dropzone" id="registerDropzone">
+                                <div class="dz-message">
+                                    <i class="fa fa-cloud-upload"></i>
+                                    <h3 class="text-dark-gray">{{ 'drag_drop'|trans({}, 'messages') }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input name="gallery_file" type="hidden" value="[[ files ]]"/>
+                </div>
+
+            </form>
+
+        </div>
+
+        {% if app.user.getFacebookId() %}
+
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    Add photos via:
+                    <ul class="connect-social">
+                        <li>
+                            <a class="facebook" data-ng-click="facebookImage()"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+
+        <div data-ng-if="loading" data-ng-cloak>
+            <div id="gallery-shadow"></div>
+            <div style="position: fixed;z-index: 1001;left: 50%;top: 30%;" alt="loading" class="modal-loading sk-fading-circle">
+                <div class="sk-circle1 sk-circle"></div>
+                <div class="sk-circle2 sk-circle"></div>
+                <div class="sk-circle3 sk-circle"></div>
+                <div class="sk-circle4 sk-circle"></div>
+                <div class="sk-circle5 sk-circle"></div>
+                <div class="sk-circle6 sk-circle"></div>
+                <div class="sk-circle7 sk-circle"></div>
+                <div class="sk-circle8 sk-circle"></div>
+                <div class="sk-circle9 sk-circle"></div>
+                <div class="sk-circle10 sk-circle"></div>
+                <div class="sk-circle11 sk-circle"></div>
+                <div class="sk-circle12 sk-circle"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts output='js/lbuser_gallery.js'
+        'app/scripts/Interpolation/Interpolation.js'
+        'app/scripts/Confirm/Confirm.js'
+        'bundles/lbuser/js/angular/colorComponents/colorComponents.js'
+        'bundles/lbuser/js/angular/ImageEdit.js'
+        'bundles/lbuser/js/angular/facebook.js'
+        'bundles/lbuser/js/angular/gallery.js'
+        %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

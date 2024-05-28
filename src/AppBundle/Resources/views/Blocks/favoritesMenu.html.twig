@@ -1,0 +1,28 @@
+{% set rt = app.request.get('_route') %}
+
+{% if rt == 'favorite' %}
+    <ul class="nav nav-pills">
+        <li>
+            <h1 class="like-active">{{ 'favorite.favorited_you'|trans({}, 'messages') | capitalize }}</h1>
+        </li>
+
+        <li>
+            <a href="{{ path('favorite-by-my') }}">{{ 'favorite.favorited_by_me'|trans({}, 'messages') | capitalize }}</a>
+        </li>
+    </ul>
+{% endif %}
+
+{% if rt == 'favorite-by-my' %}
+    <ul class="nav nav-pills">
+        <li>
+            <a href="{{ path('favorite') }}">{{ 'favorite.favorited_you'|trans({}, 'messages') | capitalize }}</a>
+        </li>
+
+        <li>
+            <h1 class="like-active">{{ 'favorite.favorited_by_me'|trans({}, 'messages') | capitalize }}</h1>
+        </li>
+    </ul>
+
+{% endif %}
+
+<hr />

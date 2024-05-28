@@ -1,0 +1,24 @@
+<h1>{{ 'change_password.text' | trans({}, 'FOSUserBundle') | upper }}</h1>
+<form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST" class="fos_user_resetting_reset form-horizontal">
+    {{ form_errors(form.new.first) }}
+    <div class="form-group row">
+        {{ form_label(form.new.second, 'resetting.reset.new_password' | trans({}, 'FOSUserBundle') | capitalize, { 'label_attr': {'class': 'col-sm-4 control-label'} } ) }}
+        <div class="col-sm-8">
+            {{ form_widget(form.new.second, { 'attr': {'class': 'form-control', 'placeholder': '******'  } }) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        {{ form_label(form.new.first, 'resetting.reset.repeat_new_password' | trans({}, 'FOSUserBundle') | capitalize, { 'label_attr': {'class': 'col-sm-4 control-label'} } ) }}
+        <div class="col-sm-8">
+            {{ form_widget(form.new.first, { 'attr': {'class': 'form-control', 'placeholder':  '******' } }) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-offset-4 col-sm-8">
+            <input type="submit" value="{{ 'resetting.reset.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-blue"/>
+        </div>
+    </div>
+    {{ form_widget(form._token) }}
+</form>

@@ -1,0 +1,33 @@
+<div id="slider" class="bg-light-grey">
+    <h2 class="text-center text-dark ">{{ 'slider.text'|trans({}, 'messages') }}
+        {{ 'slider.luv'|trans({}, 'messages') }}
+        {{ 'slider.byrd'|trans({}, 'messages') }}!
+    </h2>
+
+    <div class="container">
+        <div id="blog-slider">
+        {% for k,my_blog in slideBlogs %}
+            <div class="slider-content">
+                <div class="row">
+                    {% for i,blog in my_blog %}
+                        <div class="col-md-{{ i == 0?8:4 }}">
+                            <figure class="slider-content-new">
+                                <a href="{{ path("page", {slug: blog.slug}) }}">
+                                    <div class="new-wrapper">
+                                        <div class="text-white">
+                                            <h4>{{ blog.title }}</h4>
+                                        </div>
+                                        {% if blog.fileName %}
+                                            <img src="{{ blog.downloadLink|lbImageFilter(i == 0?'blog_list_horizontal':'blog_list_small') }}" alt="{{ blog.title }}" />
+                                        {% endif %}
+                                    </div>
+                                </a>
+                            </figure>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>

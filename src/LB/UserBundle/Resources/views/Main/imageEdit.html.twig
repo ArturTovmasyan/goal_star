@@ -1,0 +1,108 @@
+<div data-ng-controller="ImageEditController" class="bg-grey" id="image-edit-modal">
+
+    <div class="relative">
+
+            <div class="image-edit">
+
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="fontSize">Change font size</label>
+                        <input id='fontSize' name="fontSize" type="number" value="20" min="10" max="30">
+                    </div>
+
+                    <div class="clearfix form-group">
+                        <div class="pull-left ng-hide"
+                             id="my-color-picker"
+                             data-ng-show="showColors"
+                             data-lb-color-picker
+                             data-lb-default-color="setDefaultColor(color)"
+                             data-lb-tmp-color="setTmpColor(color)" >
+                        </div>
+                        <div id="color-container" class="pull-rigth">
+                            <div id="colorSelector" data-ng-click="showColors = !showColors" style="background-color: [[ getCurrentColor() ]]"></div>
+                        </div>
+                    </div>
+
+                    <div data-ng-show="isTouchDevice" class="ng-hide form-group">
+                        <div class="text-center"><button class="btn btn-success" data-ng-click="goTo(1)"> &and; </button></div>
+                        <div class="text-center">
+                            <button class="btn btn-success" data-ng-click="goTo(4)"> &lt; </button>
+                            <button class="btn btn-success" data-ng-click="goTo(2)"> &or; </button>
+                            <button class="btn btn-success" data-ng-click="goTo(3)"> &gt; </button>
+                        </div>
+                    </div>
+
+                </form>
+
+                <a href="#close-modal" rel="modal:close">
+                    <span aria-hidden="true" class="close-modal"></span>
+                </a>
+
+                <div class="row">
+                    <figure class="relative">
+                        <div id="input-box" draggable="true" ondragstart="drag(event)">
+                            <input type="text" ondrop="dropSelf(event)" class="form-control" id="image-text" placeholder="[[ placeholder]]" data-ng-model="imageText"/>
+                        </div>
+                        <canvas id="myCanvas" style="border:1px solid #d3d3d3;" ondrop="drop(event)" ondragover="allowDrop(event)">
+                            Your browser does not support the HTML5 canvas tag.
+                        </canvas>
+                    </figure>
+                </div>
+
+                <hr />
+
+                <div class="text-right">
+                    <button data-ng-click="saveImage()" class="btn btn-success">Save Image</button>
+                    <a href="#close-modal" rel="modal:close" class="btn btn-danger">Cancel</a>
+                </div>
+
+            </div>
+
+    </div>
+
+    <script type="text/javascript">
+        var layerX;
+        var layerY;
+        function allowDrop(ev)
+        {
+            ev.preventDefault();
+        }
+        function dropSelf(ev)
+        {
+            ev.preventDefault();
+
+            var data=ev.dataTransfer.getData("Text");
+
+            var c = document.getElementById("myCanvas");
+            var ctx = c.getContext("2d"),
+                left = document.getElementById(data).style.left,
+                top = document.getElementById(data).style.top;
+
+            layerX = ev.layerX - layerX;
+            layerY = ev.layerY - layerY;
+            document.getElementById(data).style.left = +(left?left.slice(0, -2):65) + layerX + 'px';
+            document.getElementById(data).style.top = +(top?top.slice(0, -2):70) + layerY + 'px';
+        }
+
+        function drag(ev)
+        {
+            layerX = ev.layerX;
+            layerY = ev.layerY;
+            ev.dataTransfer.setData("Text",ev.target.id);
+        }
+
+        function drop(ev)
+        {
+            ev.preventDefault();
+            var data=ev.dataTransfer.getData("Text");
+
+            var c = document.getElementById("myCanvas");
+            var ctx = c.getContext("2d");
+            layerX = ev.layerX - layerX;
+            layerY = ev.layerY - layerY;
+            document.getElementById(data).style.left = (layerX + 14) + 'px';
+            document.getElementById(data).style.top = layerY + 'px';
+
+        }
+    </script>
+</div>

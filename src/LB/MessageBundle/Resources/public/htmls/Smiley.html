@@ -1,0 +1,11 @@
+<div class="popover" tabindex="-1">
+    <div class="arrow"></div>
+    <h3 class="popover-title" ng-bind="title" ng-show="title"></h3>
+    <div class="popover-content">
+        <ul>
+            <li data-ng-repeat="sm in SmileyItems">
+                <img data-ng-src="[[ SmileyResourcePath ]][[ sm.icon ]]" data-ng-click="selectSmiley(sm.code);$hide()" width="20"/>
+            </li>
+        </ul>
+    </div>
+</div>

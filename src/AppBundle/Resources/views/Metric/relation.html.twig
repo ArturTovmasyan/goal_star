@@ -1,0 +1,61 @@
+
+<br/>
+<div class="row" data-ng-controller="RelationController">
+    <form action="#" method="post" class="form-inline">
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-4">
+                    <select name="groupBy" class="form-control group-by-select">
+                        {% for key,  select in selects %}
+                            <option value="{{ key }}" {% if key == groupBy %} selected {% endif %}>{{ select }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div data-ng-show="showFromTo" class="ng-hide">
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="from">From</label>
+                            <input data-ng-required="required" type="date" class="form-control" id="from" name="from" value="{{ from }}">
+                        </div>
+
+                    </div>
+                    <div class="col-sm-4">
+
+                        <div class="form-group">
+                            <label for="to">To</label>
+                            <input data-ng-required="required" type="date" id="to" class="form-control" name="to" value="{{ to }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div data-ng-show="showYearForMonthly" class="ng-hide">
+                    <div class="col-sm-4">
+                        {% set minimumYear = 2014 %}
+                            <select name="yearForMonthly" class="form-control yearForMonthly-select">
+
+                            {% for year in (minimumYear).."now"|date("Y") %}
+                                <option value="{{ year }}" {% if year == yearForMonthlySelected %} selected {% endif %} >{{ year }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <input type="submit" name="submitRelation" class="btn btn-primary" value="Filter" data-ng-disabled="disableFilterButton">
+            <input type="submit" name="cancel" class="btn btn-default" value="Clear">
+        </div>
+
+    </form>
+</div>
+<hr /><br />
+
+<div id="relationStatistic">&nbsp;</div>
+
+<script type="text/javascript">
+    {{ chart(relationStatistic) }}
+</script>

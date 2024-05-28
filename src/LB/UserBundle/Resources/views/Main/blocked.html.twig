@@ -1,0 +1,52 @@
+{% extends "LBUserBundle:Basses:settings.html.twig" %}
+
+{% block AngularApp %} <html data-ng-app="user" data-ng-controller="ProfileBlockController"> {% endblock %}
+
+{% block settings_content %}
+    {{ parent() }}
+
+    <h4 class="text-gray">{{ 'user.members_you'|trans({}, 'messages') | capitalize }}</h4>
+
+        <div  class="form-style">
+
+            <div class="row">
+                <p class="col-xs-9 text-white border-right">{{ 'user.user'|trans({}, 'messages') | capitalize }}</p>
+                <p class="col-xs-3 text-white">{{ 'user.action'|trans({}, 'messages') | capitalize }}</p>
+            </div>
+            {% for relatedUser in relatedUsers %}
+                <div data-user="{{ relatedUser.id }}" class="row">
+                    <div class="col-xs-9 border-right">
+                        <strong class="text-gray">{{ relatedUser.firstName }} {{ relatedUser.lastName }}</strong>
+                    </div>
+                    <div class="col-xs-3">
+                        {% if status == constant('LB\\UserBundle\\Entity\\UserRelation::BLOCK') %}
+                            <a class="text-gray" href="javascript:void(0)" data-ng-click="unBlock({{ relatedUser.id }})">{{ 'user.unblock'|trans({}, 'messages') | upper }}</a>
+                        {% endif %}
+                        {#<img src="{% if relatedUser.profileImage is defined and relatedUser.profileImage is not null %}{{ relatedUser.profileImage.getWebPath() }}{% endif %}" height="150px" width="150px"/>#}
+                    </div>
+                </div>
+
+                <hr />
+            {% else %}
+                <span class="text-gray users-blocked">&nbsp; &nbsp;{{ 'user.no_user_found'|trans({}, 'messages') | capitalize }}</span>
+            {% endfor %}
+
+        </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts output='js/lbuser_blocked.js'
+        'app/bower_components/angular-resource/angular-resource.min.js'
+        'app/bower_components/ngImgCrop/compile/minified/ng-img-crop.js'
+        'app/bower_components/dropzone/downloads/dropzone.min.js'
+        'app/scripts/Google/Google.js'
+        'bundles/lbuser/js/angular/user.js'
+        %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&v=3&key={{ google_browser_api_key }}" type="text/javascript"></script>
+{% endblock %}

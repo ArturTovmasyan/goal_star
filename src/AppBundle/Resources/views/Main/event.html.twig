@@ -1,0 +1,226 @@
+{% extends 'AppBundle::eventLayout.html.twig' %}
+
+{% block title %}{{ event.title }}{% endblock %}
+{% block metaDescription %}{{ event.metaDescription }}{% endblock %}
+{% block ogTitle%}Luvbyrd{% endblock %}
+{%- block ogDescription -%}{{ event.metaDescription }}{%- endblock -%}
+{%- block ogImage -%}{{ event.downloadLink }}{%- endblock -%}
+
+{% block AngularApp %}
+<html data-ng-app="event" data-ng-controller="EventController">
+{% endblock %}
+
+{% block content %}
+    <div id="event-inner-page" data-ng-init="eventId={{ event.id }}">
+        {% if app.user and publishKey is defined and publishKey%}
+            {# publish key for stripe js #}
+            <input type="hidden" id="stripe_publish_key" value="{{ publishKey }}">
+        {% endif %}
+        <figure class="event-cover hidden-xs">
+            <span class="overlay"></span>
+            <img src="{{ event.downloadLink }}" alt="Event Cover Photo" class="img-responsive"/>
+        </figure>
+
+        <div class="event-content">
+            <div class="container">
+                <div class="row bg-white no-gutter">
+                    <div class="col-md-8">
+                        <div class="overflow">
+                            <img src="{{ event.imagePath |lbImageFilter('event_inner_big')}}" alt="Event Image"/>
+                        </div>
+
+                        <div class="event-info">
+                            <p class="event-heading">
+                                <strong>{{ 'group.form.description'|trans({}, 'messages') }}</strong>
+                            </p>
+
+                            <p>{{ event.content | raw }}</p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="event-information bg-white  text-center">
+                            <div class="relative">
+                                <div class="text-left event-date">
+                                    <div>{{ event.start | date('M')}}{% if (event.start | date('M')) !=  (event.end | date('M'))%} {{ event.end | date('M') }}{% endif %}</div>
+                                    <div>{{ event.start | date('j')}} {% if (event.start | date('j')) !=  (event.end | date('j'))%}-{{ event.end | date('j') }}{% endif %}</div>
+                                </div>
+
+                                <h1 class="text-left" >{{ event.title }}</h1>
+
+                                <p class="text-left">
+                                    <strong>{{ 'event.author'|trans({}, 'messages') }}</strong>
+                                </p>
+
+                                <div class="absolute text-center">
+                                    <div data-ng-init="connected={% if app.user and app.user in event.users %}true{% else %}false{% endif %};logged={{ app.user?'true':'false' }}"
+                                data-ng-show="connected" class=" ng-hide" data-ng-cloak>
+                                <span class="btn btn-success">
+                                    <i class="fa fa-check"></i>
+                                    {{ 'event.connected'|trans({}, 'messages') }}
+                                </span>
+                            </div>
+
+                            {% if event.type == 1 %}
+                                <span data-ng-show="!connected" data-ng-cloak class="price">{{ event.price }} $</span>
+                                <button data-ng-click="buy({{ event.id }},$event)"{% if app.user %}data-name="buy ticket" data-amount="{{ event.price }}00" data-currency="usd"
+                                     data-stripe-id="{{ event.id }}" data-email="{{  app.user ? app.user.email : null }}"{% endif %}
+                                     data-ng-show="!connected" class="btn btn-blue ng-hide" data-ng-cloak>
+                                    {{ 'event.buy'|trans({}, 'messages') }}
+                                </button>
+                            {% elseif event.type == 2%}
+                                <button data-ng-show="!connected" class="btn btn-blue ng-hide"
+                                        data-ng-cloak  data-ng-click="isDonate = !isDonate">
+                                    {{ 'event.donate'|trans({}, 'messages') }}
+                                </button>
+                                <div data-ng-show="isDonate" data-ng-cloak class="ng-hide">
+                                    <p>
+                                        {{ 'event.give_amount'|trans({}, 'messages') }}
+                                    </p>
+
+                                    &#36; &nbsp;
+                                    <input type="number" min="1" id="donate" title="donate">
+
+                                    <div class="btn btn-success" data-ng-click="donate({{ event.id }}, $event)"
+                                         data-email="{{  app.user ? app.user.email : null }}">
+                                        {{ 'event.donate'|trans({}, 'messages') }}
+                                    </div>
+
+                                    <div class="btn btn-success" data-ng-click="connect({{ event.id }},$event);isDonate = false">
+                                        {{ 'event.free'|trans({}, 'messages') }}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <button data-ng-click="connect({{ event.id }},$event)" data-ng-show="!connected" class="btn btn-blue ng-hide" data-ng-cloak>
+                                    {{ 'event.get'|trans({}, 'messages') }}
+                                </button>
+                            {% endif %}
+                                </div>
+                            </div>
+
+                            <span class="grey-line"></span>
+
+                            <p class="event-heading">
+                                <strong>DAte and time</strong>
+                            </p>
+
+
+                            <p>{{ event.start | date('D, F j, Y')}}
+                                {% if (event.start | date('M')) !=  (event.end | date('M')) or (event.start | date('j')) !=  (event.end | date('j')) or (event.start | date('Y')) !=  (event.end | date('Y')) %}
+                                    - {{ event.end | date('D, F j, Y') }}
+                                {% endif %}
+                            </p>
+                            <p>{{ event.start | date('H:i A')}} - {{ event.end | date('H:i A') }}</p>
+                            <p>Standard Time USA Time</p>
+
+
+                            <p class="event-heading">
+                                <strong>{{ 'event.location'|trans({}, 'messages') }}</strong>
+                            </p>
+
+                            <p>{{ event.city }}</p>
+
+                            <a href="javascript:void(0)" class="text-blue" data-ng-click="scrollTo('#eventMap')">{{ 'event.view_map'|trans({}, 'messages') }}</a>
+
+                            {% if users and users|length > 0 %}
+                                <p class="share-title">{{ 'event.friends'|trans({}, 'messages') }}</p>
+
+                                <ul class="event-friends-list" data-ng-cloak>
+                                    {% for key, user in users%}
+                                        <li style="left: {{ 80 + (key * 20)}}px">
+                                            <figure>
+                                                <img src="{{ user.profileImagePath }}" alt="" class="img-circle img-responsive" title="{{ user.userName }}"/>
+                                            </figure>
+                                        </li>
+                                    {% endfor %}
+
+                                    {% if usersCount > 3%}
+                                        <li class="text-blue" data-ls-users data-event-id="{{ event.id }}">
+                                            + {{ usersCount - 3 }}
+                                        </li>
+                                    {% endif %}
+
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row bg-white">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-10 col-sm-offset-1">
+                                <p class="share-title">
+                                    <strong>{{ 'event.share'|trans({}, 'messages') }}</strong>
+                                </p>
+
+                                <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                                <div class="addthis_inline_share_toolbox"></div>
+
+                                <hr/>
+
+                                <h2>{{ event.title }}</h2>
+
+                                {% if event.cityLat and  event.cityLng %}
+                                    <div data-simple-map-marker data-single-marker="{latitude: {{ event.cityLat }}, longitude: {{ event.cityLng }} }" class="map" id="eventMap"></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row bg-white" data-ng-if="events && events.length" data-ng-cloak>
+
+                    <div class="col-sm-12">
+
+                        <h2 class="center">{{ 'event.other_events'|trans({}, 'messages') }}</h2>
+
+                        <div class="swiper-container" data-ng-cloak id="seeOther" data-ng-show="!busy && !isEnd">
+
+                            <div class="swiper-wrapper" data-ng-cloak>
+                                <figure class="event-card swiper-slide"  data-ng-repeat="(i,event) in events track by $index"
+                                        data-ng-cloak data-ng-if="event">
+                                    <a href="{{ app.debug ? '/app_dev.php':'' }}/event/[[ event.id ]]">
+                                        <span class="new-wrapper">
+                                            <img  data-ng-src="[[ event.cached_image]]" alt="Washed Out">
+                                        </span>
+
+                                        <figcaption>
+                                            <span> [[ event.start | date:"EEE.MMM.dd  h:mma"]]</span>
+                                            <h4>[[ event.title ]]</h4>
+                                        </figcaption>
+                                    </a>
+                                </figure>
+                            </div>
+                        </div>
+
+                        <div class="swiper-button-next swiper-button-search-next" data-ng-show="events.length > slideCount"></div>
+                        <div class="swiper-button-prev swiper-button-search-prev" data-ng-show="events.length > slideCount"></div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div style="position: fixed;z-index: 1001;left: 50%;top: 30%;display: none;" alt="loading" class="modal-loading sk-fading-circle">
+        <div class="sk-circle1 sk-circle"></div>
+        <div class="sk-circle2 sk-circle"></div>
+        <div class="sk-circle3 sk-circle"></div>
+        <div class="sk-circle4 sk-circle"></div>
+        <div class="sk-circle5 sk-circle"></div>
+        <div class="sk-circle6 sk-circle"></div>
+        <div class="sk-circle7 sk-circle"></div>
+        <div class="sk-circle8 sk-circle"></div>
+        <div class="sk-circle9 sk-circle"></div>
+        <div class="sk-circle10 sk-circle"></div>
+        <div class="sk-circle11 sk-circle"></div>
+        <div class="sk-circle12 sk-circle"></div>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,393 @@
+{% extends 'AppBundle::member.html.twig' %}
+
+{% block AngularApp %} <html data-ng-app="member" data-ng-controller="SingleController"> {% endblock %}
+
+{% block leftAd %}
+
+    <div class="addvertisment">
+        {{ render_esi(controller('LSoftAdBundle:Default:index', { 'domain': 'SingleMember', 'zone': 'lefttop' })) }}
+    </div>
+
+    <div class="addvertisment">
+        {{ render_esi(controller('LSoftAdBundle:Default:index', { 'domain': 'SingleMember', 'zone': 'leftbottom' })) }}
+    </div>
+
+{% endblock %}
+
+{% set page = app.request.get('page') %}
+{% set point = app.request.get('point') %}
+
+{% block center_content %}
+    <div class="single-member">
+        {% block top_content %}
+            <div id="searching-users" data-ng-show="searchUsers.length" class="ng-hide">
+                <!-- Slides Container -->
+                <div data-ng-show="searchUsers.length && !showUsers" style="position: absolute;z-index: 1001;left: 50%;top: -56%;" alt="loading" class="modal-loading sk-fading-circle ng-hide">
+                    <div class="sk-circle1 sk-circle"></div>
+                    <div class="sk-circle2 sk-circle"></div>
+                    <div class="sk-circle3 sk-circle"></div>
+                    <div class="sk-circle4 sk-circle"></div>
+                    <div class="sk-circle5 sk-circle"></div>
+                    <div class="sk-circle6 sk-circle"></div>
+                    <div class="sk-circle7 sk-circle"></div>
+                    <div class="sk-circle8 sk-circle"></div>
+                    <div class="sk-circle9 sk-circle"></div>
+                    <div class="sk-circle10 sk-circle"></div>
+                    <div class="sk-circle11 sk-circle"></div>
+                    <div class="sk-circle12 sk-circle"></div>
+                </div>
+                <p class="text-center text-gray ng-hide" data-ng-show="searchUsers.length && !showUsers"></p>
+                <div id="searching-user" style="display: none" class="swiper-container ng-hide" data-ng-show="showUsers">
+
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"
+                             data-ng-cloak
+                            data-ng-repeat="user in searchUsers">
+                            <a data-ng-href="/member/[[ ::user.u_id]]?page=1&point=[[ $index]]">
+                                <img class="img-circle [[ $index ]]" data-ng-src="[[ ::user.image_cache_path ]]" alt="[[ ::user.first_name]]"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-button-next swiper-button-search-next"></div>
+                <div class="swiper-button-prev swiper-button-search-prev"></div>
+            </div>
+
+
+        {% if app.user.id != user.id %}
+
+            {% if userRelation is null %}
+                {% set myStatus = constant('LB\\UserBundle\\Entity\\UserRelation::NATIVE') %}
+                {% set myFavStatus = constant('LB\\UserBundle\\Entity\\UserRelation::NATIVE') %}
+                {% set otherStatus = constant('LB\\UserBundle\\Entity\\UserRelation::NATIVE') %}
+            {% else %}
+                {% set myStatus = userRelation.fromStatus %}
+                {% set myFavStatus = userRelation.fromFavoriteStatus %}
+                {% set otherStatus = userRelation.toStatus %}
+                {% if userRelation.fromUser.id != app.user.id %}
+                    {% set myStatus = userRelation.toStatus %}
+                    {% set myFavStatus = userRelation.toFavoriteStatus %}
+                    {% set otherStatus = userRelation.fromStatus %}
+                {% endif %}
+            {% endif %}
+
+            <div class="row icons" data-ng-init="myStatus={{ myStatus }};myFavStatus={{ myFavStatus }}">
+
+                <div class="col-xs-8 col-sm-9 overflow">
+                    <span>
+                        {% include 'AppBundle:Blocks:actvity.html.twig' with {'user' : user} %}
+
+                        {%  set name =  user|show_fullName %}
+
+                        {{ name|length > 20 ? name|slice(0, 20) ~ '...' : name }}
+
+                        <small>
+                            {{ user.getAge }},
+                            {{ user.getOnlyCity}},
+                            {{ 'user.interested_in'|trans({}, 'messages') }}
+                            {%  set lookingFor = user.lookingFor %}
+                            {% set choiceGnder = user.getChoiceGender %}
+
+                            {{ choiceGnder[lookingFor]|default(null) }}
+
+                            {% if user.showHeight %}
+                                , height {{ user.showHeight }}
+                            {% endif %}
+
+                        </small>
+                    </span>
+                </div>
+
+                <div class="col-xs-4 col-sm-3 text-right">
+                    {% if app.user.id != user.id and not user.getDeactivate  %}
+                    <ul>
+                        <li>
+                            <a href="javascript:void(0)"
+                               data-ng-click="openReport({{ user.id }})"
+                               data-trigger="hover"
+                               data-placement="bottom"
+                               data-bs-tooltip
+                               data-title="report member"
+                               class="fa fa-flag"></a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:void(0)"
+                               data-ng-click="block({{ user.id }})"
+                               data-trigger="hover"
+                               data-placement="bottom"
+                               data-title="[[ myStatus == UserStatuses['BLOCK'] ? 'unblock member' : 'block member' ]]"
+                               data-ng-class="{'text-red border-red': myStatus == UserStatuses['BLOCK'], 'text-gray': myStatus != UserStatuses['BLOCK']}"
+                               class="fa fa-ban"
+                               data-bs-tooltip>
+                            </a>
+
+                        </li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+        {% endblock %}
+            <div class="row overflow bg-dark-gray">
+                <div class="col-sm-12">
+
+                {% set userGallery = user.getGallery %}
+                {% set cacheVersions = user.getImagesCacheVersion %}
+
+                <div id="main-swiper-slider" data-ng-init="galleryLength = '{{ userGallery|length }}'">
+                    <div class="row">
+                        <div class="col-xs-10 col-xs-offset-1 text-right">
+                            {% if app.user.id != user.id and not user.getDeactivate  %}
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0)"
+                                           data-toggle="tooltip"
+                                           data-placement="bottom"
+                                           title="favorite"
+                                           data-ng-click="favorite({{ user.id }})"
+                                           data-ng-class="{'text-yellow': myFavStatus == UserStatuses['NEW_FAVORITE'], 'text-gray': myFavStatus == UserStatuses['NATIVE']}"
+                                           class="fa fa-star">
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="{{ path('message_users',{uid: user.getUId()}) }}"
+                                           class="fa fa-commenting text-blue"
+                                           data-toggle="tooltip"
+                                           data-placement="bottom"
+                                           title="send a message"></a>
+                                    </li>
+
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="swiper-container gallery-top">
+                        <!-- Slides Container -->
+                        <div class="swiper-wrapper" style="height: 520px;">
+                            {% for key,gallery in userGallery %}
+                                {% set cacheVersion = cacheVersions[key]|default(null) %}
+                                <div class="swiper-slide">
+                                    <img src="{{ gallery|default(asset('/bundles/app/images/profile.png'))|lbImageFilter('single_big') ~ cacheVersion }}" />
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="swiper-button-top-next swiper-button-next swiper-button-white"></div>
+                        <div class="swiper-button-top-prev swiper-button-prev swiper-button-white"></div>
+
+                        {% if app.user.id != user.id and not user.getDeactivate %}
+
+                            {% if userRelation is null %}
+                                {% set myStatus = constant('LB\\USerBundle\\Entity\\UserRelation::NATIVE') %}
+                                {% set myFavStatus = constant('LB\\USerBundle\\Entity\\UserRelation::NATIVE') %}
+                                {% set otherStatus = constant('LB\\USerBundle\\Entity\\UserRelation::NATIVE') %}
+                            {% else %}
+                                {% set myStatus = userRelation.fromStatus %}
+                                {% set myFavStatus = userRelation.fromFavoriteStatus %}
+                                {% set otherStatus = userRelation.toStatus %}
+                                {% if userRelation.fromUser.id != app.user.id %}
+                                    {% set myStatus = userRelation.toStatus %}
+                                    {% set myFavStatus = userRelation.toFavoriteStatus %}
+                                    {% set otherStatus = userRelation.fromStatus %}
+                                {% endif %}
+                            {% endif %}
+
+                            <ul class="like-next">
+                                {% if myStatus == constant("LB\\UserBundle\\Entity\\UserRelation::HIDE") %}
+                                    {% set toolipHideText = 'Show' %}
+                                    {% set toolipLikeText = 'Like' %}
+                                    {% set hideStatus = constant("LB\\UserBundle\\Entity\\UserRelation::NATIVE") %}
+                                {% elseif myStatus == constant("LB\\UserBundle\\Entity\\UserRelation::LIKE") %}
+                                    {% set toolipHideText = 'Hide' %}
+                                    {% set toolipLikeText = 'Unlike' %}
+                                    {% set hideStatus = constant("LB\\UserBundle\\Entity\\UserRelation::HIDE") %}
+                                {% else %}
+                                    {% set toolipHideText = 'Hide' %}
+                                    {% set toolipLikeText = 'Like' %}
+                                    {% set hideStatus = constant("LB\\UserBundle\\Entity\\UserRelation::HIDE") %}
+                                {% endif %}
+                                <li>
+                                    <a href="{{ path('next-user', {'id' : user.id, 'status' : hideStatus,  'page' : page, 'point' : point  } ) }}"
+                                       data-toggle="tooltip"
+                                       title="{{ toolipHideText }}"
+                                       data-placement="bottom">
+                                        <bdi class="fa fa-times text-blue"></bdi>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="javascript:void(0)"
+                                       data-ng-click="likeUnlike({{ user.id }}, '{{ url('next-user', {id: user.id , 'page' : page, 'point' : point }) }}')"
+                                       data-toggle="tooltip"
+                                       data-placement="bottom"
+                                       data-title="{{ toolipLikeText }}">
+                                        <bdi data-ng-class="{'fa-heart ': myStatus == UserStatuses['LIKE'], 'fa-heart-o': myStatus != UserStatuses['LIKE']}"
+                                             class="fa text-pink">
+                                        </bdi>
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="swiper-container gallery-thumbs">
+                        <div class="swiper-wrapper" style="cursor: default;">
+                            {% for key, gallery in userGallery %}
+
+                                {% set cacheVersion = cacheVersions[key]|default(null) %}
+                                {% set imgsSrc = gallery|default(asset('/bundles/app/images/profile.png'))|lbImageFilter('single_thumb') ~ cacheVersion %}
+
+                                <div class="swiper-slide">
+                                    <img data-ng-src="[[ getSrc('{{ imgsSrc }}')]]" width="[[ isTouchDevice?'auto':100]]"/>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            </div>
+        {#{% if  app.user.id == user.id %}#}
+            {#<div class="addthis_native_toolbox" data-url="{{ app.request.scheme ~ '://' ~ app.request.host ~(app.debug ? '/app_dev.php/':'/') ~ 'member/' ~ user.uId }}"></div>#}
+        {#{% endif %}#}
+
+
+        {% block editProfile %}
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                {% block friends %}
+                    {# block for drrines #}
+
+                {% endblock %}
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="Interests">
+                        <h4 class="panel-title clearfix">
+                            <span role="button" class="text-dark-gray" data-toggle="collapse" data-parent="#accordion" href="#collapseInterests" aria-expanded="true" aria-controls="collapseOne">
+                                Interests
+                                <i class="fa fa-chevron-up pull-right text-gray"></i>
+                            </span>
+                        </h4>
+                    </div>
+                    <div id="collapseInterests" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="Interests">
+                        <div class="panel-body row">
+                            <div class="col-xs-12">
+
+                                {% set defaultIcon = asset('bundles/app/images/no-icon.png') %}
+
+                                {% for key,  interestGroup in user.getInterestsWithGroup %}
+
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <strong class="interest-title">{{ key }}</strong>
+                                            <div class="row">
+                                                {% for interest in interestGroup %}
+                                                    {% if interest.name != (interest.name|upper) %}
+                                                        <div class="col-xs-6 col-md-4 col-lg-3">
+                                                            <figure>
+                                                                <img src="{{ interest.fileName ? interest.getDownloadLink : defaultIcon }}" alt="{{ interest.name }}" class="img-responsive"/>
+                                                                <figcaption>
+                                                                    <a href="{{ path('members', {'interestId' : interest.id }) }}">{{ interest.name }}</a>
+                                                                   {#{{ interest.name }}#}
+                                                                </figcaption>
+                                                            </figure>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div> <br />
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                                {#<div class="row">#}
+                                    {#<div class="col-xs-12">#}
+                                        {#<strong class="interest-title">{{ 'user.sky_ride'|trans }}</strong>#}
+                                        {#<div class="row">#}
+                                                {#<div class="col-xs-6 col-md-4 col-lg-10">#}
+                                                    {#{{ user.getSkyRide }}#}
+                                                {#</div>#}
+                                        {#</div> <br />#}
+                                    {#</div>#}
+                                {#</div>#}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingThree">
+                        <h4 class="panel-title clearfix">
+                            <span class="collapsed text-dark-gray" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                               Personal Info
+                                <i class="fa fa-chevron-down pull-right text-gray"></i>
+                            </span>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div class="panel-body text-gray">
+                            {% if user.summary %}
+                                <strong>{{ 'singleMember.summary'|trans({}, 'messages') }} </strong>
+                                <p class="text-gray">{{ user.summary }}</p>
+
+                            {% endif %}
+
+                            {% if user.craziestOutdoorAdventure %}
+                                <strong>{{ 'singleMember.craziest_outdoor'|trans({}, 'messages') }} </strong>
+                                <p>{{ user.craziestOutdoorAdventure }}</p>
+                            {% endif %}
+
+                            {% if user.favoriteOutdoorActivity %}
+                                <strong>{{ 'singleMember.favorite_outdoor'|trans({}, 'messages') }} </strong>
+                                <p>{{ user.favoriteOutdoorActivity }}</p>
+                            {% endif %}
+
+                            {% if user.likeTryTomorrow %}
+                                <strong>{{ 'singleMember.like_try'|trans({}, 'messages') }}     </strong>
+                                <p>{{ user.likeTryTomorrow }}</p>
+                            {% endif %}
+
+                            {% if user.personalInfo %}
+                                <strong>{{ 'singleMember.personal_info'|trans({}, 'messages') }}     </strong>
+                                <p>{{ user.personalInfo }}</p>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+    </div>
+
+    <div class="addvertisment">
+        {{ render_esi(controller('LSoftAdBundle:Default:index', { 'domain': 'SingleMember', 'zone': 'bottomcenter' })) }}
+    </div>
+
+{% endblock %}
+
+{% block rightAd %}
+
+    <div class="addvertisment">
+        {{ render_esi(controller('LSoftAdBundle:Default:index', { 'domain': 'SingleMember', 'zone': 'righttop' })) }}
+    </div>
+
+    <div class="addvertisment">
+        {{ render_esi(controller('LSoftAdBundle:Default:index', { 'domain': 'SingleMember', 'zone': 'rightbottom' })) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('app/bower_components/angular-route/angular-route.min.js') }}" type="text/javascript"></script>
+
+    {#<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-583d305390ce71e2"></script>#}
+    {#<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5624b2123b6addeb" async="async"></script>#}
+    {% javascripts output='js/single_member.js'
+        'app/bower_components/jssor-slider/js/jssor.slider.mini.js'
+        'bundles/app/js/angular/member.js'
+        'bundles/app/js/jssor-slider/singleMember.js'
+        %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

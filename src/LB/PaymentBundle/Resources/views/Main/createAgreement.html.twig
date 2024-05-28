@@ -1,0 +1,11 @@
+<form id="stripe-payment-form" method="POST" action="{{ path('prepare_payment_agreement') }}">
+
+
+    {{ form_widget(form.subscriber) }}
+    {{ form_widget(form._token) }}
+
+    <br />
+
+    <button type="submit" data-json="{{ subscriptions }}" id="customButton">Pay with stripe</button>
+
+</form>

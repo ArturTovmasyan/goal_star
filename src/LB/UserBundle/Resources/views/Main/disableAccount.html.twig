@@ -1,0 +1,31 @@
+{% extends "LBUserBundle:Basses:settings.html.twig" %}
+
+{% block settings_content %}
+    {{ parent() }}
+
+    {% set visibility = app.user.getSearchVisibility %}
+
+    {% if visibility == true %}
+        {% set enable = 'user.enable_account' %}
+        {% set enableText = 'user.enable_account_text' %}
+    {% else %}
+        {% set enable = 'user.disable_account' %}
+        {% set enableText = 'user.disable_account_text' %}
+    {% endif %}
+
+    <h4 class="text-gray">{{ enable|trans({}, 'messages') | capitalize }}</h4>
+    <p class="bg-dark-gray">{{ enableText|trans({}, 'messages') | capitalize }} </p>
+
+    <form action="{{ path('disable_account') }}" method="POST">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" name="disabled" value="true" required>{{ 'user.consequences'|trans({}, 'messages') | capitalize }}
+            </label>
+        </div>
+
+        <div class="text-right">
+            <input type="submit" value="{{ visibility == true ? 'Enable Account' : 'Disable Account' }}" class="btn btn-blue">
+        </div>
+    </form>
+    <br />
+{% endblock %}

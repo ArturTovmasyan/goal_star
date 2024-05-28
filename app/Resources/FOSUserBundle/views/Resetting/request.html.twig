@@ -1,0 +1,8 @@
+{% extends "FOSUserBundle:Security:login.html.twig" %}
+
+{% block title %}{{ 'meta.title.resetting'|trans({}, 'messages') }}{% endblock %}
+{% block metaDescription %}{{ 'meta.description.resetting'|trans({}, 'messages') }}{% endblock %}
+
+{% block fos_form %}
+    {% include "FOSUserBundle:Resetting:request_content.html.twig" %}
+{% endblock %}

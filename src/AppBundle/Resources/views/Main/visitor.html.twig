@@ -1,0 +1,104 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block title %}{% if app.user is not null %}{{ 'meta.title.visitor'|trans({'%firstName%': app.user.firstname}, 'messages') }}{% endif %}{% endblock %}
+{% block metaDescription %}{{ 'meta.description.visitor'|trans({}, 'messages') }}{% endblock %}
+
+{% block rightAd %}
+    <div class="addvertisment">
+        {{ render_esi(controller('LSoftAdBundle:Default:index', { 'domain': 'Visitor', 'zone': 'rightTop' })) }}
+    </div>
+{% endblock %}
+
+{% block leftAd %}
+    <div class="addvertisment">
+        {{ render_esi(controller('LSoftAdBundle:Default:index', { 'domain': 'Visitor', 'zone': 'leftbottom' })) }}
+    </div>
+{% endblock %}
+
+{% block AngularApp %}
+<html data-ng-app="pages" data-ng-controller="userPagesController">
+{% endblock %}
+
+{% block center_content %}
+
+    <div id="members-page" data-ng-init="pagePath = '{{ app.request.get('_route') }}'">
+
+        <h1 class="text-left">{{ 'visitor.visited_you'|trans({}, 'messages') | capitalize }}</h1>
+
+        <hr />
+        <div style="text-align: center;" data-ng-show="usersLoading" class="ng-hide">
+            <img src="{{ asset('bundles/app/images/loading.gif') }}"/>
+        </div>
+            <div class="row ng-hide" data-ng-show="users.length ">
+
+                <div class="col-sm-6 col-md-4"
+                     data-ng-repeat="user in users"
+                     data-ng-cloak>
+                    <figure>
+
+                        <span class="btn btn-pink new" data-ng-if="user.status_for_mobile">{{ 'visitor.new'|trans({}, 'messages') | capitalize }}</span>
+
+                        <a href="{{ env_prefix }}/member/[[ user.u_id ]]">
+                            <img data-ng-src="[[ user.image_cache_path ]]" alt="[[ user.first_name]]" />
+                        </a>
+
+                        <figcaption class="clearfix">
+
+                        <span>
+                            <i class="is-online" data-ng-class="{'fa fa-circle green': (user.activity.minute >=0 && user.activity.minute <= 30)}"
+                               title="[[ user.activity.title ]]">
+                            </i>
+
+                            [[ getFullName(user)]]
+                        </span>
+
+                        </figcaption>
+
+                    </figure>
+                </div>
+            </div>
+
+            <p data-ng-hide="users.length || usersLoading" class="ng-hide text-center text-gray {% if 'novisitors'|trans({}, 'messages') | capitalize |length > 32 %} message-small {% else %} empty-message {% endif %}">
+                {{ 'novisitors'|trans({}, 'messages') | capitalize }}
+            </p>
+
+        <div class="text-center">
+            <ul class="pagination member-pegination ng-hide" data-ng-show="paginationArray.length > 1" data-ng-cloak>
+                <li>
+                    <a href="javascript:void(0)" data-ng-click="pagination(1)" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li data-ng-show="pagination_left_dots" class="ng-hide">
+                    <a href="javascript:void(0)">...</a>
+                </li>
+                <li data-ng-class="{active: page == (k + 1)}"
+                    data-ng-show="paginationSurrounding(k + 1)"
+                    data-ng-repeat="(k, p) in paginationArray track by $index" class="ng-hide">
+                    <a href="javascript:void(0)" data-ng-click="pagination(k + 1)">[[ k + 1 ]]</a>
+                </li>
+                <li data-ng-show="pagination_right_dots" class="ng-hide">
+                    <a href="javascript:void(0)">...</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" data-ng-click="pagination(paginationArray.length)" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts output='js/pages.js'
+    'bundles/app/js/angular/pages.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+{% endblock %}
